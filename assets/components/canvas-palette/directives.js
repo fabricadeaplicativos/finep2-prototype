@@ -1,5 +1,28 @@
-angular.module('fab-block-surface', [])
+angular.module('fab-canvas-palette.directives', [])
 
+.directive('fabComponentPalette', function ($http) {
+
+  var componentsDbUrl = '/api/components/registry.json';
+
+  return {
+    restrict: 'AE',
+    templateUrl: '/assets/components/canvas-palette/templates/component-palette.html',
+    link: function (scope, element, attrs) {
+
+      // declare var to hold components
+      var components = [];
+      scope.components = components;
+
+      $http.get(componentsDbUrl)
+        .then(function (res) {
+
+          res.data.forEach(function (cp) {
+            components.push(cp);
+          });
+        })
+    }
+  }
+})
 
 // draggable
 .directive('block', function ($http) {
@@ -9,21 +32,16 @@ angular.module('fab-block-surface', [])
     restrict: "A",
     link : function(scope, element, attrs) {
 
-
       // set the element to be draggable
       element.attr('draggable', true);
 
       // set handlers for the dragging action
       element.on('dragstart', function (e) {
-        console.log(e);
-        //      console.log(el.outerHTML);
-        event.dataTransfer.setData('Text', attrs.block);
+        event.dataTransfer.setData('blockData', attrs.blockData);
       })
 
       $http.get(attrs.block).then(function (res) {
-
         element.html(res.data);
-
       })
       // element[0].addEventListener("dragstart", scope.handleDragStart, false);
       // element[0].addEventListener("dragend", scope.handleDragEnd, false);
@@ -36,12 +54,6 @@ angular.module('fab-block-surface', [])
 // droppable
 .directive('surface', function ($compile, $http) {
 
-        var fullHTML = document.querySelector('body').innerHTML;
-
-          
-        var origin = "*";
-        window.parent.postMessage(fullHTML, origin);
-
   return {
     restrict : "A",
     link: function(scope, element, attrs) {
@@ -52,34 +64,31 @@ angular.module('fab-block-surface', [])
       });
 
       element.bind('drop', function (e) {
-        // console.log(arguments)
-        // 
 
+        // data about the block
+        var blockData = JSON.parse(e.dataTransfer.getData('blockData'));
 
-
-        var elSrc = e.dataTransfer.getData('Text');
+        // the url of the placeholder 
+        var placeholderUrl = blockData.placeholderUrl;
 
 
         // load the html template
-        $http.get(elSrc);
+        $http.get(placeholderUrl);
 
-        var newElHtml = '<ng-include src="\'' + elSrc + '\'"></ng-include>';
+        var newElHtml = '<ng-include src="\'' + placeholderUrl + '\'"></ng-include>';
 
-        console.log(newElHtml);
         var newEl = $compile(newElHtml)(scope);
-
-        console.log(newEl);
-
-        console.log('drop')
 
         element.append(newEl);
 
 
-        var fullHTML = document.querySelector('body').innerHTML;
+        // data to be sent to the parent window
+        var data = {
+          message: 'addBlock',
+          blockData: blockData,
+        };
 
-          
-        var origin = "*";
-        window.parent.postMessage(fullHTML, origin);
+        window.parent.postMessage(JSON.stringify(data), '*');
 
       });
 

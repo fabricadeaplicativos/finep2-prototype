@@ -8,12 +8,26 @@
 
 	<!-- ANGULAR MATERIAL -->
 	<link rel="stylesheet" type="text/css" href="bower_components/angular-material/angular-material.css">
+	<script src="bower_components/angular/angular.min.js"></script>
+	<script src="bower_components/angular-animate/angular-animate.min.js"></script>
+	<script src="bower_components/angular-aria/angular-aria.min.js"></script>
+
+	<script src="bower_components/angular-material/angular-material.min.js"></script>
+
 	<!-- <meta name="viewport" content="initial-scale=1" /> -->
 	<!-- ANGULAR MATERIAL -->
 
 
+
+	<!-- ANGULAR-UI-GRID -->
+	<link rel="stylesheet" type="text/css" href="bower_components/angular-ui-grid/ui-grid.css">
+	<script src="bower_components/angular-ui-grid/ui-grid.js"></script>
+
+
 	<!-- APPLICATION -->
 	<link rel="stylesheet" type="text/css" href="assets/css/application.css">
+	<script src="assets/application.js"></script>
+	<script src="assets/components/editors/controller.js"></script>
 
 </head>
 <body layout="column" ng-controller="AppCtrl">
@@ -41,21 +55,10 @@
 			</md-content>
 		</div>
 		<div layout="column" flex="40" id="editors-container">
-			<md-content layout="column" flex class="md-padding">
-				editores
+			<md-content layout="column" flex class="md-padding" ng-include="'assets/components/editors/index.html'">
+				
 			</md-content>
 		</div>
 	</div>
-
-	<!-- ANGULAR MATERIAL SCRIPTS -->
-	<script src="bower_components/angular/angular.min.js"></script>
-	<script src="bower_components/angular-animate/angular-animate.min.js"></script>
-	<script src="bower_components/angular-aria/angular-aria.min.js"></script>
-
-	<script src="bower_components/angular-material/angular-material.min.js"></script>
-
-
-	<!-- APPLICATION -->
-	<script src="assets/application.js"></script>
 </body>
 </html>

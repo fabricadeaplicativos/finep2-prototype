@@ -1,0 +1,27 @@
+[
+	{
+		"name": "Galeria de cards",
+		"tag": "",
+		"templateUrl": "/assets/components/canvas-palette/fab-components/image-card.html",
+		"demo": "<div class=\"list\"><a class=\"item item-thumbnail-left\" href=\"#\"><img src=\"http://lorempixel.com/400/400\"><h2>Pretty Hate Machine</h2><p>Nine Inch Nails</p></a></div>",
+		"template": "",
+		"placeholder": "oi",
+		"properties": [
+			{
+				"label": "Image",
+				"default_name": "image",
+				"type": "image"
+			},
+			{
+				"label": "Title",
+				"default_name": "title",
+				"type": "string"
+			},
+			{
+				"label": "Description",
+				"default_name": "description",
+				"type": "string"
+			}
+		]
+	}
+]

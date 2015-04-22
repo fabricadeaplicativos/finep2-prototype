@@ -1,0 +1,26 @@
+[
+	{
+		"name": "Galeria de cards",
+		"tag": "",
+		"templateUrl": "/api/components/galleries/image-card/template.html",
+		"demoUrl": "/api/components/galleries/image-card/demo.html",
+		"placeholderUrl": "/api/components/galleries/image-card/placeholder.html",
+		"properties": [
+			{
+				"label": "Image",
+				"default_name": "image",
+				"type": "image"
+			},
+			{
+				"label": "Title",
+				"default_name": "title",
+				"type": "string"
+			},
+			{
+				"label": "Description",
+				"default_name": "description",
+				"type": "string"
+			}
+		]
+	}
+]

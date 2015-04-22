@@ -29,17 +29,29 @@ gulp.task('serve', function() {
     }
   });
 
-  // html files to be watched
-  var htmlFiles = ['index.html', 'components/**/*.html'];
 
-  // js files to be watched
-  var jsFiles = ['assets/**/*.js'];
+  // canvas
+  var canvasFiles = [
+    'sub-applications/canvas/www/**/*.html', 
+    'sub-applications/canvas/www/**/*.js'
+  ];
 
-  // css files to be watched
-  var cssFiles = ['assets/**/*.css'];
+  // palette
+  var paletteFiles = [
+    'sub-applications/palette/www/**/*.html', 
+    'sub-applications/palette/www/**/*.js'
+  ];
+
+  // editor
+  var editorFiles = [
+    'index.html',
+    'assets/**/*.html',
+    'assets/**/*.js',
+    'assets/**/*.css'
+  ];
 
   // watch for reload changes
-  gulp.watch(htmlFiles.concat(jsFiles).concat(cssFiles), {cwd: './'}, reload);
+  gulp.watch(canvasFiles.concat(paletteFiles).concat(editorFiles), {cwd: './'}, reload);
 });
 
 
