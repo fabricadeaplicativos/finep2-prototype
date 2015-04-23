@@ -24,9 +24,11 @@ gulp.task('less', function () {
 // serve and watch files for automatic reload
 gulp.task('serve', function() {
   browserSync({
+    port: 3000,
     server: {
       baseDir: './'
-    }
+    },
+    startPath: '/client',
   });
 
 
