@@ -1,12 +1,14 @@
 #canvas iframe {
   border: 1px solid #eee;
-  height: 568px;
+  /*height: 568px;*/
+  height: 1000px;
   width: 100%;
   max-width: 320px;
 }
 #palette iframe {
   border: 1px solid #eee;
-  height: 568px;
+  /*height: 568px;*/
+  height: 1000px;
   width: 100%;
   max-width: 320px;
 }

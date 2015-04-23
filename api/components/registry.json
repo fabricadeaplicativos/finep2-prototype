@@ -1,6 +1,6 @@
 [
 	{
-		"name": "Galeria de cards",
+		"name": "Galeria mista 1",
 		"tag": "",
 		"templateUrl": "http://localhost:3000/api/components/galleries/image-card/template.html",
 		"demoUrl": "http://localhost:3000/api/components/galleries/image-card/demo.html",
@@ -22,5 +22,109 @@
 				"type": "string"
 			}
 		]
+	},
+	{
+		"name": "Galeria mista 2",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/components/galleries/image-card-2/template.html",
+		"demoUrl": "http://localhost:3000/api/components/galleries/image-card-2/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/galleries/image-card-2/placeholder.html",
+		"properties": [
+			{
+				"label": "Image",
+				"default_name": "image",
+				"type": "image"
+			},
+			{
+				"label": "Title",
+				"default_name": "title",
+				"type": "string"
+			},
+			{
+				"label": "Description",
+				"default_name": "description",
+				"type": "string"
+			}
+		]
+	},
+	{
+		"name": "Galeria mista 3",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/components/galleries/image-card-3/template.html",
+		"demoUrl": "http://localhost:3000/api/components/galleries/image-card-3/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/galleries/image-card-3/placeholder.html",
+		"properties": [
+			{
+				"label": "Image",
+				"default_name": "image",
+				"type": "image"
+			},
+			{
+				"label": "Title",
+				"default_name": "title",
+				"type": "string"
+			},
+			{
+				"label": "Description",
+				"default_name": "description",
+				"type": "string"
+			}
+		]
+	},
+	{
+		"name": "card-blank",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/components/galleries/card-blank/template.html",
+		"demoUrl": "http://localhost:3000/api/components/galleries/card-blank/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/galleries/card-blank/placeholder.html"
+	},
+	{
+		"name": "like",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/components/actions/like/template.html",
+		"demoUrl": "http://localhost:3000/api/components/actions/like/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/actions/like/placeholder.html"
+	},
+	{
+		"name": "h1",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/components/titles/h1/template.html",
+		"demoUrl": "http://localhost:3000/api/components/titles/h1/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/titles/h1/placeholder.html"
+	},
+	{
+		"name": "h2",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/components/titles/h2/template.html",
+		"demoUrl": "http://localhost:3000/api/components/titles/h2/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/titles/h2/placeholder.html"
+	},
+	{
+		"name": "h3",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/components/titles/h3/template.html",
+		"demoUrl": "http://localhost:3000/api/components/titles/h3/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/titles/h3/placeholder.html"
+	},
+	{
+		"name": "h4",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/components/titles/h4/template.html",
+		"demoUrl": "http://localhost:3000/api/components/titles/h4/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/titles/h4/placeholder.html"
+	},
+	{
+		"name": "p",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/components/texts/p/template.html",
+		"demoUrl": "http://localhost:3000/api/components/texts/p/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/texts/p/placeholder.html"
+	},
+	{
+		"name": "image",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/components/images/img/template.html",
+		"demoUrl": "http://localhost:3000/api/components/images/img/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/images/img/placeholder.html"
 	}
 ]
