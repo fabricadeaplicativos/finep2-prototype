@@ -13,16 +13,15 @@
     -->
 
     <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ionic/js/ionic.bundle.js" data-x-path="null" data-fname="www/index.html" data-start-index="496" data-end-index="547"></script>
 
     <!-- cordova script (this will be a 404 during development) 
     <script src="cordova.js"></script>
     -->
 
     <!-- your app's js -->
-    <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/services.js"></script>
+    <script src="js/app.js" data-x-path="null" data-fname="www/index.html" data-start-index="694" data-end-index="726"></script>
+
 
     <!-- CANVAS-PALETTE -->
     <!-- CANVAS-PALETTE -->
@@ -37,7 +36,7 @@
     <!-- CANVAS-PALETTE -->
     <!-- CANVAS-PALETTE -->
     <!-- CANVAS-PALETTE -->
-    <script src="/assets/components/canvas-palette/directives.js"></script>
+   <script src="/client/assets/components/canvas-palette/directives.js"></script>
     <!-- CANVAS-PALETTE -->
     <!-- CANVAS-PALETTE -->
     <!-- CANVAS-PALETTE -->
@@ -50,22 +49,16 @@
     <!-- CANVAS-PALETTE -->
     <!-- CANVAS-PALETTE -->
     <!-- CANVAS-PALETTE -->
-
 
   </head>
   <body ng-app="starter">
-    <!--
-      The nav bar that will be updated as we navigate between views.
-    -->
-    <ion-nav-bar class="bar-stable">
-      <ion-nav-back-button>
-      </ion-nav-back-button>
-    </ion-nav-bar>
-    <!--
-      The views will be rendered in the <ion-nav-view> directive below
-      Templates are in the /templates folder (but you could also
-      have templates inline in this html file if you'd like).
-    -->
-    <ion-nav-view></ion-nav-view>
+
+    <ion-pane>
+      <ion-header-bar class="bar-stable">
+        <h1 class="title">Aplicação</h1>
+      </ion-header-bar>
+      <ion-content surface="" class="padding" scroll="true">
+      </ion-content>
+    </ion-pane>
   </body>
 </html>

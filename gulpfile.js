@@ -7,7 +7,7 @@ var path = require('path');
 
 // compile less task
 gulp.task('less', function () {
-  gulp.src('./less/**/*.less')
+  gulp.src('./client/less/**/*.less')
     .pipe(less({
       paths: path.join(__dirname, 'less')
     }))
@@ -18,7 +18,7 @@ gulp.task('less', function () {
 
       this.emit('end');
     })
-    .pipe(gulp.dest('./assets/css'));
+    .pipe(gulp.dest('./client/assets/css'));
 });
 
 // serve and watch files for automatic reload
@@ -32,22 +32,22 @@ gulp.task('serve', function() {
 
   // canvas
   var canvasFiles = [
-    'sub-applications/canvas/www/**/*.html', 
-    'sub-applications/canvas/www/**/*.js'
+    'client/sub-applications/canvas/www/**/*.html', 
+    'client/sub-applications/canvas/www/**/*.js'
   ];
 
   // palette
   var paletteFiles = [
-    'sub-applications/palette/www/**/*.html', 
-    'sub-applications/palette/www/**/*.js'
+    'client/sub-applications/palette/www/**/*.html', 
+    'client/sub-applications/palette/www/**/*.js'
   ];
 
   // editor
   var editorFiles = [
-    'index.html',
-    'assets/**/*.html',
-    'assets/**/*.js',
-    'assets/**/*.css'
+    'client/index.html',
+    'client/assets/**/*.html',
+    'client/assets/**/*.js',
+    'client/assets/**/*.css'
   ];
 
   // watch for reload changes

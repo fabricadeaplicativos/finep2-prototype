@@ -2,9 +2,9 @@
 	{
 		"name": "Galeria de cards",
 		"tag": "",
-		"templateUrl": "/api/components/galleries/image-card/template.html",
-		"demoUrl": "/api/components/galleries/image-card/demo.html",
-		"placeholderUrl": "/api/components/galleries/image-card/placeholder.html",
+		"templateUrl": "http://localhost:3000/api/components/galleries/image-card/template.html",
+		"demoUrl": "http://localhost:3000/api/components/galleries/image-card/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/galleries/image-card/placeholder.html",
 		"properties": [
 			{
 				"label": "Image",

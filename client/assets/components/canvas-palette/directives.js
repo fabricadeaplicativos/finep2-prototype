@@ -2,11 +2,14 @@ angular.module('fab-canvas-palette.directives', [])
 
 .directive('fabComponentPalette', function ($http) {
 
-  var componentsDbUrl = '/api/components/registry.json';
+
+  var host = 'http://localhost:3000';
+
+  var componentsDbUrl = host + '/api/components/registry.json';
 
   return {
     restrict: 'AE',
-    templateUrl: '/assets/components/canvas-palette/templates/component-palette.html',
+    templateUrl: host + '/client/assets/components/canvas-palette/templates/component-palette.html',
     link: function (scope, element, attrs) {
 
       // declare var to hold components
@@ -58,6 +61,10 @@ angular.module('fab-canvas-palette.directives', [])
     restrict : "A",
     link: function(scope, element, attrs) {
 
+
+      console.log('surface discovered')
+      console.log(element)
+
       element.bind('dragover', function (e) {
         console.log('dragover')
         e.preventDefault();
@@ -70,6 +77,9 @@ angular.module('fab-canvas-palette.directives', [])
 
         // the url of the placeholder 
         var placeholderUrl = blockData.placeholderUrl;
+
+
+        console.log(placeholderUrl)
 
 
         // load the html template

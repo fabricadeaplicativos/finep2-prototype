@@ -35,3 +35,8 @@ https://github.com/google/material-design-icons
 #editors-container md-content {
   height: 100%;
 }
+#editors-container md-content #brackets-iframe {
+  height: 100%;
+  width: 100%;
+  border: none;
+}
