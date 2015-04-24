@@ -1,5 +1,40 @@
 [
 	{
+		"name": "like",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/components/actions/like/template.html",
+		"demoUrl": "http://localhost:3000/api/components/actions/like/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/actions/like/placeholder.html"
+	},
+	{
+		"name": "share",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/components/actions/share/template.html",
+		"demoUrl": "http://localhost:3000/api/components/actions/share/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/actions/share/placeholder.html"
+	},
+	{
+		"name": "comment",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/components/actions/comment/template.html",
+		"demoUrl": "http://localhost:3000/api/components/actions/comment/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/actions/comment/placeholder.html"
+	},
+	{
+		"name": "button-full",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/components/buttons/button-full/template.html",
+		"demoUrl": "http://localhost:3000/api/components/buttons/button-full/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/buttons/button-full/placeholder.html"
+	},
+	{
+		"name": "button",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/components/buttons/button/template.html",
+		"demoUrl": "http://localhost:3000/api/components/buttons/button/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/buttons/button/placeholder.html"
+	},
+	{
 		"name": "Galeria mista 1",
 		"tag": "",
 		"templateUrl": "http://localhost:3000/api/components/galleries/image-card/template.html",
@@ -77,13 +112,6 @@
 		"templateUrl": "http://localhost:3000/api/components/galleries/card-blank/template.html",
 		"demoUrl": "http://localhost:3000/api/components/galleries/card-blank/demo.html",
 		"placeholderUrl": "http://localhost:3000/api/components/galleries/card-blank/placeholder.html"
-	},
-	{
-		"name": "like",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/actions/like/template.html",
-		"demoUrl": "http://localhost:3000/api/components/actions/like/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/actions/like/placeholder.html"
 	},
 	{
 		"name": "h1",
