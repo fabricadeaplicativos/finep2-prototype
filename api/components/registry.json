@@ -7,6 +7,13 @@
 		"placeholderUrl": "http://localhost:3000/api/components/actions/like/placeholder.html"
 	},
 	{
+		"name": "like-raw",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/components/actions/like-raw/template.html",
+		"demoUrl": "http://localhost:3000/api/components/actions/like-raw/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/actions/like-raw/placeholder.html"
+	},
+	{
 		"name": "share",
 		"tag": "",
 		"templateUrl": "http://localhost:3000/api/components/actions/share/template.html",
@@ -14,11 +21,25 @@
 		"placeholderUrl": "http://localhost:3000/api/components/actions/share/placeholder.html"
 	},
 	{
+		"name": "share-raw",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/components/actions/share-raw/template.html",
+		"demoUrl": "http://localhost:3000/api/components/actions/share-raw/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/actions/share-raw/placeholder.html"
+	},
+	{
 		"name": "comment",
 		"tag": "",
 		"templateUrl": "http://localhost:3000/api/components/actions/comment/template.html",
 		"demoUrl": "http://localhost:3000/api/components/actions/comment/demo.html",
 		"placeholderUrl": "http://localhost:3000/api/components/actions/comment/placeholder.html"
+	},
+	{
+		"name": "comment-raw",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/components/actions/comment-raw/template.html",
+		"demoUrl": "http://localhost:3000/api/components/actions/comment-raw/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/components/actions/comment-raw/placeholder.html"
 	},
 	{
 		"name": "button-full",
