@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "browser-sync": "1.7.1",
-    "fabrica-editor": "git://github.com/renansdias/fab-main-server.git#develop",
+    "fabrica-editor": "git://github.com/fabricadeaplicativos/fabrica-editor",
     "gulp": "3.8.11"
   },
   "devDependencies": {
