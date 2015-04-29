@@ -73,15 +73,38 @@ angular.module('Editor.editors.controller', [])
 	      targetEvent: ev,
 	    })
 	    .then(function(answer) {
-			alert('You chose: "' + answer);
+			alert('You chose: "' + JSON.stringify(answer));
 	    });
 	}
 });
 
-function DialogController($scope, $mdDialog) {	      				
-	$scope.selectedItem = "oldColumnAssociation";
+function DialogController($scope, $mdDialog) {	
+	$scope.hideOldColumn = false;
+	$scope.hideNewColumn = true;
+	$scope.hideManualEdition = true;
+
+	$scope.answer = {
+		selectValue: "",
+		selectedItem: "oldColumnAssociation"
+	};
 
 	$scope.closeModal = function() {
-		$mdDialog.hide($scope.selectedItem);
+		$mdDialog.hide($scope.answer);
 	};
+
+	$scope.radioButtonSelected = function() {
+		if ($scope.answer.selectedItem === "oldColumnAssociation") {
+			$scope.hideOldColumn = false;
+			$scope.hideNewColumn = true;
+			$scope.hideManualEdition = true;			
+		} else if ($scope.answer.selectedItem === "newColumnAssociation") {
+			$scope.hideOldColumn = true;
+			$scope.hideNewColumn = false;
+			$scope.hideManualEdition = true;
+		} else {
+			$scope.hideOldColumn = true;
+			$scope.hideNewColumn = true;
+			$scope.hideManualEdition = false;
+		}
+	}
 }

@@ -1,16 +1,10 @@
 #canvas iframe {
   border: 1px solid #eee;
-  height: 568px;  
-  /*height: 1000px;*/
   height: 568px;
   width: 100%;
   max-width: 320px;
 }
 #palette iframe {
-  /*  border: 1px solid #eee;*/
-  border: none;
-  /*height: 568px;*/
-  height: 1000px;
   border: 1px solid #eee;
   height: 568px;
   width: 100%;
@@ -69,11 +63,18 @@ https://github.com/google/material-design-icons
 .dialogdemoBasicUsage h2 .md-subheader-content {
   padding-left: 10px;
 }
-/*#editors-container md-content {
+.selectTag {
+  display: inline-block;
+  margin-bottom: 21px;
+  margin-left: 42px;
+  margin-right: 2px;
+  margin-top: 0px;
+}
+#editors-container md-content {
   height: 100%;
 }
 #editors-container md-content #brackets-iframe {
   height: 100%;
   width: 100%;
   border: none;
-}*/
+}
