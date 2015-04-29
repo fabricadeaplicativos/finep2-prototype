@@ -1,6 +1,6 @@
 angular.module('Editor.editors.controller', [])
 
-.controller('EditorsCtrl', function ($scope, $window) {
+.controller('EditorsCtrl', function ($scope, $window, $mdDialog) {
 
 	// message from the iframe
 	$window.addEventListener('message', function (event) {
@@ -30,4 +30,57 @@ angular.module('Editor.editors.controller', [])
 	];
 
 	$scope.gridOptions = { data : 'myData' };// $scope.myData is also acceptable but will not update properly. OK to use the object if you don't care about updating the data in the grid.
+	$scope.showTableCreate = function(ev){
+		$mdDialog.show({
+	      controller: function DialogController($scope, $mdDialog) {
+					  $scope.answer = function(answer) {
+					    $mdDialog.hide(answer);
+					  };
+					},
+	      templateUrl: 'assets/components/dialogs/dialog-table-create.html',
+	      targetEvent: ev,
+	    })
+	    .then(function(answer) {
+	    	// alert('You said the information was "' + answer + '".')
+	      $scope.alert = 'You said the information was "' + answer + '".';
+	    }, function() {
+	      $scope.alert = 'You cancelled the dialog.';
+	    });
+	}
+
+	$scope.showTableUse = function(ev){
+		$mdDialog.show({
+	      controller: function DialogController($scope, $mdDialog) {
+					  $scope.answer = function(answer) {
+					    $mdDialog.hide(answer);
+					  };
+					},
+	      templateUrl: 'assets/components/dialogs/dialog-table-use.html',
+	      targetEvent: ev,
+	    })
+	    .then(function(answer) {
+	    	// alert('You said the information was "' + answer + '".')
+	      $scope.alert = 'You said the information was "' + answer + '".';
+	    }, function() {
+	      $scope.alert = 'You cancelled the dialog.';
+	    });
+	}
+
+	$scope.showTableColumn = function(ev){
+		$mdDialog.show({
+	      controller: function DialogController($scope, $mdDialog) {
+					  $scope.answer = function(answer) {
+					    $mdDialog.hide(answer);
+					  };
+					},
+	      templateUrl: 'assets/components/dialogs/dialog-table-column.html',
+	      targetEvent: ev,
+	    })
+	    .then(function(answer) {
+	    	// alert('You said the information was "' + answer + '".')
+	      $scope.alert = 'You said the information was "' + answer + '".';
+	    }, function() {
+	      $scope.alert = 'You cancelled the dialog.';
+	    });
+	}
 });
