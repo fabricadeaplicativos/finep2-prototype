@@ -3,21 +3,32 @@ angular.module('Editor.editors.controller', [])
 .controller('EditorsCtrl', function ($scope, $window, $mdDialog) {
 
 	// message from the iframe
-	$window.addEventListener('message', function (event) {
+	// $window.addEventListener('message', function (event) {
 
-		// parse the data
-		var data = JSON.parse(event.data);
+	// 	// parse the data
+	// 	var data = JSON.parse(event.data);
 
-		console.log(data);
+	// 	console.log(data);
 
-		// set active editor
-		$scope.editorTabIndex = 0;
+	// 	// set active editor
+	// 	$scope.editorTabIndex = 0;
 
-		$scope.$apply();
+	// 	$scope.$apply();
 
-	}, false);
+	// }, false);
 
-	$scope.editorTabIndex = 1;
+	$scope.editorTabIndex = 0;
+
+
+	$scope.showSalvar = false;
+	// $scope.showCriar = true;
+
+
+	$scope.createNewColumn = function(){
+		$scope.showSalvar = true;
+		// $scope.showCriar = false;
+
+	}
 
 
 	// GRID

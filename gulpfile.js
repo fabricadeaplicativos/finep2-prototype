@@ -62,7 +62,7 @@ gulp.task('serve', function() {
 // when the compilations break.
 gulp.task('watch', function () {
   // watch for less changes
-  gulp.watch('./less/**/*.less', ['less']);
+  gulp.watch('./client/less/**/*.less', ['less']);
 })
 
 

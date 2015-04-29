@@ -1,5 +1,8 @@
+
+
 <div ng-controller="EditorsCtrl" 
 >
+
 
 	<md-tabs 
 		md-dynamic-height 
@@ -7,66 +10,97 @@
 		md-selected="editorTabIndex"
 
 	>
+
 		<md-tab label="banco de dados">
 			<md-content class="md-padding">
-				<form name="userForm">
-					<div layout layout-sm="column">
-						<md-input-container style="width:80%">
-								<label>Company (Disabled)</label>
-								<input ng-model="user.company" disabled>
-							</md-input-container>
-						<md-input-container flex>
-							<label>Submission Date</label>
-							<input type="date" ng-model="user.submissionDate">
-						</md-input-container>
+			<table class="table">
+				<tr>
+					<div class="form-group">
+						<label>nome da tabela:</label>
+						<input type="text" class="form-control" id="" placeholder="ex: produtos">
 					</div>
-					<div layout layout-sm="column">
-						<md-input-container flex>
-							<label>First Name</label>
-							<input ng-model="user.firstName" placeholder="Placeholder text">
-						</md-input-container>
-						<md-input-container flex>
-							<label>Last Name</label>
-							<input ng-model="theMax">
-						</md-input-container>
-					</div>
-					<md-input-container flex>
-						<label>Address</label>
-						<input ng-model="user.address">
-					</md-input-container>
-					<md-input-container md-no-float>
-						<input ng-model="user.address2" placeholder="Address 2">
-					</md-input-container>
-					<div layout layout-sm="column">
-						<md-input-container flex>
-							<label>City</label>
-							<input ng-model="user.city">
-						</md-input-container>
-						<md-input-container flex>
-							<label>State</label>
-							<input ng-model="user.state">
-						</md-input-container>
-						<md-input-container flex>
-							<label>Postal Code</label>
-							<input ng-model="user.postalCode">
-						</md-input-container>
-					</div>
-					<md-input-container flex>
-						<label>Biography</label>
-						<textarea ng-model="user.biography" columns="1" md-maxlength="150"></textarea>
-					</md-input-container>
-				</form>
+				</tr>
+				<thead>
+					<tr>
+						<th>nome da coluna 1<br />
+							<select class="form-control">
+								<option value="">tipo</option>
+								<option value="1">texto</option>
+								<option value="2">imagem</option>
+								<option value="3">número</option>
+								<option value="4">boolean</option>
+							</select>
+						</th>
+						<th>nome da coluna 2<br />
+							<select class="form-control">
+								<option value="">tipo</option>
+								<option value="1">texto</option>
+								<option value="2">imagem</option>
+								<option value="3">número</option>
+								<option value="4">boolean</option>
+							</select>
+						</th>
+						<th>nome da coluna 3<br />
+							<select class="form-control">
+								<option value="">tipo</option>
+								<option value="1">texto</option>
+								<option value="2">imagem</option>
+								<option value="3">número</option>
+								<option value="4">boolean</option>
+							</select>
+						</th>
+						<th id="lhNewColumnEdit">
+							<input type="text" class="form-control" id="" placeholder="nome da coluna">
+							<select class="form-control">
+								<option value="">tipo</option>
+								<option value="1">texto</option>
+								<option value="2">imagem</option>
+								<option value="3">número</option>
+								<option value="4">boolean</option>
+							</select>
+						</th>
+						<th>
+							 <md-button class="md-raised">+ adicionar</md-button>
+							<button type="button" ng-show="!showSalvar" class="btn btn-primary" ng-click="createNewColumn()">+coluna</button>
+							<button type="button" ng-show="showSalvar" class="btn btn-primary" >salvar</button>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>conteudo</td>
+						<td>conteudo</td>
+						<td>conteudo</td>
+					</tr>
+					<tr>
+						<td>conteudo</td>
+						<td>conteudo</td>
+						<td>conteudo</td>
+					</tr>
+					<tr>
+						<td colspan="3">
+						<!-- <button type="button" class="btn btn-primary">+ conteúdo</button> -->
+						 <md-button class="md-raised">Button</md-button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+				<!-- <div ui-grid="gridOptions"></div> -->
+			</md-content>
+		</md-tab>
+		<md-tab label="configurações">
+			<md-content class="md-padding">
+				<!-- <iframe id="brackets-iframe" src="http://localhost:3101/brackets"></iframe> -->
+			</md-content>
+		</md-tab>
 
 
 				<!-- <div ui-grid="gridOptions"></div> -->
 			</md-content>
 		</md-tab>
-		<md-tab label="two">
-			<md-content class="md-padding">
-				<iframe id="brackets-iframe" src="http://localhost:3101/brackets"></iframe>
-			</md-content>
-		</md-tab>
-		<md-tab label="three">
+		
+		<md-tab label="ações">
 			<md-content class="md-padding">
 				<button ng-click="showTableCreate()">ComponenteNovo</button>
 				<button ng-click="showTableUse()">ComponenteExistente</button>
@@ -76,3 +110,4 @@
 	</md-tabs>
 
 </div>
+
