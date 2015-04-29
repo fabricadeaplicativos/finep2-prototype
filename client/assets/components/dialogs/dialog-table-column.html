@@ -1,21 +1,19 @@
-<md-dialog aria-label="Mango (Fruit)">
-  <md-dialog-content class="sticky-container">
-    <md-subheader class="md-sticky-no-effect">Mango (Fruit)</md-subheader>
-    <div>
-      associar a coluna da tabela
-      </p>
+<md-dialog>
+    <md-dialog-content role="document" class="sticky-container" style="padding: 24px;">
+        <h2 class="md-title">Como você quer associar o conteúdo?</h2>
+        
+        <md-radio-group ng-model="selectedItem">
+            <md-radio-button value="oldColumnAssociation" class="md-primary">Associar a uma coluna existente da tabela</md-radio-button>
+            <md-radio-button value="newColumnAssociation" class="md-primary">Associar a uma nova coluna da tabela</md-radio-button>
+            <md-radio-button value="manualEdition" class="md-primary">Inserir conteúdo manualmente</md-radio-button>
+        </md-radio-group>
+
+    </md-dialog-content>
+
+    <div class="md-actions" layout="row">
+        <span flex></span>
+        <md-button ng-click="closeModal()" class="md-primary">
+            Ok
+        </md-button>
     </div>
-  </md-dialog-content>
-  <div class="md-actions" layout="row">
-    <md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" hide show-md>
-      More on Wikipedia
-    </md-button>
-    <span flex></span>
-    <md-button ng-click="answer('not useful')" class="md-primary">
-     Not Useful
-    </md-button>
-    <md-button ng-click="answer('useful')" class="md-primary">
-      Useful
-    </md-button>
-  </div>
 </md-dialog>

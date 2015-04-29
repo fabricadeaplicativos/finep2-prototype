@@ -68,19 +68,20 @@ angular.module('Editor.editors.controller', [])
 
 	$scope.showTableColumn = function(ev){
 		$mdDialog.show({
-	      controller: function DialogController($scope, $mdDialog) {
-					  $scope.answer = function(answer) {
-					    $mdDialog.hide(answer);
-					  };
-					},
+	      controller: DialogController,
 	      templateUrl: 'assets/components/dialogs/dialog-table-column.html',
 	      targetEvent: ev,
 	    })
 	    .then(function(answer) {
-	    	// alert('You said the information was "' + answer + '".')
-	      $scope.alert = 'You said the information was "' + answer + '".';
-	    }, function() {
-	      $scope.alert = 'You cancelled the dialog.';
+			alert('You chose: "' + answer);
 	    });
 	}
 });
+
+function DialogController($scope, $mdDialog) {	      				
+	$scope.selectedItem = "oldColumnAssociation";
+
+	$scope.closeModal = function() {
+		$mdDialog.hide($scope.selectedItem);
+	};
+}

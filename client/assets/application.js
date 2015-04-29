@@ -67,7 +67,7 @@ app.controller('AppCtrl', function($scope, $mdSidenav, $mdDialog){
       targetEvent: ev,
     })
     .then(function(answer) {
-      $scope.alert = 'You said the information was "' + answer + '".';
+     alert('You said the information was "' + answer + '".');
     }, function() {
       $scope.alert = 'You cancelled the dialog.';
     });
