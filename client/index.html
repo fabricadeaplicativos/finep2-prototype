@@ -30,9 +30,20 @@
 	<script src="assets/components/editors/controller.js"></script>
 
 </head>
-<body layout="column" ng-controller="AppCtrl">
+<body layout="column" ng-controller="AppCtrl" class="dialogdemoBasicUsage">
+
+	<md-toolbar layout="row">
+
+	<button ng-click="showAlert()">Alert</button>
+	<button ng-click="showConfirm()">Confirm</button>
+	<button ng-click="showAdvanced()">Advanced</button>
 
 
+		<button ng-click="toggleSidenav('left')" class="menuBtn">
+			<span class="visually-hidden">Menu</span>
+		</button>
+		<h1 class="md-toolbar-tools" layout-align-gt-sm="center">:D</h1>
+	</md-toolbar>
 
 
 	<div layout="row" flex>

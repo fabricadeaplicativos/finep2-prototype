@@ -2,6 +2,7 @@
   border: 1px solid #eee;
   height: 568px;  
   /*height: 1000px;*/
+  height: 568px;
   width: 100%;
   max-width: 320px;
 }
@@ -10,6 +11,8 @@
   border: none;
   /*height: 568px;*/
   height: 1000px;
+  border: 1px solid #eee;
+  height: 568px;
   width: 100%;
   max-width: 320px;
 }
@@ -35,11 +38,42 @@ https://github.com/google/material-design-icons
 .menuBtn {
   background: transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI0IDI0IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGcgaWQ9IkhlYWRlciI+CiAgICA8Zz4KICAgICAgICA8cmVjdCB4PSItNjE4IiB5PSItMjIzMiIgZmlsbD0ibm9uZSIgd2lkdGg9IjE0MDAiIGhlaWdodD0iMzYwMCIvPgogICAgPC9nPgo8L2c+CjxnIGlkPSJMYWJlbCI+CjwvZz4KPGcgaWQ9Ikljb24iPgogICAgPGc+CiAgICAgICAgPHJlY3QgZmlsbD0ibm9uZSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ii8+CiAgICAgICAgPHBhdGggZD0iTTMsMThoMTh2LTJIM1YxOHogTTMsMTNoMTh2LTJIM1YxM3ogTTMsNnYyaDE4VjZIM3oiIHN0eWxlPSJmaWxsOiNmM2YzZjM7Ii8+CiAgICA8L2c+CjwvZz4KPGcgaWQ9IkdyaWQiIGRpc3BsYXk9Im5vbmUiPgogICAgPGcgZGlzcGxheT0iaW5saW5lIj4KICAgIDwvZz4KPC9nPgo8L3N2Zz4=) no-repeat center center;
 }
-#editors-container md-content {
+.dialogdemoBasicUsage .dialogDemo1 {
+  height: 500px;
+}
+.dialogdemoBasicUsage .full {
+  width: 100%;
+  height: 100%;
+}
+.dialogdemoBasicUsage .dialog-demo-content div {
+  text-align: center;
+}
+.dialogdemoBasicUsage .dialog-demo-content div .md-button {
+  display: inline-block;
+}
+.dialogdemoBasicUsage md-dialog md-dialog-content.sticky-container {
+  padding: 0;
+}
+.dialogdemoBasicUsage md-dialog md-dialog-content.sticky-container > div {
+  padding: 0 24px 24px;
+}
+.dialogdemoBasicUsage .md-subheader {
+  background-color: #dcedc8;
+  margin: 0;
+}
+.dialogdemoBasicUsage h2.md-subheader.md-sticky-clone {
+  margin-right: 0;
+  margin-top: 0;
+  box-shadow: 0px 2px 4px 0 rgba(0, 0, 0, 0.16);
+}
+.dialogdemoBasicUsage h2 .md-subheader-content {
+  padding-left: 10px;
+}
+/*#editors-container md-content {
   height: 100%;
 }
 #editors-container md-content #brackets-iframe {
   height: 100%;
   width: 100%;
   border: none;
-}
+}*/
