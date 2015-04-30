@@ -72,4 +72,17 @@ app.controller('AppCtrl', function($scope, $mdSidenav, $mdDialog){
       $scope.alert = 'You cancelled the dialog.';
     });
   };
+})
+
+
+// 
+.service('IO', function($window){
+  // get port of the socketServer
+  var socketServerPort = $window.socketServerPort || 3102;
+
+  // create socket
+  var socket = io.connect('http://localhost:' + socketServerPort + '/canvas');
+
+  // return socket
+  return socket;
 });

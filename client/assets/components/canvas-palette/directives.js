@@ -121,9 +121,15 @@ angular.module('fab-canvas-palette.directives', [])
         var data = {
           message: 'addBlock',
           blockData: blockData,
+          surfaceData: {
+            xPath: '/html/body/ion-pane/ion-content',
+            fname: 'www/index.html',
+          }
         };
 
         window.parent.postMessage(JSON.stringify(data), '*');
+
+        e.stopPropagation();
 
       });
 

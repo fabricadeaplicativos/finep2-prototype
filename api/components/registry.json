@@ -5,6 +5,7 @@
 		"templateUrl": "http://localhost:3000/api/components/galleries/image-card/template.html",
 		"demoUrl": "http://localhost:3000/api/components/galleries/image-card/demo.html",
 		"placeholderUrl": "http://localhost:3000/api/components/galleries/image-card/placeholder.html",
+		"default_collection_name": "gallery",
 		"properties": [
 			{
 				"label": "Image",

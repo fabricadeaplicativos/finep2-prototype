@@ -1,0 +1,48 @@
+<html>
+<head>
+	<title>data-source</title>
+
+
+	<script type="text/javascript" src="bower_components/angular/angular.js"></script>
+
+	<script type="text/javascript" src="fab-directives.js"></script>
+
+	<script type="text/javascript">
+		angular.module('demoApp', ['fab-directives']);
+	</script>
+</head>
+<body ng-app="demoApp">
+
+	list
+	<div 
+		ng-repeat="coisa in coisas"
+		fab-source="/fake-api/fruits.json"
+	>
+		<h1>{{ coisa.name }}</h1>
+		<h2>{{ coisa.color }}</h2>
+	</div>
+
+	<hr>
+
+	form
+	<form fab-source="/fake-api/apple.json as fruit">
+		<h1 ng-bind="fruit.name"></h1>
+		<input ng-model="fruit.name">
+		<h1 ng-bind="fruit.color"></h1>
+		<input ng-model="fruit.color">
+		<h1 ng-bind="fruit.weight"></h1>
+		<input ng-model="fruit.weight">
+	</form>
+
+
+	<hr>
+	item
+
+	<div fab-source="/fake-api/apple.json as f">
+		<h1 ng-bind="f.name"></h1>
+		<h2 ng-bind="f.color"></h2>
+		<h3 ng-bind="f.weight"></h3>
+	</div>
+
+</body>
+</html>

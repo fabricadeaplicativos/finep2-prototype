@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
@@ -36,7 +37,7 @@
     <!-- CANVAS-PALETTE -->
     <!-- CANVAS-PALETTE -->
     <!-- CANVAS-PALETTE -->
-   <script src="/client/assets/components/canvas-palette/directives.js"></script>
+    <script src="/client/assets/components/canvas-palette/directives.js"></script>
     <!-- CANVAS-PALETTE -->
     <!-- CANVAS-PALETTE -->
     <!-- CANVAS-PALETTE -->
@@ -50,18 +51,63 @@
     <!-- CANVAS-PALETTE -->
     <!-- CANVAS-PALETTE -->
 
-  </head>
-  <body ng-app="starter">
+
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <script src="lib/fab-directives/fab-directives.js"></script>
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+    <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
+
+</head>
+
+<body ng-app="starter">
 
     <ion-pane>
-      <ion-header-bar class="bar-stable">
-        <h1 class="title">Aplicação</h1>
-      </ion-header-bar>
-      <ion-content surface="" class="padding" overflow="scroll">
-          
-          
-          
-      </ion-content>
+        <ion-header-bar class="bar-stable">
+            <h1 class="title">Aplicação</h1>
+        </ion-header-bar>
+        <ion-content surface="" class="padding" overflow="scroll">
+            <div class="list" ng-repeat="item in items" fab-source="http://localhost:3104/gallery_1430429590493">
+
+                <a class="item item-body" href="#">
+                    <img class="full-image" src="{{ item.image }}">
+                    <h2>{{ item.title }}</h2>
+                    <p>{{ item.description }}</p>
+                </a>
+
+            </div>
+
+            <div class="list" ng-repeat="item in items" fab-source="http://localhost:3104/gallery_1430429590493">
+
+                <a class="item item-thumbnail-left" href="#">
+                    <img src="{{ item.image }}">
+                    <h2>{{ item.title }}</h2>
+                    <p>{{ item.description }}</p>
+                </a>
+
+            </div>
+        </ion-content>
     </ion-pane>
-  </body>
+</body>
+
 </html>

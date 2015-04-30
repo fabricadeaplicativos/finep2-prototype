@@ -1,6 +1,103 @@
 angular.module('Editor.editors.controller', [])
 
-.controller('EditorsCtrl', function ($scope, $window, $mdDialog) {
+.controller('EditorsCtrl', function ($scope, $window, $mdDialog, $http, IO) {
+
+	// RESPONSIBLE FOR LOADING THE template for the component and
+	// compiling it
+	// and adding it to the source code 
+	function addComponentToSource(collectionId) {
+
+	}
+
+	// Responsible for a component
+	function addComponent(componentData, surfaceData) {
+
+		var collectionProperties = {};
+
+		componentData.properties.forEach(function (prop) {
+
+			collectionProperties[prop.default_name] = {
+				name: prop.default_name,
+				type: prop.type,
+				typeLabel: prop.type,
+				required: false,
+				id: prop.default_name
+			};
+		});
+
+		// GET THE COLLECTION ID
+		var collectionId = prompt('collection name');
+
+		if (collectionId) {
+
+			// use existing collection
+			// load the component template
+
+			// build the API endpoint
+			var collectionEndpoint = 'http://localhost:3104/' + collectionId;
+			
+			$http.get(componentData.templateUrl)
+				.then(function (res) {
+					// get the template from the response
+					var componentTemplateFn = _.template(res.data);
+
+					// compile the element to be added
+					var finalHtml = componentTemplateFn({
+						source: collectionEndpoint
+					});
+
+					IO.emit('addElement', {
+						xPath: surfaceData.xPath,
+						fname: surfaceData.fname,
+						element: finalHtml,
+					})
+
+				})
+
+		} else {
+			// create a new collection
+			
+
+			$http.post('http://localhost:3103/resources', {
+				type: 'Collection',
+				id: componentData.default_collection_name,
+				properties: collectionProperties
+			})
+			.then(function (res) {
+
+				// get the collectionId
+				var collectionId = res.data.data.collectionId;
+
+				// build the API endpoint
+				var collectionEndpoint = 'http://localhost:3104/' + collectionId;
+
+
+				// load the component template
+				$http.get(componentData.templateUrl)
+					.then(function (res) {
+						// get the template from the response
+						var componentTemplateFn = _.template(res.data);
+
+						// compile the element to be added
+						var finalHtml = componentTemplateFn({
+							source: collectionEndpoint
+						});
+
+						IO.emit('addElement', {
+							xPath: surfaceData.xPath,
+							fname: surfaceData.fname,
+							element: finalHtml,
+						})
+
+					})
+			});
+
+
+		}
+
+
+	}
+
 
 	// message from the iframe
 	$window.addEventListener('message', function (event) {
@@ -16,7 +113,10 @@ angular.module('Editor.editors.controller', [])
 		$scope.$apply();
 
 		if (data.blockData.category === 'component') {
-			$scope.showTableUse();
+			// $scope.showTableUse();
+
+			addComponent(data.blockData, data.surfaceData);
+
 		} else {
 			$scope.showTableColumn();
 		}

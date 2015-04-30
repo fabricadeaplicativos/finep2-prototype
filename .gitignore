@@ -4,3 +4,4 @@ npm-debug.logclient/assets/css/
 .DS_Store
 api/.DS_Store
 api/components/.DS_Store
+npm-debug.log
