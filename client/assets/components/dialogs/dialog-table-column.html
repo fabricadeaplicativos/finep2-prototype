@@ -3,23 +3,28 @@
         <h2 class="md-title">Como você quer associar o conteúdo?</h2>
         
         <md-radio-group ng-model="answer.selectedItem" ng-change="radioButtonSelected()">
-            <md-radio-button value="oldColumnAssociation" class="md-primary">Associar a uma coluna existente da tabela</md-radio-button>
-            <md-select ng-hide="hideOldColumn" placeholder="Pick" ng-model="answer.selectValue" class="selectTag">
-                <md-option value="1">One</md-option>
-                <md-option value="2">Two</md-option>
+            <md-radio-button value="oldColumnAssociation" class="md-primary">Associar conteúdo a uma coluna existente da tabela:</md-radio-button>
+            <md-select ng-hide="hideOldColumn" placeholder="selecione a tabela" ng-model="answer.selectValue" class="selectTag">
+                <md-option value="1">Tabela 1</md-option>
+                <md-option value="2">Tabela 2</md-option>
+            </md-select>
+            <md-select ng-hide="hideOldColumn" placeholder="selecione a coluna" ng-model="answer.selectValue" class="selectTag">
+                <md-option value="1">Coluna 1</md-option>
+                <md-option value="2">Coluna 2</md-option>
             </md-select>
 
-            <md-radio-button value="newColumnAssociation" class="md-primary">Associar a uma nova coluna da tabela</md-radio-button>
+            <md-radio-button value="newColumnAssociation" class="md-primary">Associar a uma nova coluna da tabela:</md-radio-button>
             <md-select ng-hide="hideNewColumn" placeholder="Escolha" ng-model="answer.selectValue" class="selectTag">
-                <md-option value="1">Um</md-option>
-                <md-option value="2">Dois</md-option>
+                <md-option value="1">Coluna 1</md-option>
+                <md-option value="2">Coluna 2</md-option>
             </md-select>
 
-            <md-radio-button value="manualEdition" class="md-primary">Inserir conteúdo manualmente</md-radio-button>
-            <md-select ng-hide="hideManualEdition" placeholder="Pegue meu chapa" ng-model="answer.selectValue" class="selectTag">
-                <md-option value="1">Um ae</md-option>
-                <md-option value="2">Doix ae</md-option>
-            </md-select>
+            <md-radio-button value="manualEdition" class="md-primary">Inserir conteúdo sem associar a uma tabela:</md-radio-button>
+            <md-input-container ng-hide="hideManualEdition" ng-model="answer.selectValue" class="selectTag">
+              <label>|* conteúdo *|</label>
+              <input ng-model="theMax">
+            </md-input-container>
+            
 
         </md-radio-group>
 

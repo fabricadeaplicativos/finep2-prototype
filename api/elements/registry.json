@@ -64,14 +64,6 @@
 		"category": "element"
 	},
 	{
-		"name": "card-blank",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/elements/galleries/card-blank/template.html",
-		"demoUrl": "http://localhost:3000/api/elements/galleries/card-blank/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/elements/galleries/card-blank/placeholder.html",
-		"category": "component"
-	},
-	{
 		"name": "h1",
 		"tag": "",
 		"templateUrl": "http://localhost:3000/api/elements/titles/h1/template.html",
@@ -112,11 +104,11 @@
 		"category": "element"
 	},
 	{
-		"name": "image",
+		"name": "img1",
 		"tag": "",
-		"templateUrl": "http://localhost:3000/api/elements/images/img/template.html",
-		"demoUrl": "http://localhost:3000/api/elements/images/img/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/elements/images/img/placeholder.html",
+		"templateUrl": "http://localhost:3000/api/elements/images/img1/template.html",
+		"demoUrl": "http://localhost:3000/api/elements/images/img1/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/elements/images/img1/placeholder.html",
 		"category": "element"
 	}
 ]
