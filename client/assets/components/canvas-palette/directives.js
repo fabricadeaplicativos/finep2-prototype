@@ -26,6 +26,31 @@ angular.module('fab-canvas-palette.directives', [])
     }
   }
 })
+  
+.directive('fabElementPalette', function ($http) {
+
+  var HOST = 'http://localhost:3000';
+  var ELEMENTS_DB_URL = HOST + '/api/elements/registry.json';
+
+  return {
+    restrict: 'AE',
+    templateUrl: HOST + '/client/assets/components/canvas-palette/templates/element-palette.html',
+    link: function (scope, element, attrs) {
+
+      // declare var to hold elements
+      var elements = [];
+      scope.elements = elements;
+
+      $http.get(ELEMENTS_DB_URL)
+        .then(function (res) {
+
+          for (var i = 0; i < res.data.length; i++) {
+            elements.push(res.data[i]);
+          }
+        })
+    }
+  }
+})
 
 // draggable
 .directive('block', function ($http) {
