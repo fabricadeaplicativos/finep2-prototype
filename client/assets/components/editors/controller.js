@@ -44,7 +44,7 @@ angular.module('Editor.editors.controller', [])
 	$scope.showTableCreate = function(ev){
 		$mdDialog.show({
 	      controller: function DialogController($scope, $mdDialog) {
-					  $scope.answer = function(answer) {
+					  $scope.closeModal = function(answer) {
 					    $mdDialog.hide(answer);
 					  };
 					},
@@ -62,7 +62,7 @@ angular.module('Editor.editors.controller', [])
 	$scope.showTableUse = function(ev){
 		$mdDialog.show({
 	      controller: function DialogController($scope, $mdDialog) {
-					  $scope.answer = function(answer) {
+					  $scope.closeModal = function(answer) {
 					    $mdDialog.hide(answer);
 					  };
 					},
