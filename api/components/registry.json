@@ -1,61 +1,5 @@
 [
 	{
-		"name": "like",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/actions/like/template.html",
-		"demoUrl": "http://localhost:3000/api/components/actions/like/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/actions/like/placeholder.html"
-	},
-	{
-		"name": "like-raw",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/actions/like-raw/template.html",
-		"demoUrl": "http://localhost:3000/api/components/actions/like-raw/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/actions/like-raw/placeholder.html"
-	},
-	{
-		"name": "share",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/actions/share/template.html",
-		"demoUrl": "http://localhost:3000/api/components/actions/share/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/actions/share/placeholder.html"
-	},
-	{
-		"name": "share-raw",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/actions/share-raw/template.html",
-		"demoUrl": "http://localhost:3000/api/components/actions/share-raw/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/actions/share-raw/placeholder.html"
-	},
-	{
-		"name": "comment",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/actions/comment/template.html",
-		"demoUrl": "http://localhost:3000/api/components/actions/comment/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/actions/comment/placeholder.html"
-	},
-	{
-		"name": "comment-raw",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/actions/comment-raw/template.html",
-		"demoUrl": "http://localhost:3000/api/components/actions/comment-raw/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/actions/comment-raw/placeholder.html"
-	},
-	{
-		"name": "button-full",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/buttons/button-full/template.html",
-		"demoUrl": "http://localhost:3000/api/components/buttons/button-full/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/buttons/button-full/placeholder.html"
-	},
-	{
-		"name": "button",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/buttons/button/template.html",
-		"demoUrl": "http://localhost:3000/api/components/buttons/button/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/buttons/button/placeholder.html"
-	},
-	{
 		"name": "Galeria mista 1",
 		"tag": "",
 		"templateUrl": "http://localhost:3000/api/components/galleries/image-card/template.html",
@@ -77,7 +21,8 @@
 				"default_name": "description",
 				"type": "string"
 			}
-		]
+		],
+		"category": "component"
 	},
 	{
 		"name": "Galeria mista 2",
@@ -101,7 +46,8 @@
 				"default_name": "description",
 				"type": "string"
 			}
-		]
+		],
+		"category": "component"
 	},
 	{
 		"name": "Galeria mista 3",
@@ -125,55 +71,7 @@
 				"default_name": "description",
 				"type": "string"
 			}
-		]
-	},
-	{
-		"name": "card-blank",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/galleries/card-blank/template.html",
-		"demoUrl": "http://localhost:3000/api/components/galleries/card-blank/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/galleries/card-blank/placeholder.html"
-	},
-	{
-		"name": "h1",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/titles/h1/template.html",
-		"demoUrl": "http://localhost:3000/api/components/titles/h1/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/titles/h1/placeholder.html"
-	},
-	{
-		"name": "h2",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/titles/h2/template.html",
-		"demoUrl": "http://localhost:3000/api/components/titles/h2/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/titles/h2/placeholder.html"
-	},
-	{
-		"name": "h3",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/titles/h3/template.html",
-		"demoUrl": "http://localhost:3000/api/components/titles/h3/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/titles/h3/placeholder.html"
-	},
-	{
-		"name": "h4",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/titles/h4/template.html",
-		"demoUrl": "http://localhost:3000/api/components/titles/h4/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/titles/h4/placeholder.html"
-	},
-	{
-		"name": "p",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/texts/p/template.html",
-		"demoUrl": "http://localhost:3000/api/components/texts/p/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/texts/p/placeholder.html"
-	},
-	{
-		"name": "image",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/images/img/template.html",
-		"demoUrl": "http://localhost:3000/api/components/images/img/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/images/img/placeholder.html"
+		],
+		"category": "component"
 	}
 ]
