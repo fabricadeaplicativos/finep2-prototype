@@ -14,11 +14,48 @@
 		<md-tab label="banco de dados">
 			<md-content class="md-padding">
 			<table class="table">
-				<tr>
+				<tr class="tableName">
 					<div class="form-group">
 						<label>nome da tabela:</label>
+						<div class="form-inline">
+							<input type="text" class="form-control" id="" placeholder="ex: produtos">
+							<span class="input-group-btn">
+							<button class="btn btn-primary" type="button">salvar</button>
+						</div>
+
+
+						<!-- Input disabled - nome da tabela -->
+						<div class="form-inline">
+							<input type="text" disabled class="form-control" id="" placeholder="produtos">
+							<span class="input-group-btn">
+							<button class="btn btn-primary" type="button">editar</button>
+						</div>
+						
+	<!-- |||||||||||||||Não estou usando -->
+						<!-- </span>
 						<input type="text" class="form-control" id="" placeholder="ex: produtos">
+						<span class="input-group-btn">
+							<button class="btn btn-primary" type="button">editar</button>
+						</span> -->
+
+
+
 					</div>
+
+	<!-- |||||||||||Não estou usando -->
+					<!-- <div>
+						<div class="input-group">
+							<label>nome da tabela:</label>
+							<input type="text" class="form-control" placeholder="ex: produtos">
+							<span class="input-group-btn">
+								<button class="btn btn-primary" type="button">Salvar</button>
+							</span>
+						</div>
+					</div> -->
+
+
+
+
 				</tr>
 				<thead>
 					<tr>
@@ -29,6 +66,8 @@
 								<option value="2">imagem</option>
 								<option value="3">número</option>
 								<option value="4">boolean</option>
+								<option value="5">data</option>
+								<option value="6">localização</option>
 							</select>
 						</th>
 						<th>nome da coluna 2<br />
@@ -38,6 +77,8 @@
 								<option value="2">imagem</option>
 								<option value="3">número</option>
 								<option value="4">boolean</option>
+								<option value="5">data</option>
+								<option value="6">localização</option>
 							</select>
 						</th>
 						<th>nome da coluna 3<br />
@@ -47,6 +88,8 @@
 								<option value="2">imagem</option>
 								<option value="3">número</option>
 								<option value="4">boolean</option>
+								<option value="5">data</option>
+								<option value="6">localização</option>
 							</select>
 						</th>
 						<th id="lhNewColumnEdit">
@@ -57,11 +100,13 @@
 								<option value="2">imagem</option>
 								<option value="3">número</option>
 								<option value="4">boolean</option>
+								<option value="5">data</option>
+								<option value="6">localização</option>
 							</select>
 						</th>
 						<th>
 							<!--  <md-button class="md-raised">+ adicionar</md-button> -->
-							<button type="button" ng-show="!showSalvar" class="btn btn-primary" ng-click="createNewColumn()">+coluna</button>
+							<button type="button" ng-show="!showSalvar" class="btn btn-primary" ng-click="createNewColumn()">+ coluna</button>
 							<button type="button" ng-show="showSalvar" class="btn btn-primary" >salvar</button>
 						</th>
 					</tr>
@@ -71,17 +116,28 @@
 						<td>conteudo</td>
 						<td>conteudo</td>
 						<td>conteudo</td>
+						<td>conteudo</td>
+						<td><button type="button" class="btn btn-primary">editar</button></td>
 					</tr>
 					<tr>
-						<td>conteudo</td>
-						<td>conteudo</td>
-						<td>conteudo</td>
+						<td><input type="text" class="form-control" placeholder="Text input"></td>
+						<td><input type="text" class="form-control" placeholder="Text input"></td>
+						<td><input type="text" class="form-control" placeholder="Text input"></td>
+						<td><input type="text" class="form-control" placeholder="Text input"></td>
+						<td>
+							<div class="btn-group" role="group" aria-label="">
+							<button type="button" class="btn btn-primary">salvar</button>
+							<button type="button" class="btn btn-primary">excluir</button>
+							</div>
+						</td>
 					</tr>
+					
 					<tr>
-						<td colspan="3">
+						<td colspan="5">
 						<button type="button" class="btn btn-primary">+ conteúdo</button>
-						 <!-- <md-button class="md-raised">Button</md-button>
-						</td> -->
+						
+						 <!-- <md-button class="md-raised">Button</md-button> -->
+						</td>
 					</tr>
 				</tbody>
 			</table>

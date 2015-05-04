@@ -1,15 +1,12 @@
 #canvas iframe {
-  border: 3px solid #eee;
+  border: 1px solid #eee;
   height: 568px;
   width: 100%;
   max-width: 320px;
 }
 #palette iframe {
-/*  border: 1px solid #eee;
-*/ 
-  background-color: #eee;
-  border:none; 
-  height: 800px;
+  border: 1px solid #eee;
+  height: 568px;
   width: 100%;
   max-width: 320px;
 }
@@ -6794,8 +6791,11 @@ https://github.com/google/material-design-icons
   margin-right: 2px;
   margin-top: 0px;
 }
-table input {
+table .tableName {
   margin-bottom: 10px;
+}
+tbody td {
+  vertical-align: middle!important;
 }
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 html {
