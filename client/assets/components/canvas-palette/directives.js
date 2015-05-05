@@ -103,10 +103,6 @@ angular.module('fab-canvas-palette.directives', [])
         // the url of the placeholder 
         var placeholderUrl = blockData.placeholderUrl;
 
-
-        console.log(placeholderUrl)
-
-
         // load the html template
         $http.get(placeholderUrl);
 

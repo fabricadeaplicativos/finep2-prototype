@@ -25,17 +25,19 @@ angular.module('Editor.editors.controller', [])
 			};
 		});
 
-		// GET THE COLLECTION ID
-		var collectionId = prompt('collection name');
+		$http.post('http://localhost:3103/resources', {
+			type: 'Collection',
+			id: componentData.default_collection_name,
+			properties: collectionProperties
+		}).then(function (res) {
 
-		if (collectionId) {
-
-			// use existing collection
-			// load the component template
+			// get the collectionId
+			var collectionId = res.data.data.collectionId;
 
 			// build the API endpoint
 			var collectionEndpoint = 'http://localhost:3104/' + collectionId;
-			
+
+			// load the component template
 			$http.get(componentData.templateUrl)
 				.then(function (res) {
 					// get the template from the response
@@ -53,47 +55,32 @@ angular.module('Editor.editors.controller', [])
 					})
 
 				})
-
-		} else {
-			// create a new collection
-			
-
-			$http.post('http://localhost:3103/resources', {
-				type: 'Collection',
-				id: componentData.default_collection_name,
-				properties: collectionProperties
-			})
-			.then(function (res) {
-
-				// get the collectionId
-				var collectionId = res.data.data.collectionId;
-
-				// build the API endpoint
-				var collectionEndpoint = 'http://localhost:3104/' + collectionId;
+		});
 
 
-				// load the component template
-				$http.get(componentData.templateUrl)
-					.then(function (res) {
-						// get the template from the response
-						var componentTemplateFn = _.template(res.data);
+		// use existing collection
+		// load the component template
 
-						// compile the element to be added
-						var finalHtml = componentTemplateFn({
-							source: collectionEndpoint
-						});
+		// build the API endpoint
+		// var collectionEndpoint = 'http://localhost:3104/' + collectionId;
+		
+		// $http.get(componentData.templateUrl)
+		// 	.then(function (res) {
+		// 		// get the template from the response
+		// 		var componentTemplateFn = _.template(res.data);
 
-						IO.emit('addElement', {
-							xPath: surfaceData.xPath,
-							fname: surfaceData.fname,
-							element: finalHtml,
-						})
+		// 		// compile the element to be added
+		// 		var finalHtml = componentTemplateFn({
+		// 			source: collectionEndpoint
+		// 		});
 
-					})
-			});
+		// 		IO.emit('addElement', {
+		// 			xPath: surfaceData.xPath,
+		// 			fname: surfaceData.fname,
+		// 			element: finalHtml,
+		// 		})
 
-
-		}
+		// 	})
 
 
 	}
@@ -113,10 +100,8 @@ angular.module('Editor.editors.controller', [])
 		$scope.$apply();
 
 		if (data.blockData.category === 'component') {
-			// $scope.showTableUse();
-
+			//$scope.showTableCreate();
 			addComponent(data.blockData, data.surfaceData);
-
 		} else {
 			$scope.showTableColumn();
 		}
