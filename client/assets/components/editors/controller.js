@@ -1,6 +1,6 @@
 angular.module('Editor.editors.controller', [])
 
-.controller('EditorsCtrl', function ($scope, $window, $mdDialog, $http, IO) {
+.controller('EditorsCtrl', function ($scope, $window, $mdDialog, $http, IO, $q) {
 
 	/**
 	 * Takes the data from a component and creates a new collection
@@ -34,7 +34,50 @@ angular.module('Editor.editors.controller', [])
 	 *
 	 */
 	function createCollectionForComponent(componentData) {
+		var deferred = $q.defer();
 
+		var collectionProperties = {};
+
+		componentData.blockData.properties.forEach(function (property) {
+			collectionProperties[property.default_name] = {
+				name: property.default_name,
+				type: property.type,
+				typeLabel: property.type,
+				required: false,
+				id: property.default_name
+			};
+		});		
+
+		/*
+		 * At this point, collectionProperties will look like:
+		 *
+			 {
+				"<property-name>": {
+					"name": "<property-name>",
+					"type": "<property-type>",
+					"typeLabel": "<property-type>",
+					"required": <boolean>,
+					"id": "<property-name>"
+				},
+				...
+			 }
+		 * Next step will be to make a HTTP POST request to create
+		 * the collection. And as soon as we get the result, we resolve
+		 * the promise we're returning at the bottom with the result.
+		 */
+		var httpPromise = $http.post('http://localhost:3103/resources', {
+			type: 'Collection',
+			id: componentData.blockData.default_collection_name,
+			properties: collectionProperties
+		});
+
+		httpPromise.then(function(result) {
+			deferred.resolve(result);
+		}, function(err) {
+			deferred.reject(err);
+		});
+
+		return deferred.promise;
 	}
 
 	// RESPONSIBLE FOR LOADING THE template for the component and
@@ -132,7 +175,9 @@ angular.module('Editor.editors.controller', [])
 	$scope.showTableCreate = function(ev) {
 		$mdDialog.show({
 			controller: function($scope, $mdDialog) {
-
+				$scope.hide = function() {
+					$mdDialog.hide();
+				}
 			},
 			templateUrl: 'assets/components/dialogs/dialog-table-create.html',
 		}).then(function() {
@@ -144,7 +189,7 @@ angular.module('Editor.editors.controller', [])
 			var createCollectionPromise = createCollectionForComponent($scope.componentData)
 
 			/*
-			 * When the API responds, result will look something like:
+			 * When the API responds, result.data will look something like:
 			 *
 				 {
 					"apiVersion": "1.0",
@@ -161,16 +206,10 @@ angular.module('Editor.editors.controller', [])
 			 * of the collection). So we'll need $scope.componentData.dataBlock.properties.
 			 */
 			createCollectionPromise.then(function(result) {
-				// $scope.componentData.dataBlock.properties has its properties not as
-				// an array, but as a dictionary. We need to turn it into an array
-				// first.
-				for (var i = 0; i < $scope.componentData.blockData.properties.length; i++) {
-					
-				}
-				
 				$scope.collection = {
-
-				}
+					collectionId: result.data.data.collectionId,
+					properties: $scope.componentData.blockData.properties
+				};
 			}, function(err) {
 
 			});
