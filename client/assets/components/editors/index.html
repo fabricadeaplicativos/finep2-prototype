@@ -12,6 +12,8 @@
 			<md-content class="md-padding">
 			<table class="table">
 				<tr class="tableName">
+					
+					<!-- N O M E   D A   T A B E L A -->
 					<div class="form-group">
 						<label>nome da tabela:</label>
 						<div class="form-inline">
@@ -27,57 +29,18 @@
 							<button class="btn btn-primary" type="button">editar</button>
 						</div>
 					</div>
+
 				</tr>
 
 				<thead>
 					<tr>
-
+						
+						<!-- L I S T A G E M   D E   P R O P R I E D A D E S -->
 						<th ng-repeat="property in collection.properties">
-							{{property.name}}
-							<br />
-							<input type="text" disabled placeholder="{{property.type}}">
+							{{property.default_name}}
+							<input type="text" disabled placeholder="{{property.type}}" class="form-control">
 						</th>
 
-
-
-
-
-
-
-
-						<th>nome da coluna 1<br />
-							<select class="form-control">
-								<option value="">tipo</option>
-								<option value="1">texto</option>
-								<option value="2">imagem</option>
-								<option value="3">número</option>
-								<option value="4">boolean</option>
-								<option value="5">data</option>
-								<option value="6">localização</option>
-							</select>
-						</th>
-						<th>nome da coluna 2<br />
-							<select class="form-control">
-								<option value="">tipo</option>
-								<option value="1">texto</option>
-								<option value="2">imagem</option>
-								<option value="3">número</option>
-								<option value="4">boolean</option>
-								<option value="5">data</option>
-								<option value="6">localização</option>
-							</select>
-						</th>
-						<th>nome da coluna 3<br />
-							<select class="form-control">
-								<option value="">tipo</option>
-								<option value="1">texto</option>
-								<option value="2">imagem</option>
-								<option value="3">número</option>
-								<option value="4">boolean</option>
-								<option value="5">data</option>
-								<option value="6">localização</option>
-							</select>
-						</th>
 						<th id="lhNewColumnEdit">
 							<input type="text" class="form-control" id="" placeholder="nome da coluna">
 							<select class="form-control">
@@ -157,3 +120,37 @@
 	</md-tabs>
 
 </div>
+
+<!-- <th>nome da coluna 1<br />
+	<select class="form-control">
+		<option value="">tipo</option>
+		<option value="1">texto</option>
+		<option value="2">imagem</option>
+		<option value="3">número</option>
+		<option value="4">boolean</option>
+		<option value="5">data</option>
+		<option value="6">localização</option>
+	</select>
+</th>
+<th>nome da coluna 2<br />
+	<select class="form-control">
+		<option value="">tipo</option>
+		<option value="1">texto</option>
+		<option value="2">imagem</option>
+		<option value="3">número</option>
+		<option value="4">boolean</option>
+		<option value="5">data</option>
+		<option value="6">localização</option>
+	</select>
+</th>
+<th>nome da coluna 3<br />
+	<select class="form-control">
+		<option value="">tipo</option>
+		<option value="1">texto</option>
+		<option value="2">imagem</option>
+		<option value="3">número</option>
+		<option value="4">boolean</option>
+		<option value="5">data</option>
+		<option value="6">localização</option>
+	</select>
+</th> -->
