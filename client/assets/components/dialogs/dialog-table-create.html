@@ -1,16 +1,18 @@
 <md-dialog>
     <md-dialog-content role="document" class="sticky-container" style="padding: 24px;">
-        <h2 class="md-title">Como você quer associar o conteúdo?</h2>
-        <p>Você precisa associar o componente com uma tabela com os conteúdos (banco de dados)</p>
-        
-        
+        <h2 class="md-title">Esse componente precisa estar associado a uma fonte de dados</h2>
+        <p>Você precisa criar uma tabela no banco de dados</p>
+        <p>Para facilitar, já incluímos colunas relacionadas a esse componente.</p>
+        <p>Você pode modificar os nomes das colunas, criar novas colunas e inserir todo o conteúdo necessário.</p>
 
     </md-dialog-content>
 
     <div class="md-actions" layout="row">
         <span flex></span>
         <md-button ng-click="closeModal()" class="md-primary">
-            Criar minha tabela de dados
+            Ok
         </md-button>
-    </div>
+    </div>    
+        
+    
 </md-dialog>
