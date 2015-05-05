@@ -6,10 +6,10 @@
 }
 #palette iframe {
   background-color: #eee;
-  border:none; 
+  border: none;
   height: 800px;
   width: 100%;
-  max-width: 280px;
+  max-width: 300px;
 }
 /*!
  * Angular Material Design
