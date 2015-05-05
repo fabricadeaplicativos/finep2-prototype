@@ -2,6 +2,14 @@ angular.module('Editor.editors.controller', [])
 
 .controller('EditorsCtrl', function ($scope, $window, $mdDialog, $http, IO) {
 
+	/**
+	 * Takes the data from a component and creates a new collection
+	 * in the user's database.
+	 */
+	function createCollectionForComponent(componentData) {
+
+	}
+
 	// RESPONSIBLE FOR LOADING THE template for the component and
 	// compiling it
 	// and adding it to the source code 
@@ -100,8 +108,8 @@ angular.module('Editor.editors.controller', [])
 		$scope.$apply();
 
 		if (data.blockData.category === 'component') {
-			//$scope.showTableCreate();
-			addComponent(data.blockData, data.surfaceData);
+			$scope.showTableCreate();
+			// addComponent(data.blockData, data.surfaceData);
 		} else {
 			$scope.showTableColumn();
 		}
