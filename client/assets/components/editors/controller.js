@@ -5,6 +5,33 @@ angular.module('Editor.editors.controller', [])
 	/**
 	 * Takes the data from a component and creates a new collection
 	 * in the user's database.
+	 * The componentData looks like the following
+	 *
+		 {
+			"message": "addBlock",
+			"blockData": {
+				"category": "component",
+				"default_collection_name": "gallery",
+				"demoUrl": "<path-to>/demo.html",
+				"name": "Galeria Mista 1",
+				"placeholderUrl": "<path-to>/placeholder.html",
+				properties: [
+					{
+						"default_name": "image",
+						"label": "Image",
+						"type": "image"
+					},
+					{ ... }
+				],
+				tag: "",
+				templateUrl: "<path-to>/template.html"
+			},
+			"surfaceData": {
+				"fname": "www/index.html",
+				"xPath": "/html/body/ion-pane/ion-content"
+			}	
+		 }
+	 *
 	 */
 	function createCollectionForComponent(componentData) {
 
@@ -64,33 +91,6 @@ angular.module('Editor.editors.controller', [])
 
 				})
 		});
-
-
-		// use existing collection
-		// load the component template
-
-		// build the API endpoint
-		// var collectionEndpoint = 'http://localhost:3104/' + collectionId;
-		
-		// $http.get(componentData.templateUrl)
-		// 	.then(function (res) {
-		// 		// get the template from the response
-		// 		var componentTemplateFn = _.template(res.data);
-
-		// 		// compile the element to be added
-		// 		var finalHtml = componentTemplateFn({
-		// 			source: collectionEndpoint
-		// 		});
-
-		// 		IO.emit('addElement', {
-		// 			xPath: surfaceData.xPath,
-		// 			fname: surfaceData.fname,
-		// 			element: finalHtml,
-		// 		})
-
-		// 	})
-
-
 	}
 
 
@@ -99,6 +99,7 @@ angular.module('Editor.editors.controller', [])
 
 		// parse the data
 		var data = JSON.parse(event.data);
+		$scope.componentData = data;
 
 		console.log(data);
 
@@ -126,33 +127,55 @@ angular.module('Editor.editors.controller', [])
 	$scope.createNewColumn = function(){
 		$scope.showSalvar = true;
 		// $scope.showCriar = false;
-
 	}
 
-
-	// GRID
-	$scope.myData = [
-		{name: "Moroni", age: 50},
-		{name: "Tiancum", age: 43},
-		{name: "Jacob", age: 27},
-		{name: "Nephi", age: 29},
-		{name: "Enos", age: 34}
-	];
-
-	$scope.gridOptions = { data : 'myData' };// $scope.myData is also acceptable but will not update properly. OK to use the object if you don't care about updating the data in the grid.
-	$scope.showTableCreate = function(ev){
+	$scope.showTableCreate = function(ev) {
 		$mdDialog.show({
-	      controller: function DialogController($scope, $mdDialog) {
-					  $scope.closeModal = function(answer) {
-					    $mdDialog.hide(answer);
-					  };
-					},
-	      templateUrl: 'assets/components/dialogs/dialog-table-create.html',
-	      targetEvent: ev,
-	    })
-	    .then(function(answer) {
-	    	// alert('You said the information was "' + answer + '".')
-	      $scope.alert = 'You said the information was "' + answer + '".';
+			controller: function($scope, $mdDialog) {
+
+			},
+			templateUrl: 'assets/components/dialogs/dialog-table-create.html',
+		}).then(function() {
+			/*
+			 * As soon as the create table modal hides (which means the user
+			 * clicked the Ok button), we'll create a new collection in the database.
+			 * In order to do that, we'll need $scope.componentData.
+			 */
+			var createCollectionPromise = createCollectionForComponent($scope.componentData)
+
+			/*
+			 * When the API responds, result will look something like:
+			 *
+				 {
+					"apiVersion": "1.0",
+					"data": {
+						"collectionId": "gallery_6178931972863"
+					}
+				 }
+			 *
+			 * As soon as we have confirmation that our API was able
+			 * to create the collection, we'll use it to fill the $scope
+			 * with the information needed to fill out the table.
+			 * Note, though, that the result from our API does not
+			 * contain the properties of the collection (just the name
+			 * of the collection). So we'll need $scope.componentData.dataBlock.properties.
+			 */
+			createCollectionPromise.then(function(result) {
+				// $scope.componentData.dataBlock.properties has its properties not as
+				// an array, but as a dictionary. We need to turn it into an array
+				// first.
+				for (var i = 0; i < $scope.componentData.blockData.properties.length; i++) {
+					
+				}
+				
+				$scope.collection = {
+
+				}
+			}, function(err) {
+
+			});
+
+	      // $scope.alert = 'You said the information was "' + answer + '".';
 	    }, function() {
 	      $scope.alert = 'You cancelled the dialog.';
 	    });
@@ -218,3 +241,50 @@ function DialogController($scope, $mdDialog) {
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // GRID
+// $scope.myData = [
+// 	{name: "Moroni", age: 50},
+// 	{name: "Tiancum", age: 43},
+// 	{name: "Jacob", age: 27},
+// 	{name: "Nephi", age: 29},
+// 	{name: "Enos", age: 34}
+// ];
+
+// $scope.gridOptions = { data : 'myData' };// $scope.myData is also acceptable but will not update properly. OK to use the object if you don't care about updating the data in the grid.
+
+// use existing collection
+// load the component template
+
+// build the API endpoint
+// var collectionEndpoint = 'http://localhost:3104/' + collectionId;
+
+// $http.get(componentData.templateUrl)
+// 	.then(function (res) {
+// 		// get the template from the response
+// 		var componentTemplateFn = _.template(res.data);
+
+// 		// compile the element to be added
+// 		var finalHtml = componentTemplateFn({
+// 			source: collectionEndpoint
+// 		});
+
+// 		IO.emit('addElement', {
+// 			xPath: surfaceData.xPath,
+// 			fname: surfaceData.fname,
+// 			element: finalHtml,
+// 		})
+
+// 	})
