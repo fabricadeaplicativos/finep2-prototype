@@ -16,18 +16,26 @@
 					<!-- N O M E   D A   T A B E L A -->
 					<div class="form-group">
 						<label>nome da tabela:</label>
-						<div class="form-inline">
-							<input type="text" class="form-control" id="" placeholder="ex: produtos">
-							<span class="input-group-btn">
-							<button class="btn btn-primary" type="button">salvar</button>
-						</div>
+							
+						<div ng-switch="collectionIdInput">
 
-						<!-- Input disabled - nome da tabela -->
-						<div class="form-inline">
-							<input type="text" disabled class="form-control" id="" placeholder="produtos">
-							<span class="input-group-btn">
-							<button class="btn btn-primary" type="button">editar</button>
+							<!-- When collectionNameInput is true, we'll enable the input field
+								 so the user can change the name of the collection -->
+							<div class="form-inline" ng-switch-when="true">
+								<input ng-model="userValues.collectionId" type="text" class="form-control" id="" ng-value="collection.collectionId">
+								<span class="input-group-btn">
+								<button ng-click="saveNewCollectionId()" class="btn btn-primary" type="button">salvar</button>
+							</div>
+							
+							<!-- When collectionNameInput is false, we'll disable the input field
+								 so the user cannot change the name of the collection -->
+							<div class="form-inline" ng-switch-when="false">
+								<input type="text" disabled class="form-control" id="" ng-value="collection.collectionId">
+								<span class="input-group-btn">
+								<button ng-click="editCollectionId()" class="btn btn-primary" type="button">editar</button>
+							</div>
 						</div>
+						 
 					</div>
 
 				</tr>

@@ -2,6 +2,164 @@ angular.module('Editor.editors.controller', [])
 
 .controller('EditorsCtrl', function ($scope, $window, $mdDialog, $http, IO, $q) {
 
+	// **********************************************
+	// S C O P E   P R O P E R T I E S  ( S T A R T )
+	// **********************************************
+
+	// Indicates which tab will be shown (0 from left to right)
+	$scope.editorTabIndex = 0;
+
+	$scope.showSalvar = false;
+	// $scope.showCriar = true;
+
+	// Holds the ID of the new collection chosen
+	// by the user
+	$scope.userValues = {
+		collectionId: ""
+	};
+
+	// ***********************************
+	// N G - H I D E   P R O P E R T I E S
+	// ***********************************
+
+	/**
+	 * Use the controller to manipulate DOM elements is far from ideal.
+	 * but for this prototype let's just use it for simplicity.
+	 */
+
+	// collectionIdInput manipulates the portion of code that displays
+	// the input field to change the table's name. 
+	// When it's false, the input field is disabled. When
+	// it's true, the input field is enabled.
+	$scope.collectionIdInput = false;
+
+	// Enables the input field so the user can change the
+	// collection's ID
+	$scope.editCollectionId = function() {
+		$scope.collectionIdInput = true;
+	}
+
+	// Calls a function that hits an endpoint to change
+	// the collection's ID
+	$scope.saveNewCollectionId = function() {
+		changeCollectionId($scope.collection.collectionId, $scope.userValues.collectionId);
+	}
+
+	$scope.createNewColumn = function(){
+		$scope.showSalvar = true;
+		// $scope.showCriar = false;
+	}
+
+	// ****************************************************************************************
+
+	// message from the iframe
+	$window.addEventListener('message', function (event) {
+
+		// parse the data
+		var data = JSON.parse(event.data);
+		$scope.componentData = data;
+
+		console.log(data);
+
+		// set active editor
+		$scope.editorTabIndex = 0;
+
+		$scope.$apply();
+
+		if (data.blockData.category === 'component') {
+			$scope.showTableCreate();
+			// addComponent(data.blockData, data.surfaceData);
+		} else {
+			$scope.showTableColumn();
+		}
+
+	}, false);
+
+	// *******************************
+	// D I A L O G   F U N C T I O N S
+	// ******************************* 
+
+	$scope.showTableCreate = function(ev) {
+		$mdDialog.show({
+			controller: function($scope, $mdDialog) {
+				$scope.hide = function() {
+					$mdDialog.hide();
+				}
+			},
+			templateUrl: 'assets/components/dialogs/dialog-table-create.html',
+		}).then(function() {
+			/*
+			 * As soon as the create table modal hides (which means the user
+			 * clicked the Ok button), we'll create a new collection in the database.
+			 * In order to do that, we'll need $scope.componentData.
+			 */
+			var createCollectionPromise = createCollectionForComponent($scope.componentData)
+
+			/*
+			 * When the API responds, result.data will look something like:
+			 *
+				 {
+					"apiVersion": "1.0",
+					"data": {
+						"collectionId": "gallery_6178931972863"
+					}
+				 }
+			 *
+			 * As soon as we have confirmation that our API was able
+			 * to create the collection, we'll use it to fill the $scope
+			 * with the information needed to fill out the table.
+			 * Note, though, that the result from our API does not
+			 * contain the properties of the collection (just the name
+			 * of the collection). So we'll need $scope.componentData.dataBlock.properties.
+			 */
+			createCollectionPromise.then(function(result) {
+				$scope.collection = {
+					collectionId: result.data.data.collectionId,
+					properties: $scope.componentData.blockData.properties
+				};
+			}, function(err) {
+
+			});
+
+	      // $scope.alert = 'You said the information was "' + answer + '".';
+	    }, function() {
+	      $scope.alert = 'You cancelled the dialog.';
+	    });
+	}
+
+	$scope.showTableUse = function(ev){
+		$mdDialog.show({
+	      controller: function DialogController($scope, $mdDialog) {
+					  $scope.closeModal = function(answer) {
+					    $mdDialog.hide(answer);
+					  };
+					},
+	      templateUrl: 'assets/components/dialogs/dialog-table-use.html',
+	      targetEvent: ev,
+	    })
+	    .then(function(answer) {
+	    	// alert('You said the information was "' + answer + '".')
+	      $scope.alert = 'You said the information was "' + answer + '".';
+	    }, function() {
+	      $scope.alert = 'You cancelled the dialog.';
+	    });
+	}
+
+	$scope.showTableColumn = function(ev){
+		$mdDialog.show({
+	      controller: DialogController,
+	      templateUrl: 'assets/components/dialogs/dialog-table-column.html',
+	      targetEvent: ev,
+	    })
+	    .then(function(answer) {
+			alert('You chose: "' + JSON.stringify(answer));
+	    });
+	}
+
+	// **********************************
+	// D A T A B A S E  F U N C T I O N S
+	// **********************************
+
 	/**
 	 * Takes the data from a component and creates a new collection
 	 * in the user's database.
@@ -80,6 +238,40 @@ angular.module('Editor.editors.controller', [])
 		return deferred.promise;
 	}
 
+	/**
+	 * Changes the name (ID) of the given collection (from oldCollectionName to newCollectionName)
+	 */
+	function changeCollectionId(oldCollectionId, newCollectionId) {
+		var putData = {
+			"collections": {}
+		};
+
+		/*
+		 * putData will look like the following:
+		 *
+		 	{
+				"collections": {
+					"<old-collection-id>": "<new-collection-id>"
+				}		
+		 	}
+		 */
+		putData["collections"][oldCollectionId] = newCollectionId;
+
+		var httpPromise = $http.put('http://localhost:3103/resources', putData);
+
+		httpPromise.then(function(result) {
+			alert('Result');
+			alert(JSON.stringify(result));
+		}, function(err) {
+			alert('Error');
+			alert(JSON.stringify(err));
+		});
+	}
+
+	// *******************************************
+	// C O M P O N E N T   M A N I P U L A T I O N
+	// *******************************************
+
 	// RESPONSIBLE FOR LOADING THE template for the component and
 	// compiling it
 	// and adding it to the source code 
@@ -135,119 +327,6 @@ angular.module('Editor.editors.controller', [])
 				})
 		});
 	}
-
-
-	// message from the iframe
-	$window.addEventListener('message', function (event) {
-
-		// parse the data
-		var data = JSON.parse(event.data);
-		$scope.componentData = data;
-
-		console.log(data);
-
-		// set active editor
-		$scope.editorTabIndex = 0;
-
-		$scope.$apply();
-
-		if (data.blockData.category === 'component') {
-			$scope.showTableCreate();
-			// addComponent(data.blockData, data.surfaceData);
-		} else {
-			$scope.showTableColumn();
-		}
-
-	}, false);
-
-	$scope.editorTabIndex = 0;
-
-
-	$scope.showSalvar = false;
-	// $scope.showCriar = true;
-
-
-	$scope.createNewColumn = function(){
-		$scope.showSalvar = true;
-		// $scope.showCriar = false;
-	}
-
-	$scope.showTableCreate = function(ev) {
-		$mdDialog.show({
-			controller: function($scope, $mdDialog) {
-				$scope.hide = function() {
-					$mdDialog.hide();
-				}
-			},
-			templateUrl: 'assets/components/dialogs/dialog-table-create.html',
-		}).then(function() {
-			/*
-			 * As soon as the create table modal hides (which means the user
-			 * clicked the Ok button), we'll create a new collection in the database.
-			 * In order to do that, we'll need $scope.componentData.
-			 */
-			var createCollectionPromise = createCollectionForComponent($scope.componentData)
-
-			/*
-			 * When the API responds, result.data will look something like:
-			 *
-				 {
-					"apiVersion": "1.0",
-					"data": {
-						"collectionId": "gallery_6178931972863"
-					}
-				 }
-			 *
-			 * As soon as we have confirmation that our API was able
-			 * to create the collection, we'll use it to fill the $scope
-			 * with the information needed to fill out the table.
-			 * Note, though, that the result from our API does not
-			 * contain the properties of the collection (just the name
-			 * of the collection). So we'll need $scope.componentData.dataBlock.properties.
-			 */
-			createCollectionPromise.then(function(result) {
-				$scope.collection = {
-					collectionId: result.data.data.collectionId,
-					properties: $scope.componentData.blockData.properties
-				};
-			}, function(err) {
-
-			});
-
-	      // $scope.alert = 'You said the information was "' + answer + '".';
-	    }, function() {
-	      $scope.alert = 'You cancelled the dialog.';
-	    });
-	}
-
-	$scope.showTableUse = function(ev){
-		$mdDialog.show({
-	      controller: function DialogController($scope, $mdDialog) {
-					  $scope.closeModal = function(answer) {
-					    $mdDialog.hide(answer);
-					  };
-					},
-	      templateUrl: 'assets/components/dialogs/dialog-table-use.html',
-	      targetEvent: ev,
-	    })
-	    .then(function(answer) {
-	    	// alert('You said the information was "' + answer + '".')
-	      $scope.alert = 'You said the information was "' + answer + '".';
-	    }, function() {
-	      $scope.alert = 'You cancelled the dialog.';
-	    });
-	}
-
-	$scope.showTableColumn = function(ev){
-		$mdDialog.show({
-	      controller: DialogController,
-	      templateUrl: 'assets/components/dialogs/dialog-table-column.html',
-	      targetEvent: ev,
-	    })
-	    .then(function(answer) {
-			alert('You chose: "' + JSON.stringify(answer));
-	    });
-	}
 });
 
 function DialogController($scope, $mdDialog) {	
@@ -280,11 +359,6 @@ function DialogController($scope, $mdDialog) {
 		}
 	}
 }
-
-
-
-
-
 
 
 
