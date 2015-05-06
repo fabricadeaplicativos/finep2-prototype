@@ -282,7 +282,7 @@ angular.module('Editor.editors.controller', [])
 		alert(JSON.stringify($scope.userValues.documentToBeInserted))
 		alert('http://localhost:3103/' + $scope.collection.collectionId);
 
-		$http.post('http://localhost:3103/' + $scope.collection.collectionId, $scope.userValues.documentToBeInserted)
+		$http.post('http://localhost:3104/' + $scope.collection.collectionId, $scope.userValues.documentToBeInserted)
 			.then(function(result) {
 				alert('Result');
 				alert(JSON.stringify(result));
