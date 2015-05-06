@@ -138,6 +138,33 @@
 		"templateUrl": "http://localhost:3000/api/components/forms/form1/template.html",
 		"demoUrl": "http://localhost:3000/api/components/forms/form1/demo.html",
 		"placeholderUrl": "http://localhost:3000/api/components/forms/form1/placeholder.html",
-		"category": "component"
+		"category": "component",
+		"properties": [
+			{
+				"label": "Pergunta 1",
+				"default_name": "question_1",
+				"type": "string"
+			},
+			{
+				"label": "Pergunta 2",
+				"default_name": "question_2",
+				"type": "string"
+			},
+			{
+				"label": "Pergunta 3",
+				"default_name": "question_3",
+				"type": "string"
+			},
+			{
+				"label": "Data",
+				"default_name": "date",
+				"type": "string"
+			},
+			{
+				"label": "Telefone",
+				"default_name": "cell_number",
+				"type": "string"
+			}
+		]
 	}
 ]

@@ -48,6 +48,15 @@
 		"category": "element"
 	},
 	{
+		"name": "search-input",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/elements/actions/search-input/template.html",
+		"demoUrl": "http://localhost:3000/api/elements/actions/search-input/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/elements/actions/search-input/placeholder.html",
+		"category": "element"
+	}
+	,
+	{
 		"name": "button-full",
 		"tag": "",
 		"templateUrl": "http://localhost:3000/api/elements/buttons/button-full/template.html",
