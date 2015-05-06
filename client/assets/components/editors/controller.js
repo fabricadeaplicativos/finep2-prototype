@@ -257,7 +257,17 @@ angular.module('Editor.editors.controller', [])
 		 */
 		putData["collections"][oldCollectionId] = newCollectionId;
 
-		var httpPromise = $http.put('http://localhost:3103/resources', putData);
+		var requestData = {
+			method: 'PUT',
+			url: 'http://localhost:3104/__resources/' + oldCollectionId,
+			headers: {
+				'Content-Type': 'application/json',
+				'dpd-ssh-key': "89aiuohsjknd"
+			},
+			data: putData
+		};
+
+		var httpPromise = $http(requestData);
 
 		httpPromise.then(function(result) {
 			alert('Result');
