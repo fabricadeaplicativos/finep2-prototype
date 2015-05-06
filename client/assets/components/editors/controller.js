@@ -247,36 +247,30 @@ angular.module('Editor.editors.controller', [])
 	 * Changes the name (ID) of the given collection (from oldCollectionName to newCollectionName)
 	 */
 	function changeCollectionId(oldCollectionId, newCollectionId) {
-		var putData = {
-			"collections": {}
-		};
-
-		/*
-		 * putData will look like the following:
-		 *
-		 	{
-				"collections": {
-					"<old-collection-id>": "<new-collection-id>"
-				}		
-		 	}
-		 */
-		putData["collections"][oldCollectionId] = newCollectionId;
-
-		var requestData = {
-			method: 'PUT',
-			url: 'http://localhost:3104/__resources/' + oldCollectionId,
-			headers: {
-				'Content-Type': 'application/json',
-				'dpd-ssh-key': "89aiuohsjknd"
-			},
-			data: putData
-		};
-
-		var httpPromise = $http(requestData);
+		var httpPromise = $http.get('http://localhost:3103/' + oldCollectionId + '/config');
 
 		httpPromise.then(function(result) {
-			alert('Result');
-			alert(JSON.stringify(result));
+			var putData = result.data.data;
+			putData.id = newCollectionId;
+
+			var req = {
+				method: 'PUT',
+				url: 'http://localhost:3104/__resources/' + oldCollectionId,
+				headers: {
+					'Content-Type': 'application/json',
+					'dpd-ssh-key': '98asuhjnd'
+				},
+				data: putData
+			};
+
+			$http(req)
+				.then(function(result) {
+					$scope.collection.collectionId = newCollectionId;
+					$scope.collectionIdInput = false;
+				}, function(err) {
+					alert('Error DATA RETURN');
+					alert(JSON.stringify(err));		
+				});
 		}, function(err) {
 			alert('Error');
 			alert(JSON.stringify(err));
