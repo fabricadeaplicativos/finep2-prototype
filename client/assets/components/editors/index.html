@@ -76,15 +76,21 @@
 						<td>conteudo</td>
 						<td><button type="button" class="btn btn-primary">editar</button></td>
 					</tr>
+
+					<!-- Table row for inserting a new document into the underlying collection -->
 					<tr>
+						<td ng-repeat="property in collection.properties">
+							<input ng-model="userValues.documentToBeInserted[property.default_name]" type="text" class="form-control" placeholder="{{property.default_name}}">
+						</td>
+
+						<!-- <td><input type="text" class="form-control" placeholder="Text input"></td>
 						<td><input type="text" class="form-control" placeholder="Text input"></td>
 						<td><input type="text" class="form-control" placeholder="Text input"></td>
-						<td><input type="text" class="form-control" placeholder="Text input"></td>
-						<td><input type="text" class="form-control" placeholder="Text input"></td>
+						<td><input type="text" class="form-control" placeholder="Text input"></td> -->
 						<td>
 							<div class="btn-group" role="group" aria-label="">
-							<button type="button" class="btn btn-primary">salvar</button>
-							<button type="button" class="btn btn-primary">excluir</button>
+							<button ng-click="saveData()" type="button" class="btn btn-primary">salvar</button>
+							<!-- <button type="button" class="btn btn-primary">excluir</button> -->
 							</div>
 						</td>
 					</tr>

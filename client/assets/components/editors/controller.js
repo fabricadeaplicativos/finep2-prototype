@@ -15,12 +15,13 @@ angular.module('Editor.editors.controller', [])
 	// Holds the ID of the new collection chosen
 	// by the user
 	$scope.userValues = {
-		collectionId: ""
+		collectionId: "",
+		documentToBeInserted: {}
 	};
 
-	// ***********************************
-	// N G - H I D E   P R O P E R T I E S
-	// ***********************************
+	// **********************************************************
+	// N G - H I D E   P R O P E R T I E S  A N D   M E T H O D S
+	// **********************************************************
 
 	/**
 	 * Use the controller to manipulate DOM elements is far from ideal.
@@ -37,6 +38,10 @@ angular.module('Editor.editors.controller', [])
 	// collection's ID
 	$scope.editCollectionId = function() {
 		$scope.collectionIdInput = true;
+	}
+
+	$scope.saveData = function() {
+		insertNewDocument($scope.userValues.collection);
 	}
 
 	// Calls a function that hits an endpoint to change
@@ -276,6 +281,21 @@ angular.module('Editor.editors.controller', [])
 			alert('Error');
 			alert(JSON.stringify(err));
 		});
+	}
+
+	function insertNewDocument() {
+		alert($scope.collection.collectionId);
+		alert(JSON.stringify($scope.userValues.documentToBeInserted))
+		alert('http://localhost:3103/' + $scope.collection.collectionId);
+
+		$http.post('http://localhost:3103/' + $scope.collection.collectionId, $scope.userValues.documentToBeInserted)
+			.then(function(result) {
+				alert('Result');
+				alert(JSON.stringify(result));
+			}, function(err) {
+				alert('Error');
+				alert(JSON.stringify(err));
+			});
 	}
 
 	// *******************************************
