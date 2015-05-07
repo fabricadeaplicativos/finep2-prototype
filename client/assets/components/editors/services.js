@@ -132,6 +132,29 @@ angular.module('Editor.editors.services', [])
 			return deferred.promise;
 		}
 
+		databaseService.sortProperties = function(properties) {
+			var sortedProperties = [];
+
+			for (var i = 0; i < properties.length; i++) {
+				var property = properties[i];
+
+				sortedProperties.push(property);
+			}
+
+			sortedProperties.sort(function(a, b) {
+				if (a.default_name > b.default_name) {
+					return 1;
+				} else if (a.default_name < b.default_name) {
+					return -1;
+				}
+
+				// a must be equal to b
+				return 0;
+			});
+
+			return sortedProperties;
+		}
+
 		return databaseService;
 	}
 ])

@@ -116,7 +116,9 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 		// $scope.showCriar = false;
 	}
 
-	// ****************************************************************************************
+	// *****************************
+	// E V E N T   L I S T E N E R S
+	// ***************************** 
 
 	// message from the iframe
 	$window.addEventListener('message', function (event) {
@@ -159,7 +161,6 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 			 * clicked the Ok button), we'll create a new collection in the database.
 			 * In order to do that, we'll need $scope.componentData.
 			 */
-			console.log('hiuashashiuhiuashuads');
 			var createCollectionPromise = DatabaseService.createCollectionForComponent($scope.componentData)
 
 			/*
@@ -181,7 +182,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 			 */
 			createCollectionPromise.then(function(result) {
 				$scope.collection.collectionId = result.data.collectionId;
-				$scope.collection.properties = $scope.componentData.blockData.properties;
+				$scope.collection.properties = DatabaseService.sortProperties($scope.componentData.blockData.properties);
 			}, function(err) {
 
 			});
