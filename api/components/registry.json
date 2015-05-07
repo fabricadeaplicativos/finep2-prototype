@@ -10,7 +10,7 @@
 			{
 				"label": "Image",
 				"default_name": "image",
-				"type": "image"
+				"type": "string"
 			},
 			{
 				"label": "Title",
