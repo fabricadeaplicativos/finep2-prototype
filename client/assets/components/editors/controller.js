@@ -371,9 +371,6 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 				})
 		});
 	}
-<<<<<<< Updated upstream
-=======
-
 
 	// message from the iframe
 	$window.addEventListener('message', function (event) {
@@ -490,7 +487,6 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 			alert('You chose: "' + JSON.stringify(answer));
 	    });
 	}
->>>>>>> Stashed changes
 });
 
 function DialogController($scope, $mdDialog) {	
