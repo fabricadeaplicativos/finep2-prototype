@@ -69,13 +69,18 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
+					<!-- L I S T A G E M   D E   C O N T E U D O -->
+					<tr ng-repeat="document in collection.data">
+						<td ng-repeat="property in document">{{property}}</td>
+						<td><button type="button" class="btn btn-primary">editar</button></td>
+					</tr>
+					<!-- <tr>
 						<td>conteudo</td>
 						<td>conteudo</td>
 						<td>conteudo</td>
 						<td>conteudo</td>
 						<td><button type="button" class="btn btn-primary">editar</button></td>
-					</tr>
+					</tr> -->
 
 					<!-- Table row for inserting a new document into the underlying collection -->
 					<tr>
@@ -89,17 +94,8 @@
 						<td><input type="text" class="form-control" placeholder="Text input"></td> -->
 						<td>
 							<div class="btn-group" role="group" aria-label="">
-							<button ng-click="saveData()" type="button" class="btn btn-primary">salvar</button>
-							<!-- <button type="button" class="btn btn-primary">excluir</button> -->
+								<button ng-click="saveData()" type="button" class="btn btn-primary">salvar</button>
 							</div>
-						</td>
-					</tr>
-					
-					<tr>
-						<td colspan="5">
-						<button type="button" class="btn btn-primary">+ conteúdo</button>
-						
-						 <!-- <md-button class="md-raised">Button</md-button> -->
 						</td>
 					</tr>
 				</tbody>
