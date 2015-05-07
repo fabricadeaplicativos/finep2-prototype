@@ -1,6 +1,6 @@
-angular.module('Editor.editors.controller', [])
+angular.module('Editor.editors.controller', ['Editor.editors.services'])
 
-.controller('EditorsCtrl', function ($scope, $window, $mdDialog, $http, IO, $q) {
+.controller('EditorsCtrl', function ($scope, $window, $mdDialog, $http, IO, $q, DatabaseService) {
 
 	// **********************************************
 	// S C O P E   P R O P E R T I E S  ( S T A R T )
@@ -41,13 +41,33 @@ angular.module('Editor.editors.controller', [])
 	}
 
 	$scope.saveData = function() {
-		insertNewDocument($scope.userValues.collection);
+		var promise = DatabaseService.insertNewDocument($scope.collection.collectionId, $scope.userValues.documentToBeInserted);
+
+		promise.then(function(result) {
+			alert('SAVE DATA RESULT');
+			alert(JSON.stringify(result));
+		}, function(err) {
+			alert('SAVE DATA ERROR');
+			alert(JSON.stringify(err));
+		});
 	}
 
 	// Calls a function that hits an endpoint to change
 	// the collection's ID
 	$scope.saveNewCollectionId = function() {
-		changeCollectionId($scope.collection.collectionId, $scope.userValues.collectionId);
+		var promise = DatabaseService.changeCollectionId($scope.collection.collectionId, $scope.userValues.collectionId);
+
+		promise.then(function(result) {
+			// Save the new collection name in $scope.collection.collectionId
+			$scope.collection.collectionId = result.id;
+			$scope.collectionIdInput = false;
+			
+			alert('SAVE NEW COLLECTION ID RESULT');
+			alert(JSON.stringify(result));
+		}, function(err) {
+			alert('SAVE NEW COLLECTION ID ERROR');
+			alert(JSON.stringify(err));
+		})
 	}
 
 	$scope.createNewColumn = function(){
@@ -98,7 +118,7 @@ angular.module('Editor.editors.controller', [])
 			 * clicked the Ok button), we'll create a new collection in the database.
 			 * In order to do that, we'll need $scope.componentData.
 			 */
-			var createCollectionPromise = createCollectionForComponent($scope.componentData)
+			var createCollectionPromise = DatabaseService.createCollectionForComponent($scope.componentData)
 
 			/*
 			 * When the API responds, result.data will look something like:
@@ -119,7 +139,7 @@ angular.module('Editor.editors.controller', [])
 			 */
 			createCollectionPromise.then(function(result) {
 				$scope.collection = {
-					collectionId: result.data.data.collectionId,
+					collectionId: result.data.collectionId,
 					properties: $scope.componentData.blockData.properties
 				};
 			}, function(err) {
