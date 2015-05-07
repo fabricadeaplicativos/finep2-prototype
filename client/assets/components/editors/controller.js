@@ -11,6 +11,19 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 
 	$scope.showSalvar = false;
 	// $scope.showCriar = true;
+	
+	$scope.columnToAdd = {type: ''};
+	
+	// Map strings and types
+	$scope.types = [
+		{ label: 'tipo'		    , value: ''				},
+		{ label: 'texto'		, value: 'string' 		},
+		{ label: 'imagem'		, value: 'image' 		},
+		{ label: 'número'		, value: 'number' 		},
+		{ label: 'boolean'		, value: 'boolean' 		},
+		{ label: 'data'		    , value: 'date'			},
+		{ label: 'localização'	, value: 'localization'	}
+	];
 
 	// Holds all the values that are input by the user (collection ID,
 	// the document that is to be inserted etc).
@@ -146,6 +159,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 			 * clicked the Ok button), we'll create a new collection in the database.
 			 * In order to do that, we'll need $scope.componentData.
 			 */
+			console.log('hiuashashiuhiuashuads');
 			var createCollectionPromise = DatabaseService.createCollectionForComponent($scope.componentData)
 
 			/*
@@ -207,6 +221,30 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 	    });
 	}
 
+	
+	$scope.saveNewColumn = function(){
+		
+
+		// Is not editing a database
+		if($scope.collection == undefined || $scope.collection.properties == undefined)
+			return;
+			
+		addColumn = {
+			type: $scope.columnToAdd.type,
+			default_name: $scope.columnToAdd.label
+		};
+			
+		// Empty value
+		if(addColumn.type == undefined || addColumn.type == '' || addColumn.default_name == undefined || addColumn.default_name == '')
+			return;
+		
+		$scope.showSalvar = false;
+		
+		$scope.collection.properties[$scope.collection.properties.length] = addColumn;
+		$scope.columnToAdd = {type: ''};
+	}
+
+
 	// *******************************************
 	// C O M P O N E N T   M A N I P U L A T I O N
 	// *******************************************
@@ -267,121 +305,6 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 		});
 	}
 
-	// message from the iframe
-	$window.addEventListener('message', function (event) {
-
-		// parse the data
-		var data = JSON.parse(event.data);
-		$scope.componentData = data;
-
-		console.log(data);
-
-		// set active editor
-		$scope.editorTabIndex = 0;
-
-		$scope.$apply();
-
-		if (data.blockData.category === 'component') {
-			$scope.showTableCreate();
-			// addComponent(data.blockData, data.surfaceData);
-		} else {
-			$scope.showTableColumn();
-		}
-
-	}, false);
-
-	$scope.editorTabIndex = 0;
-
-
-	$scope.showSalvar = false;
-	// $scope.showCriar = true;
-
-
-	$scope.createNewColumn = function(){
-		$scope.showSalvar = true;
-		// $scope.showCriar = false;
-	}
-	
-	$scope.saveNewColumn = function(){
-		$scope.showSalvar = false;
-	}
-
-	$scope.showTableCreate = function(ev) {
-		$mdDialog.show({
-			controller: function($scope, $mdDialog) {
-				$scope.hide = function() {
-					$mdDialog.hide();
-				}
-			},
-			templateUrl: 'assets/components/dialogs/dialog-table-create.html',
-		}).then(function() {
-			/*
-			 * As soon as the create table modal hides (which means the user
-			 * clicked the Ok button), we'll create a new collection in the database.
-			 * In order to do that, we'll need $scope.componentData.
-			 */
-			var createCollectionPromise = createCollectionForComponent($scope.componentData)
-
-			/*
-			 * When the API responds, result.data will look something like:
-			 *
-				 {
-					"apiVersion": "1.0",
-					"data": {
-						"collectionId": "gallery_6178931972863"
-					}
-				 }
-			 *
-			 * As soon as we have confirmation that our API was able
-			 * to create the collection, we'll use it to fill the $scope
-			 * with the information needed to fill out the table.
-			 * Note, though, that the result from our API does not
-			 * contain the properties of the collection (just the name
-			 * of the collection). So we'll need $scope.componentData.dataBlock.properties.
-			 */
-			createCollectionPromise.then(function(result) {
-				$scope.collection = {
-					collectionId: result.data.data.collectionId,
-					properties: $scope.componentData.blockData.properties
-				};
-			}, function(err) {
-
-			});
-
-	      // $scope.alert = 'You said the information was "' + answer + '".';
-	    }, function() {
-	      $scope.alert = 'You cancelled the dialog.';
-	    });
-	}
-
-	$scope.showTableUse = function(ev){
-		$mdDialog.show({
-	      controller: function DialogController($scope, $mdDialog) {
-					  $scope.closeModal = function(answer) {
-					    $mdDialog.hide(answer);
-					  };
-					},
-	      templateUrl: 'assets/components/dialogs/dialog-table-use.html',
-	      targetEvent: ev,
-	    })
-	    .then(function(answer) {
-	    	// alert('You said the information was "' + answer + '".')
-	      $scope.alert = 'You said the information was "' + answer + '".';
-	    }, function() {
-	      $scope.alert = 'You cancelled the dialog.';
-	    });
-	}
-
-	$scope.showTableColumn = function(ev){
-		$mdDialog.show({
-	      controller: DialogController,
-	      templateUrl: 'assets/components/dialogs/dialog-table-column.html',
-	      targetEvent: ev,
-	    })
-	    .then(function(answer) {
-			alert('You chose: "' + JSON.stringify(answer));
-	    });
-	}
 });
 
 function DialogController($scope, $mdDialog) {	

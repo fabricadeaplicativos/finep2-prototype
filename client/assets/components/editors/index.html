@@ -49,16 +49,9 @@
 							<input type="text" disabled placeholder="{{property.type}}" class="form-control">
 						</th>
 
-						<th id="lhNewColumnEdit">
-							<input type="text" class="form-control" id="" placeholder="nome da coluna">
-							<select class="form-control">
-								<option value="">tipo</option>
-								<option value="1">texto</option>
-								<option value="2">imagem</option>
-								<option value="3">número</option>
-								<option value="4">boolean</option>
-								<option value="5">data</option>
-								<option value="6">localização</option>
+						<th id="lhNewColumnEdit" ng-show="showSalvar">
+							<input type="text" class="form-control" id="" placeholder="nome da coluna" ng-model="columnToAdd.label">
+							<select class="form-control" ng-model="columnToAdd.type" ng-options="t.value as t.label for t in types">
 							</select>
 						</th>
 						<th>
