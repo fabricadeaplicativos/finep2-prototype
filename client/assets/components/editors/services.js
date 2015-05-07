@@ -155,6 +155,31 @@ angular.module('Editor.editors.services', [])
 			return sortedProperties;
 		}
 
+		databaseService.addNewColumn = function(collectionId, column) {
+			var deferred = $q.defer();
+
+			var newProperty = {
+				"name": column.default_name,
+				"type": column.type,
+				"typeLabel": column.type,
+				"required": false,
+				"id": column.default_name
+			};
+
+			var putData = {};
+			putData[column.default_name] = newProperty;
+
+			var httpPromise = $http.put('http://localhost:3103/resources/' + collectionId, putData);
+
+			httpPromise.then(function(result) {
+				deferred.resolve(result.data);
+			}, function(err) {
+				deferred.reject(err);
+			});			
+
+			return deferred.promise;
+		}
+
 		return databaseService;
 	}
 ])

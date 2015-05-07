@@ -116,6 +116,43 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 		// $scope.showCriar = false;
 	}
 
+	$scope.saveNewColumn = function(){
+		
+		// Is not editing a database
+		if($scope.collection == undefined || $scope.collection.properties == undefined)
+			return;
+			
+		var addColumn = {
+			type: $scope.columnToAdd.type,
+			default_name: $scope.columnToAdd.label,
+			label: $scope.columnToAdd.type
+		};
+			
+		// Empty value
+		if(addColumn.type == undefined || addColumn.type == '' || addColumn.default_name == undefined || addColumn.default_name == '')
+			return;
+		
+		$scope.showSalvar = false;
+		$scope.columnToAdd = {type: ''};
+
+		var promise = DatabaseService.addNewColumn($scope.collection.collectionId, addColumn);
+
+		promise.then(function(result) {
+			if (typeof result.status !== 'undefined') {
+				/*
+				 * We'll only add the new column to $scope.collection in case
+				 * we manage to insert it into its collection's config.json.
+				 */
+				$scope.collection.properties.push(addColumn);
+			} else {
+				alert('The new column could not be added');
+			}
+		}, function(err) {
+			alert('There was an error while trying to add a new column');
+			alert(err);
+		});
+	}
+
 	// *****************************
 	// E V E N T   L I S T E N E R S
 	// ***************************** 
@@ -221,30 +258,6 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 			alert('You chose: "' + JSON.stringify(answer));
 	    });
 	}
-
-	
-	$scope.saveNewColumn = function(){
-		
-
-		// Is not editing a database
-		if($scope.collection == undefined || $scope.collection.properties == undefined)
-			return;
-			
-		addColumn = {
-			type: $scope.columnToAdd.type,
-			default_name: $scope.columnToAdd.label
-		};
-			
-		// Empty value
-		if(addColumn.type == undefined || addColumn.type == '' || addColumn.default_name == undefined || addColumn.default_name == '')
-			return;
-		
-		$scope.showSalvar = false;
-		
-		$scope.collection.properties[$scope.collection.properties.length] = addColumn;
-		$scope.columnToAdd = {type: ''};
-	}
-
 
 	// *******************************************
 	// C O M P O N E N T   M A N I P U L A T I O N
