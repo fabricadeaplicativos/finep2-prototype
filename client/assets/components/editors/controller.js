@@ -220,6 +220,72 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 			createCollectionPromise.then(function(result) {
 				$scope.collection.collectionId = result.data.collectionId;
 				$scope.collection.properties = DatabaseService.sortProperties($scope.componentData.blockData.properties);
+
+				/*
+				 * Now that we have created a collection in the database, we can insert the
+				 * component's template onto the canvas so it can start fetching the documents
+				 * NOTE: if there's no document in the database for that collection, the canvas
+				 * will be blank. As soon as the user adds documents, it should refresh itself.
+				 */
+				var collectionEndpoint = 'http://localhost:3104/' + $scope.collection.collectionId;
+
+				var templatePromise = $http.get($scope.componentData.blockData.templateUrl);
+
+				templatePromise.then(function(result) {
+					var templateHtml = result.data;
+
+					/*
+					 * buildComponentTemplate is a function that transforms
+					 * the given template html in _.template() into a pure
+					 * html. That is, if there's a line in the templateHtml like:
+					 *
+					 	<div fab-source="<%= source %>">
+					 *
+					 * collectionEndpoint is "http://localhost:3104/gallery_7ayiuhskjd", and
+					 * we call buildComponentTemplate({
+									source: collectionEndpoint
+					 		   })
+					 * The resulting HTML will be as follows:
+					 *
+					 	 <div fab-source="http://localhost:3104/gallery_7ayiuhskjd">
+					 */
+					var buildComponentTemplate = _.template(templateHtml);
+
+					var pureHtml = buildComponentTemplate({
+						source: collectionEndpoint
+					});
+
+					/*
+					 * Now that we have the final HTML, we'll emit an event
+					 * so our socket server can notice we have new HTML to put
+					 * into our canvas.
+					 */
+					IO.emit('addElement', {
+						xPath: $scope.componentData.surfaceData.xPath,
+						fname: $scope.componentData.surfaceData.fname,
+						element: pureHtml
+					});
+				}, function(err) {
+					alert('Error while trying to get the component\'s HTML template');
+				});
+
+				// $http.get(componentData.templateUrl)
+				// 	.then(function (res) {
+				// 		// get the template from the response
+				// 		var componentTemplateFn = _.template(res.data);
+
+				// 		// compile the element to be added
+				// 		var finalHtml = componentTemplateFn({
+				// 			source: collectionEndpoint
+				// 		});
+
+				// 		IO.emit('addElement', {
+				// 			xPath: surfaceData.xPath,
+				// 			fname: surfaceData.fname,
+				// 			element: finalHtml,
+				// 		})
+
+				// 	})
 			}, function(err) {
 
 			});
