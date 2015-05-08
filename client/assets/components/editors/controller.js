@@ -1,6 +1,6 @@
-angular.module('Editor.editors.controller', [])
+angular.module('Editor.editors.controller', ['Editor.editors.services'])
 
-.controller('EditorsCtrl', function ($scope, $window, $mdDialog, $http, IO, $q) {
+.controller('EditorsCtrl', function ($scope, $window, $mdDialog, $http, IO, $q, DatabaseService, DataService) {
 
 	// **********************************************
 	// S C O P E   P R O P E R T I E S  ( S T A R T )
@@ -11,16 +11,91 @@ angular.module('Editor.editors.controller', [])
 
 	$scope.showSalvar = false;
 	// $scope.showCriar = true;
+	
+	$scope.columnToAdd = {type: ''};
+	
+	// Map strings and types
+	$scope.types = [
+		{ label: 'tipo'		    , value: ''				},
+		{ label: 'texto'		, value: 'string' 		},
+		{ label: 'imagem'		, value: 'image' 		},
+		{ label: 'número'		, value: 'number' 		},
+		{ label: 'boolean'		, value: 'boolean' 		},
+		{ label: 'data'		    , value: 'date'			},
+		{ label: 'localização'	, value: 'localization'	}
+	];
 
-	// Holds the ID of the new collection chosen
-	// by the user
+	// Holds all the values that are input by the user (collection ID,
+	// the document that is to be inserted etc).
 	$scope.userValues = {
-		collectionId: ""
+		collectionId: "",
+		documentToBeInserted: {}
 	};
 
-	// ***********************************
-	// N G - H I D E   P R O P E R T I E S
-	// ***********************************
+	// Holds all the relevant information about the collection that
+	// is being displayed (its ID, properties, data, etc).
+	$scope.collection = {
+		collectionId: "",
+		properties: [],
+		data: []
+	};
+
+	// *******************************
+	// S T A R T - U P   A C T I O N S
+	// *******************************
+
+	/* 
+	 * On start-up, we'll need to fetch the data from our database
+	 * in order to populate $scope.collection. 
+	 * NOTE: the API endpoint we'll be calling will only bring
+	 * the name of the last added component's collection (so our $scope.collection
+	 * does not get messy).
+	 */
+	var lastCollectionPromise = DatabaseService.getLastCollection();
+
+	lastCollectionPromise.then(function(collection) {
+		$scope.collection.collectionId = collection.collectionId;
+		$scope.collection.properties = DatabaseService.sortProperties(collection.properties);
+
+		/*
+		 * Then, we'll need to fetch the documents for the last collection created.
+		 */
+		var getDocumentsPromise = DatabaseService.getDocuments($scope.collection.collectionId);
+
+		getDocumentsPromise
+			.then(function(result) {
+				/*
+				 * result looks like:
+				 *
+				 	[
+						{"<property-name1>": "<property-value1>", "<property-name2>": "<property-value2>"},
+						{"<property-name1>": "<property-value1>", "<property-name2>": "<property-value2>"},
+						{"<property-name1>": "<property-value1>", "<property-name2>": "<property-value2>"},
+				 	]
+				 *
+				 * Each one of the documents in the array has an id property. We need to remove it
+				 * from each document because $scope.collection.data does not expect IDs.
+				 */
+				result.forEach(function(doc) {
+					delete doc["id"];
+
+					// Add doc to $scope.collection.data
+					$scope.collection.data = DataService.pushDocument(doc);
+				});
+
+
+			}, function(err) {
+				alert('Error while trying to get documents');
+				alert(JSON.stringify(err));
+			});
+	}, function(err) {
+		alert('Error while trying to get collections');
+		alert(JSON.stringify(err));
+	});
+
+	// **********************************************************
+	// N G - H I D E   P R O P E R T I E S  A N D   M E T H O D S
+	// **********************************************************
 
 	/**
 	 * Use the controller to manipulate DOM elements is far from ideal.
@@ -39,10 +114,55 @@ angular.module('Editor.editors.controller', [])
 		$scope.collectionIdInput = true;
 	}
 
+	$scope.saveData = function() {
+		var promise = DatabaseService.insertNewDocument($scope.collection.collectionId, $scope.userValues.documentToBeInserted);
+
+		promise.then(function(result) {
+			window.location.reload(true);
+			// // If result does not have all the properties the document is intended
+			// // to have, we'll add a "***" string to these missing properties.
+			// for (var i = 0; i < $scope.collection.properties.length; i++) {
+			// 	if (!result.hasOwnProperty($scope.collection.properties[i].default_name)) {
+			// 		result[$scope.collection.properties[i].default_name] = "***";
+			// 	}
+			// }
+
+			// // Let's delete the id because the user does not have to know
+			// // that it's there. Nor must he be able to change it.
+			// delete result["id"];
+
+			// /*
+			//  * DataService.pushDocument sorts the given doc in alphabetical
+			//  * order and returns it.
+			//  * We'll save it into $scope.collection.data so our HTML can have
+			//  * access to it.
+			//  */
+			// $scope.collection.data = DataService.pushDocument(result);
+			
+			// Let's clean up the input fields
+			$scope.userValues.documentToBeInserted = {};
+		}, function(err) {
+			alert('SAVE DATA ERROR');
+			alert(JSON.stringify(err));
+		});
+	}
+
 	// Calls a function that hits an endpoint to change
 	// the collection's ID
 	$scope.saveNewCollectionId = function() {
-		changeCollectionId($scope.collection.collectionId, $scope.userValues.collectionId);
+		var promise = DatabaseService.changeCollectionId($scope.collection.collectionId, $scope.userValues.collectionId);
+
+		promise.then(function(result) {
+			// Save the new collection name in $scope.collection.collectionId
+			$scope.collection.collectionId = result.id;
+			$scope.collectionIdInput = false;
+
+			alert('SAVE NEW COLLECTION ID RESULT');
+			alert(JSON.stringify(result));
+		}, function(err) {
+			alert('SAVE NEW COLLECTION ID ERROR');
+			alert(JSON.stringify(err));
+		})
 	}
 
 	$scope.createNewColumn = function(){
@@ -50,7 +170,46 @@ angular.module('Editor.editors.controller', [])
 		// $scope.showCriar = false;
 	}
 
-	// ****************************************************************************************
+	$scope.saveNewColumn = function(){
+		
+		// Is not editing a database
+		if($scope.collection == undefined || $scope.collection.properties == undefined)
+			return;
+			
+		var addColumn = {
+			type: $scope.columnToAdd.type,
+			default_name: $scope.columnToAdd.label,
+			label: $scope.columnToAdd.type
+		};
+			
+		// Empty value
+		if(addColumn.type == undefined || addColumn.type == '' || addColumn.default_name == undefined || addColumn.default_name == '')
+			return;
+		
+		$scope.showSalvar = false;
+		$scope.columnToAdd = {type: ''};
+
+		var promise = DatabaseService.addNewColumn($scope.collection.collectionId, addColumn);
+
+		promise.then(function(result) {
+			if (typeof result.status !== 'undefined') {
+				/*
+				 * We'll only add the new column to $scope.collection in case
+				 * we manage to insert it into its collection's config.json.
+				 */
+				$scope.collection.properties.push(addColumn);
+			} else {
+				alert('The new column could not be added');
+			}
+		}, function(err) {
+			alert('There was an error while trying to add a new column');
+			alert(err);
+		});
+	}
+
+	// *****************************
+	// E V E N T   L I S T E N E R S
+	// ***************************** 
 
 	// message from the iframe
 	$window.addEventListener('message', function (event) {
@@ -93,7 +252,7 @@ angular.module('Editor.editors.controller', [])
 			 * clicked the Ok button), we'll create a new collection in the database.
 			 * In order to do that, we'll need $scope.componentData.
 			 */
-			var createCollectionPromise = createCollectionForComponent($scope.componentData)
+			var createCollectionPromise = DatabaseService.createCollectionForComponent($scope.componentData)
 
 			/*
 			 * When the API responds, result.data will look something like:
@@ -113,10 +272,74 @@ angular.module('Editor.editors.controller', [])
 			 * of the collection). So we'll need $scope.componentData.dataBlock.properties.
 			 */
 			createCollectionPromise.then(function(result) {
-				$scope.collection = {
-					collectionId: result.data.data.collectionId,
-					properties: $scope.componentData.blockData.properties
-				};
+				$scope.collection.collectionId = result.data.collectionId;
+				$scope.collection.properties = DatabaseService.sortProperties($scope.componentData.blockData.properties);
+
+				/*
+				 * Now that we have created a collection in the database, we can insert the
+				 * component's template onto the canvas so it can start fetching the documents
+				 * NOTE: if there's no document in the database for that collection, the canvas
+				 * will be blank. As soon as the user adds documents, it should refresh itself.
+				 */
+				var collectionEndpoint = 'http://localhost:3104/' + $scope.collection.collectionId;
+
+				var templatePromise = $http.get($scope.componentData.blockData.templateUrl);
+
+				templatePromise.then(function(result) {
+					var templateHtml = result.data;
+
+					/*
+					 * buildComponentTemplate is a function that transforms
+					 * the given template html in _.template() into a pure
+					 * html. That is, if there's a line in the templateHtml like:
+					 *
+					 	<div fab-source="<%= source %>">
+					 *
+					 * collectionEndpoint is "http://localhost:3104/gallery_7ayiuhskjd", and
+					 * we call buildComponentTemplate({
+									source: collectionEndpoint
+					 		   })
+					 * The resulting HTML will be as follows:
+					 *
+					 	 <div fab-source="http://localhost:3104/gallery_7ayiuhskjd">
+					 */
+					var buildComponentTemplate = _.template(templateHtml);
+
+					var pureHtml = buildComponentTemplate({
+						source: collectionEndpoint
+					});
+
+					/*
+					 * Now that we have the final HTML, we'll emit an event
+					 * so our socket server can notice we have new HTML to put
+					 * into our canvas.
+					 */
+					IO.emit('addElement', {
+						xPath: $scope.componentData.surfaceData.xPath,
+						fname: $scope.componentData.surfaceData.fname,
+						element: pureHtml
+					});
+				}, function(err) {
+					alert('Error while trying to get the component\'s HTML template');
+				});
+
+				// $http.get(componentData.templateUrl)
+				// 	.then(function (res) {
+				// 		// get the template from the response
+				// 		var componentTemplateFn = _.template(res.data);
+
+				// 		// compile the element to be added
+				// 		var finalHtml = componentTemplateFn({
+				// 			source: collectionEndpoint
+				// 		});
+
+				// 		IO.emit('addElement', {
+				// 			xPath: surfaceData.xPath,
+				// 			fname: surfaceData.fname,
+				// 			element: finalHtml,
+				// 		})
+
+				// 	})
 			}, function(err) {
 
 			});
@@ -154,118 +377,6 @@ angular.module('Editor.editors.controller', [])
 	    .then(function(answer) {
 			alert('You chose: "' + JSON.stringify(answer));
 	    });
-	}
-
-	// **********************************
-	// D A T A B A S E  F U N C T I O N S
-	// **********************************
-
-	/**
-	 * Takes the data from a component and creates a new collection
-	 * in the user's database.
-	 * The componentData looks like the following
-	 *
-		 {
-			"message": "addBlock",
-			"blockData": {
-				"category": "component",
-				"default_collection_name": "gallery",
-				"demoUrl": "<path-to>/demo.html",
-				"name": "Galeria Mista 1",
-				"placeholderUrl": "<path-to>/placeholder.html",
-				properties: [
-					{
-						"default_name": "image",
-						"label": "Image",
-						"type": "image"
-					},
-					{ ... }
-				],
-				tag: "",
-				templateUrl: "<path-to>/template.html"
-			},
-			"surfaceData": {
-				"fname": "www/index.html",
-				"xPath": "/html/body/ion-pane/ion-content"
-			}	
-		 }
-	 *
-	 */
-	function createCollectionForComponent(componentData) {
-		var deferred = $q.defer();
-
-		var collectionProperties = {};
-
-		componentData.blockData.properties.forEach(function (property) {
-			collectionProperties[property.default_name] = {
-				name: property.default_name,
-				type: property.type,
-				typeLabel: property.type,
-				required: false,
-				id: property.default_name
-			};
-		});		
-
-		/*
-		 * At this point, collectionProperties will look like:
-		 *
-			 {
-				"<property-name>": {
-					"name": "<property-name>",
-					"type": "<property-type>",
-					"typeLabel": "<property-type>",
-					"required": <boolean>,
-					"id": "<property-name>"
-				},
-				...
-			 }
-		 * Next step will be to make a HTTP POST request to create
-		 * the collection. And as soon as we get the result, we resolve
-		 * the promise we're returning at the bottom with the result.
-		 */
-		var httpPromise = $http.post('http://localhost:3103/resources', {
-			type: 'Collection',
-			id: componentData.blockData.default_collection_name,
-			properties: collectionProperties
-		});
-
-		httpPromise.then(function(result) {
-			deferred.resolve(result);
-		}, function(err) {
-			deferred.reject(err);
-		});
-
-		return deferred.promise;
-	}
-
-	/**
-	 * Changes the name (ID) of the given collection (from oldCollectionName to newCollectionName)
-	 */
-	function changeCollectionId(oldCollectionId, newCollectionId) {
-		var putData = {
-			"collections": {}
-		};
-
-		/*
-		 * putData will look like the following:
-		 *
-		 	{
-				"collections": {
-					"<old-collection-id>": "<new-collection-id>"
-				}		
-		 	}
-		 */
-		putData["collections"][oldCollectionId] = newCollectionId;
-
-		var httpPromise = $http.put('http://localhost:3103/resources', putData);
-
-		httpPromise.then(function(result) {
-			alert('Result');
-			alert(JSON.stringify(result));
-		}, function(err) {
-			alert('Error');
-			alert(JSON.stringify(err));
-		});
 	}
 
 	// *******************************************
@@ -327,6 +438,7 @@ angular.module('Editor.editors.controller', [])
 				})
 		});
 	}
+
 });
 
 function DialogController($scope, $mdDialog) {	
@@ -401,3 +513,134 @@ function DialogController($scope, $mdDialog) {
 // 		})
 
 // 	})
+
+// **********************************
+// // D A T A B A S E  F U N C T I O N S
+// // **********************************
+
+// /**
+//  * Takes the data from a component and creates a new collection
+//  * in the user's database.
+//  * The componentData looks like the following
+//  *
+// 	 {
+// 		"message": "addBlock",
+// 		"blockData": {
+// 			"category": "component",
+// 			"default_collection_name": "gallery",
+// 			"demoUrl": "<path-to>/demo.html",
+// 			"name": "Galeria Mista 1",
+// 			"placeholderUrl": "<path-to>/placeholder.html",
+// 			properties: [
+// 				{
+// 					"default_name": "image",
+// 					"label": "Image",
+// 					"type": "image"
+// 				},
+// 				{ ... }
+// 			],
+// 			tag: "",
+// 			templateUrl: "<path-to>/template.html"
+// 		},
+// 		"surfaceData": {
+// 			"fname": "www/index.html",
+// 			"xPath": "/html/body/ion-pane/ion-content"
+// 		}	
+// 	 }
+//  *
+//  */
+// function createCollectionForComponent(componentData) {
+// 	var deferred = $q.defer();
+
+// 	var collectionProperties = {};
+
+// 	componentData.blockData.properties.forEach(function (property) {
+// 		collectionProperties[property.default_name] = {
+// 			name: property.default_name,
+// 			type: property.type,
+// 			typeLabel: property.type,
+// 			required: false,
+// 			id: property.default_name
+// 		};
+// 	});		
+
+// 	/*
+// 	 * At this point, collectionProperties will look like:
+// 	 *
+// 		 {
+// 			"<property-name>": {
+// 				"name": "<property-name>",
+// 				"type": "<property-type>",
+// 				"typeLabel": "<property-type>",
+// 				"required": <boolean>,
+// 				"id": "<property-name>"
+// 			},
+// 			...
+// 		 }
+// 	 * Next step will be to make a HTTP POST request to create
+// 	 * the collection. And as soon as we get the result, we resolve
+// 	 * the promise we're returning at the bottom with the result.
+// 	 */
+// 	var httpPromise = $http.post('http://localhost:3103/resources', {
+// 		type: 'Collection',
+// 		id: componentData.blockData.default_collection_name,
+// 		properties: collectionProperties
+// 	});
+
+// 	httpPromise.then(function(result) {
+// 		deferred.resolve(result);
+// 	}, function(err) {
+// 		deferred.reject(err);
+// 	});
+
+// 	return deferred.promise;
+// }
+
+// /**
+//  * Changes the name (ID) of the given collection (from oldCollectionName to newCollectionName)
+//  */
+// function changeCollectionId(oldCollectionId, newCollectionId) {
+// 	var httpPromise = $http.get('http://localhost:3103/' + oldCollectionId + '/config');
+
+// 	httpPromise.then(function(result) {
+// 		var putData = result.data.data;
+// 		putData.id = newCollectionId;
+
+// 		var req = {
+// 			method: 'PUT',
+// 			url: 'http://localhost:3104/__resources/' + oldCollectionId,
+// 			headers: {
+// 				'Content-Type': 'application/json',
+// 				'dpd-ssh-key': '98asuhjnd'
+// 			},
+// 			data: putData
+// 		};
+
+// 		$http(req)
+// 			.then(function(result) {
+// 				$scope.collection.collectionId = newCollectionId;
+// 				$scope.collectionIdInput = false;
+// 			}, function(err) {
+// 				alert('Error DATA RETURN');
+// 				alert(JSON.stringify(err));		
+// 			});
+// 	}, function(err) {
+// 		alert('Error');
+// 		alert(JSON.stringify(err));
+// 	});
+// }
+
+// function insertNewDocument() {
+// 	alert($scope.collection.collectionId);
+// 	alert(JSON.stringify($scope.userValues.documentToBeInserted))
+// 	alert('http://localhost:3103/' + $scope.collection.collectionId);
+
+// 	$http.post('http://localhost:3104/' + $scope.collection.collectionId, $scope.userValues.documentToBeInserted)
+// 		.then(function(result) {
+// 			alert('Result');
+// 			alert(JSON.stringify(result));
+// 		}, function(err) {
+// 			alert('Error');
+// 			alert(JSON.stringify(err));
+// 		});
+// }

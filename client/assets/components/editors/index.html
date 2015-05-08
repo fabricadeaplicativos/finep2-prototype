@@ -58,51 +58,35 @@
 							<input type="text" disabled placeholder="{{property.type}}" class="form-control">
 						</th>
 
-						<th id="lhNewColumnEdit">
-							<input type="text" class="form-control" id="" placeholder="nome da coluna">
-							<select class="form-control">
-								<option value="">tipo</option>
-								<option value="1">texto</option>
-								<option value="2">imagem</option>
-								<option value="3">número</option>
-								<option value="4">boolean</option>
-								<option value="5">data</option>
-								<option value="6">localização</option>
+						<th id="lhNewColumnEdit" ng-show="showSalvar">
+							<input type="text" class="form-control" id="" placeholder="nome da coluna" ng-model="columnToAdd.label">
+							<select class="form-control" ng-model="columnToAdd.type" ng-options="t.value as t.label for t in types">
 							</select>
 						</th>
 						<th>
 							<!--  <md-button class="md-raised">+ adicionar</md-button> -->
 							<button type="button" ng-show="!showSalvar" class="btn btn-primary" ng-click="createNewColumn()">+ coluna</button>
-							<button type="button" ng-show="showSalvar" class="btn btn-primary" >salvar</button>
+							<button type="button" ng-show="showSalvar" class="btn btn-primary" ng-click="saveNewColumn()" >salvar</button>
 						</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>conteudo</td>
-						<td>conteudo</td>
-						<td>conteudo</td>
-						<td>conteudo</td>
+					<!-- L I S T A G E M   D E   C O N T E U D O -->
+					<tr ng-repeat="document in collection.data">
+						<td ng-repeat="property in document">{{property}}</td>
 						<td><button type="button" class="btn btn-primary">editar</button></td>
 					</tr>
+
+					<!-- Table row for inserting a new document into the underlying collection -->
 					<tr>
-						<td><input type="text" class="form-control" placeholder="Text input"></td>
-						<td><input type="text" class="form-control" placeholder="Text input"></td>
-						<td><input type="text" class="form-control" placeholder="Text input"></td>
-						<td><input type="text" class="form-control" placeholder="Text input"></td>
+						<td ng-repeat="property in collection.properties">
+							<input ng-model="userValues.documentToBeInserted[property.default_name]" type="text" class="form-control" placeholder="{{property.default_name}}">
+						</td>
+
 						<td>
 							<div class="btn-group" role="group" aria-label="">
-							<button type="button" class="btn btn-primary">salvar</button>
-							<button type="button" class="btn btn-primary">excluir</button>
+								<button ng-click="saveData()" type="button" class="btn btn-primary">salvar</button>
 							</div>
-						</td>
-					</tr>
-					
-					<tr>
-						<td colspan="5">
-						<button type="button" class="btn btn-primary">+ conteúdo</button>
-						
-						 <!-- <md-button class="md-raised">Button</md-button> -->
 						</td>
 					</tr>
 				</tbody>
