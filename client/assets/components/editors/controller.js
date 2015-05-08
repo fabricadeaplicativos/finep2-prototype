@@ -40,6 +40,59 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 		data: []
 	};
 
+	// *******************************
+	// S T A R T - U P   A C T I O N S
+	// *******************************
+
+	/* 
+	 * On start-up, we'll need to fetch the data from our database
+	 * in order to populate $scope.collection. 
+	 * NOTE: the API endpoint we'll be calling will only bring
+	 * the name of the last added component's collection (so our $scope.collection
+	 * does not get messy).
+	 */
+	var lastCollectionPromise = DatabaseService.getLastCollection();
+
+	lastCollectionPromise.then(function(collection) {
+		$scope.collection.collectionId = collection.collectionId;
+		$scope.collection.properties = DatabaseService.sortProperties(collection.properties);
+
+		/*
+		 * Then, we'll need to fetch the documents for the last collection created.
+		 */
+		var getDocumentsPromise = DatabaseService.getDocuments($scope.collection.collectionId);
+
+		getDocumentsPromise
+			.then(function(result) {
+				/*
+				 * result looks like:
+				 *
+				 	[
+						{"<property-name1>": "<property-value1>", "<property-name2>": "<property-value2>"},
+						{"<property-name1>": "<property-value1>", "<property-name2>": "<property-value2>"},
+						{"<property-name1>": "<property-value1>", "<property-name2>": "<property-value2>"},
+				 	]
+				 *
+				 * Each one of the documents in the array has an id property. We need to remove it
+				 * from each document because $scope.collection.data does not expect IDs.
+				 */
+				result.forEach(function(doc) {
+					delete doc["id"];
+
+					// Add doc to $scope.collection.data
+					$scope.collection.data = DataService.pushDocument(doc);
+				});
+
+
+			}, function(err) {
+				alert('Error while trying to get documents');
+				alert(JSON.stringify(err));
+			});
+	}, function(err) {
+		alert('Error while trying to get collections');
+		alert(JSON.stringify(err));
+	});
+
 	// **********************************************************
 	// N G - H I D E   P R O P E R T I E S  A N D   M E T H O D S
 	// **********************************************************

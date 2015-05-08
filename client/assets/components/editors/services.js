@@ -180,6 +180,110 @@ angular.module('Editor.editors.services', [])
 			return deferred.promise;
 		}
 
+		/*
+		 * Gets the last collection created by the user.
+		 * This will be needed to fill out the database tab.
+		 */ 
+		databaseService.getLastCollection = function() {
+			var deferred = $q.defer();
+
+			var getData = {
+				method: 'GET',
+				url: 'http://localhost:3103/resources',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			};
+
+			/*
+			 * Firstly, we get all the collections created by the user and
+			 * use only the last one.
+			 */
+			$http(getData)
+				.then(function(result) {
+					var collectionId = result.data.data[0];
+
+					/*
+					 * Now that we have the last collection created, we'll get its
+					 * configuration in order to resolve the pending promise.
+					 */
+					$http.get('http://localhost:3103/' + collectionId + '/config')
+						.then(function(result) {
+							var config = result.data.data;
+							var collection = {
+								collectionId: collectionId,
+								properties: []
+							};
+
+							/*
+							 * config looks like the following:
+							 *
+								 {
+									"type": "Collection",
+									"properties": {
+										"<property-name>": {
+											"name": "<property-name>",
+											"type": "<property-type>",
+											"typeLabel": "<property-type>",
+											"required": <boolean>,
+											"id": "<property-name>"
+										}
+									}
+								 }
+							 *
+							 * But "properties" cannot be like that in $scope.collection.
+							 * It needs to be something like:
+							 *
+							 	{
+									"properties": [
+										{
+											"default_name": "<property-name>", 
+											"type": "<property-type>",
+											"label": "<property-type>"
+										}
+									]
+							 	}
+							 */
+							for (var property in config.properties) {
+								var finalProperty = {
+									default_name: config.properties[property].name,
+									type: config.properties[property].type,
+									label: config.properties[property].type
+								};
+
+								collection.properties.push(finalProperty);
+							}
+
+							deferred.resolve(collection);
+						}, function(err) {
+							alert('ERROR GET CONFIG JSON FILE');
+							alert(JSON.stringify(err));
+
+							deferred.reject(err);
+						});
+				}, function(err) {
+					alert('GET RESULT ERROR 123');
+					alert(JSON.stringify(err));
+
+					deferred.reject(err);
+				});
+
+			return deferred.promise;
+		}
+
+		databaseService.getDocuments = function(collectionId) {
+			var deferred = $q.defer();
+
+			$http.get('http://localhost:3104/' + collectionId)
+				.then(function(result) {
+					deferred.resolve(result.data);
+				}, function(err) {
+					deferred.reject(err);
+				});
+
+			return deferred.promise;
+		}
+
 		return databaseService;
 	}
 ])
