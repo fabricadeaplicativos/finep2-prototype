@@ -44,8 +44,17 @@
 					<tr>
 						
 						<!-- L I S T A G E M   D E   P R O P R I E D A D E S -->
-						<th ng-repeat="property in collection.properties">
-							{{property.default_name}}
+						<th class="col-edition" ng-repeat="property in collection.properties">
+							<ul class="prop">
+								<li class="prop-nome">{{property.default_name}}</li>
+								<li class="drop"><i class="fa fa-plus-circle"></i>
+									<ul>
+										<li class="options">Excluir coluna</li>
+										<li class="options">Editar</li>
+									</ul>
+								</li>
+							</ul>
+
 							<input type="text" disabled placeholder="{{property.type}}" class="form-control">
 						</th>
 

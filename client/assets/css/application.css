@@ -8112,3 +8112,55 @@ input[type="button"].btn-block {
   width: 100%;
   border: none;
 }
+.col-edition {
+  width: 100%;
+}
+.col-edition ul,
+.col-edition li {
+  text-decoration: none;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.prop li {
+  display: inline-block;
+  font-size: 14px;
+}
+.prop i {
+  font-size: 12px;
+  padding-left: 2px;
+  color: #337ab7;
+  cursor: pointer;
+}
+.prop i:hover {
+  color: #9fc4e4;
+}
+.drop {
+  position: relative;
+}
+.drop ul {
+  background-color: #ffffff;
+  position: absolute;
+  left: 1.2em;
+  top: 0;
+  transition: all 0.3s ease;
+  transform: scale(0);
+  transform-origin: 0 0;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 8px 0 rgba(0, 0, 0, 0.12);
+}
+.drop ul .options {
+  font-size: 12px;
+  display: block;
+  width: 100%;
+  padding: 0.5em 16px;
+  display: inline-block;
+  white-space: pre;
+  box-sizing: border-box;
+}
+.drop ul .options:hover {
+  background: #ebebeb;
+}
+.drop:hover ul {
+  transform: scale(1);
+  z-index: 10;
+}
