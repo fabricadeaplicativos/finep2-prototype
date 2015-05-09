@@ -118,31 +118,33 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 		var promise = DatabaseService.insertNewDocument($scope.collection.collectionId, $scope.userValues.documentToBeInserted);
 
 		promise.then(function(result) {
-			window.location.reload(true);
-			// // If result does not have all the properties the document is intended
-			// // to have, we'll add a "***" string to these missing properties.
-			// for (var i = 0; i < $scope.collection.properties.length; i++) {
-			// 	if (!result.hasOwnProperty($scope.collection.properties[i].default_name)) {
-			// 		result[$scope.collection.properties[i].default_name] = "***";
-			// 	}
-			// }
+			// Reloads the canvas iframe
+			window.frames[0].location.reload();
 
-			// // Let's delete the id because the user does not have to know
-			// // that it's there. Nor must he be able to change it.
-			// delete result["id"];
+			// If result does not have all the properties the document is intended
+			// to have, we'll add a "***" string to these missing properties.
+			for (var i = 0; i < $scope.collection.properties.length; i++) {
+				if (!result.hasOwnProperty($scope.collection.properties[i].default_name)) {
+					result[$scope.collection.properties[i].default_name] = "***";
+				}
+			}
 
-			// /*
-			//  * DataService.pushDocument sorts the given doc in alphabetical
-			//  * order and returns it.
-			//  * We'll save it into $scope.collection.data so our HTML can have
-			//  * access to it.
-			//  */
-			// $scope.collection.data = DataService.pushDocument(result);
+			// Let's delete the id because the user does not have to know
+			// that it's there. Nor must he be able to change it.
+			delete result["id"];
+
+			/*
+			 * DataService.pushDocument sorts the given doc in alphabetical
+			 * order and returns it.
+			 * We'll save it into $scope.collection.data so our HTML can have
+			 * access to it.
+			 */
+			$scope.collection.data = DataService.pushDocument(result);
 			
 			// Let's clean up the input fields
 			$scope.userValues.documentToBeInserted = {};
 		}, function(err) {
-			alert('SAVE DATA ERROR');
+			alert('Error while trying to save the inserted document');
 			alert(JSON.stringify(err));
 		});
 	}

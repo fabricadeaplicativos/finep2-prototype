@@ -53,7 +53,7 @@ gulp.task('serve', function() {
   ];
 
   // watch for reload changes
-  gulp.watch(canvasFiles.concat(paletteFiles).concat(editorFiles), {cwd: './'}, reload);
+  gulp.watch(paletteFiles.concat(editorFiles), {cwd: './'}, reload);
 });
 
 
