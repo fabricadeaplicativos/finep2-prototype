@@ -6,14 +6,14 @@
 		md-selected="editorTabIndex"
 	>
 	
-		<!-- B A N C O   D E   D A D O S -->
+		<!-- D A T A B A S E -->
 
 		<md-tab label="banco de dados">
 			<md-content class="md-padding">
 			<table class="table">
 				<tr class="tableName">
 					
-					<!-- N O M E   D A   T A B E L A -->
+					<!-- T A B L E ' S   N A M E -->
 					<div class="form-group">
 						<label>nome da tabela:</label>
 							
@@ -43,7 +43,7 @@
 				<thead>
 					<tr>
 						
-						<!-- L I S T A G E M   D E   P R O P R I E D A D E S -->
+						<!-- P R O P E R T I E S   L I S T I N G -->
 						<th class="col-edition" ng-repeat="property in collection.properties | orderBy: 'order'">
 							<ul class="prop">
 								<li class="prop-nome">{{property.default_name}}</li>
@@ -72,17 +72,23 @@
 				</thead>
 				<tbody>
 
-					<!-- L I S T A G E M   D E   C O N T E U D O -->
+					<!-- C O N T E N T   L I S T I N G -->
 					<tr ng-repeat="document in collection.data">
 						<td ng-repeat="property in document" ng-if="property.property_name != 'id'">
-							{{property.property_value}}
+
+							<!-- We do not want to list the entire property's value because sometimes
+							it can be too long (50 characters or more). So, in order to keep the
+							value's width short, we need to limit it to up to 30 characters.
+							The line below  -->
+							{{property.property_value | limitTo:30}}
+							<span ng-if="property.property_value.length > 30">...</span>
 						</td>
 						<td><button type="button" class="btn btn-primary">editar</button></td>
 					</tr>
 
-					<!-- Table row for inserting a new document into the underlying collection -->
+					<!-- C O N T E N T   I N S E R T I O N -->
 					<tr>
-						<td ng-repeat="property in collection.properties">
+						<td ng-repeat="property in collection.properties | orderBy: 'order'">
 							<input ng-model="userValues.documentToBeInserted[property.default_name]" type="text" class="form-control" placeholder="{{property.default_name}}">
 						</td>
 
