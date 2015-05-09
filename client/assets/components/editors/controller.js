@@ -77,12 +77,11 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 				 * from each document because $scope.collection.data does not expect IDs.
 				 */
 				result.forEach(function(doc) {
-					delete doc["id"];
+					// delete doc["id"];
 
 					// Add doc to $scope.collection.data
-					$scope.collection.data = DataService.pushDocument(doc);
+					$scope.collection.data = DataService.pushDocument(doc, $scope.collection.properties);
 				});
-
 
 			}, function(err) {
 				alert('Error while trying to get documents');
@@ -131,7 +130,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 
 			// Let's delete the id because the user does not have to know
 			// that it's there. Nor must he be able to change it.
-			delete result["id"];
+			// delete result["id"];
 
 			/*
 			 * DataService.pushDocument sorts the given doc in alphabetical

@@ -248,7 +248,8 @@ angular.module('Editor.editors.services', [])
 								var finalProperty = {
 									default_name: config.properties[property].name,
 									type: config.properties[property].type,
-									label: config.properties[property].type
+									label: config.properties[property].type,
+									order: config.properties[property].order
 								};
 
 								collection.properties.push(finalProperty);
@@ -292,7 +293,7 @@ angular.module('Editor.editors.services', [])
 	var dataService = {};
 	var data = [];
 
-	dataService.pushDocument = function(doc) {
+	dataService.pushDocument = function(doc, properties) {
 		/*
 		 * Firstly, we'll need to sort the incoming doc's properties
 		 * in alphabetical order. To do that, we'll iterate through
@@ -305,27 +306,91 @@ angular.module('Editor.editors.services', [])
 			sortedProperties.push(property);
 		}
 
-		sortedProperties.sort();
+		/*
+		 * properties looks like the following:
+		 *
+		 	[
+				{
+					default_name: "...",
+					type: "...",
+					label: "...",
+					order: <Number>
+				},
+				{ ... }
+		 	]
+		 *
+		 * Since we want to order the properties, we'll use
+		 * the order key in the properties variable. This order key
+		 * is the one used in the config.json file of each collection
+		 * and is used for telling deployd the order of the properties.
+		 */ 
+		sortedProperties.sort(function(x, y) {
+			var orderX = 0;
+			var orderY = 1;
+
+			properties.forEach(function(el) {
+				if (el.default_name === x) {
+					orderX = el.order;
+				} else if (el.default_name === y) {
+					orderY = el.order;
+				}
+			});
+
+			if (orderX < orderY)
+				return -1;
+			else if (orderX > orderY)
+				return 1;
+
+			return 0;
+		});
 
 		/*
 		 * Now, we'll iterate through sortedProperties and will
 		 * add the properties to the data array following this schema:
 		 *
 		 	data = [
-				[<property-A>, <property-B>, <property-C>, ...],
-				[<property-A>, <property-B>, <property-C>, ...],
-				[<property-A>, <property-B>, <property-C>, ...]
-		 	]
+				[{"property_nameA": "<name>", "property_valueB": "<value>"}, ...],
+				[{"property_nameA": "<name>", "property_valueB": "<value>"}, ...],
+				[{"property_nameA": "<name>", "property_valueB": "<value>"}, ...],
+			]
+		 * 
+		 * Each element of data is a document (a row in the table). Each
+		 * element of a document is a property of this document. Note that
+		 * instead of just using the schema:
+		 *
+		 	[<value>, <value>, <value>, <value>, ...]
+		 *
+		 * The following schema was used:
+		 *
+		 	[{"property_name": "<name>", "property_value": "<value>"}, ...]
+		 *
+		 * But why? When the user clicks the button "edit" in a row, we'll
+		 * allow her to change the values of a document. As soon as she clicks
+		 * "save" how we'll we know the "id" of that document so we can find
+		 * it in our database? That's why the data property has not just the
+		 * values but the name of the properties. And that's not the only reason
+		 * we should do that. The other reason is: in the table we do not
+		 * want to show the document's ID to the user. Why? Because she does not
+		 * need to know what the hell are those crazy numbers and letters! And
+		 * to do that, we should hide it right? How are you going to know what's
+		 * an "id" if you don't know the property's name, just its value?
+		 * That's why we need "property_name", in order to know where is the damn
+		 * "id" so we can hide it.
 		 * 
 		 * The topmost element in the data array is the first document the user
 		 * inserted. The bottommost element is the latest document the user inserted.
-		 * Within each element, we'll have an array where we guarantee that, alphabetically, 
-		 * property-A < property-B < property-C.
+		 * Within each document, we'll have an array where we guarantee that
+		 * property_nameA's order is less than property_nameB's order (this "order"
+		 * is the order key that each property has in the config.json file).
 		 */ 
 		var arrayToBeInserted = [];
 
 		for (var i = 0; i < sortedProperties.length; i++) { 
-			arrayToBeInserted.push(doc[sortedProperties[i]]);
+			var obj = {};
+			obj["property_name"] = sortedProperties[i];
+			obj["property_value"] = doc[sortedProperties[i]];
+
+			arrayToBeInserted.push(obj);
 		}
 
 		// Push the built array into data

@@ -2,7 +2,16 @@
 <head>
 	<title>:)</title>
 
+	<!--
+	Looks like this version of the socket.io client makes io unavailable (I used to get
+	io is not defined even starting the IO service with 5 seconds of delay.)
+	Using "http://cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js" seems
+	to fix the problem.
+	
 	<script type="text/javascript" src="bower_components/socket.io-client/socket.io.js"></script>
+
+	-->
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
 
 	<script type="text/javascript" src="bower_components/lodash/lodash.js"></script>
 
@@ -28,7 +37,6 @@
 	<script src="assets/application.js"></script>
 	<script src="assets/components/editors/services.js"></script>
 	<script src="assets/components/editors/controller.js"></script>
-
 </head>
 <body layout="column" ng-controller="AppCtrl" >
 

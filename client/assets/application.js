@@ -6,9 +6,6 @@ var app = angular.module('Editor', [
 
 app.controller('AppCtrl', function($scope, $mdSidenav, $mdDialog){
 
-	$scope.falaroi = function() {
-		alert('Oi luciana');
-	}
 	$scope.toggleSidenav = function(menuId) {
 		$mdSidenav(menuId).toggle();
 	};
@@ -76,7 +73,7 @@ app.controller('AppCtrl', function($scope, $mdSidenav, $mdDialog){
 
 
 // 
-.service('IO', function($window){
+.service('IO', function($window) {
   // get port of the socketServer
   var socketServerPort = $window.socketServerPort || 3102;
 

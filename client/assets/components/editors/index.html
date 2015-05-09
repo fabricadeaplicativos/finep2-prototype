@@ -44,7 +44,7 @@
 					<tr>
 						
 						<!-- L I S T A G E M   D E   P R O P R I E D A D E S -->
-						<th class="col-edition" ng-repeat="property in collection.properties">
+						<th class="col-edition" ng-repeat="property in collection.properties | orderBy: 'order'">
 							<ul class="prop">
 								<li class="prop-nome">{{property.default_name}}</li>
 								<li class="drop"><i class="fa fa-plus-circle"></i>
@@ -71,9 +71,12 @@
 					</tr>
 				</thead>
 				<tbody>
+
 					<!-- L I S T A G E M   D E   C O N T E U D O -->
 					<tr ng-repeat="document in collection.data">
-						<td ng-repeat="property in document">{{property}}</td>
+						<td ng-repeat="property in document" ng-if="property.property_name != 'id'">
+							{{property.property_value}}
+						</td>
 						<td><button type="button" class="btn btn-primary">editar</button></td>
 					</tr>
 
