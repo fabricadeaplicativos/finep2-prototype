@@ -191,8 +191,6 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 		var promise = DatabaseService.insertNewDocument($scope.collection.collectionId, doc);
 
 		promise.then(function(result) {
-			alert(JSON.stringify(result));
-
 			// Reloads the canvas iframe
 			window.frames[0].location.reload();
 
@@ -301,6 +299,57 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 
 	$scope.shouldBeShown = function(docIndex) {
 		return docIndex === $scope.documentIndexToBeEdited;
+	}
+
+	$scope.removeProperty = function(propertyToBeRemoved) {
+		console.log(JSON.stringify($scope.collection.properties));
+
+		var removePropertyPromise = DatabaseService.removePropertyFromCollection($scope.collection.collectionId, propertyToBeRemoved.default_name);
+
+		removePropertyPromise
+			.then(function() {
+				/*
+				 * When removing a property, we need to do two things:
+				 *
+				 * 1 - remove the property from each array inside $scope.collection.data
+				 * 2 - remove the object of that property in $scope.collection.properties.
+				 */
+				var data = $scope.collection.data;
+
+				// 1
+				for (var i = 0; i < data.length; i++) {
+					for (var j = 0; j < data[i].length; j++) {
+						if (data[i][j].property_name === propertyToBeRemoved.default_name) {
+							// Now that we located the property to be removed, we'll just remove
+							// it from data
+							data[i].splice(j, 1);
+						}
+					}
+				}
+
+				var properties = $scope.collection.properties;
+
+				// 2
+				for (var i = 0; i < properties.length; i++) {
+					var propertyObject = properties[i];
+
+					if (propertyObject.default_name === propertyToBeRemoved.default_name) {
+						properties.splice(i, 1);
+					}
+				}
+
+				// Data has got the updated list of properties. We still need to assign it
+				// back to $scope.collection.data
+				$scope.collection.data = data;
+
+				// Same goes to $scope.collection.properties
+				$scope.collection.properties = properties;
+
+				console.log(JSON.stringify($scope.collection.properties));
+			}, function(err) {
+				alert('REMOVE COLUMN ERROR');
+				alert(JSON.stringify(err));
+			});
 	}
 
 	// *****************************

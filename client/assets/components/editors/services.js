@@ -248,7 +248,7 @@ angular.module('Editor.editors.services', [])
 								var finalProperty = {
 									default_name: config.properties[property].name,
 									type: config.properties[property].type,
-									label: config.properties[property].type,
+									label: config.properties[property].name,
 									order: config.properties[property].order
 								};
 
@@ -279,6 +279,43 @@ angular.module('Editor.editors.services', [])
 			return deferred.promise;
 		}
 
+		databaseService.removePropertyFromCollection = function(collectionId, property_name) {
+			var deferred = $q.defer();
+
+			var httpPromise = $http.get('http://localhost:3103/' + collectionId + '/config');
+
+			httpPromise.then(function(result) {
+				var config = result.data.data;
+
+				// Delete property from the config object.
+				delete config.properties[property_name];
+
+				var putData = {};
+				putData.properties = config.properties;
+
+				var req = {
+					method: 'PUT',
+					url: 'http://localhost:3104/__resources/' + collectionId,
+					headers: {
+						'Content-Type': 'application/json',
+						'dpd-ssh-key': '98asuhjnd'
+					},
+					data: putData
+				};
+
+				$http(req)
+					.then(function(result) {
+						deferred.resolve();
+					}, function(err) {
+						deferred.reject(err);
+					});
+			}, function(err) {
+				deferred.reject(err);
+			});
+
+			return deferred.promise;
+		}
+
 		return databaseService;
 	}
 ])
@@ -286,6 +323,29 @@ angular.module('Editor.editors.services', [])
 .factory('DataService', function() {
 	var dataService = {};
 	var data = [];
+
+	/*
+	 * Find the ID of the given doc.
+	 * Here's an example of what doc should look like:
+	 *
+	 	[
+			{"<property_name>": "<property_value>"},
+			{"<property_name>": "<property_value>"},
+			{"<property_name>": "<property_value>"},
+			{...}
+	 	]
+	 */
+	var findDocumentId = function(doc) {
+		var documentId = undefined;
+
+		doc.forEach(function(property) {
+			if (property.property_name === "id") {
+				documentId = property.property_value;
+			}
+		});
+
+		return documentId;
+	}
 
 	dataService.pushDocument = function(doc, properties) {
 		/*
@@ -343,9 +403,9 @@ angular.module('Editor.editors.services', [])
 		 * add the properties to the data array following this schema:
 		 *
 		 	data = [
-				[{"property_nameA": "<value>", "property_valueB": "<value>"}, ...],
-				[{"property_nameA": "<value>", "property_valueB": "<value>"}, ...],
-				[{"property_nameA": "<value>", "property_valueB": "<value>"}, ...],
+				[{"property_nameA": "<name>", "property_valueB": "<value>"}, ...],
+				[{"property_nameA": "<name>", "property_valueB": "<value>"}, ...],
+				[{"property_nameA": "<name>", "property_valueB": "<value>"}, ...],
 			]
 		 * 
 		 * Each element of data is a document (a row in the table). Each
@@ -387,8 +447,42 @@ angular.module('Editor.editors.services', [])
 			arrayToBeInserted.push(obj);
 		}
 
-		// Push the built array into data
-		data.push(arrayToBeInserted);
+		/*
+		 * Before we move on, there is a possibility the the incoming doc might already
+		 * exist in data. If that's the case we won't be pushing arrayToBeInserted. we'll
+		 * firstly need to find out the index at which the document to be replaced is, and then
+		 * use this index to replace it with arrayToBeInserted.
+		 * If at the end of the iteration documentToBeReplacedIndex is -1, it means the incoming doc
+		 * should not be replaced.
+		 */
+		var documentToBeReplacedIndex = -1;
+
+		/*
+		 * The replace algorithm will work like the following:
+		 *
+		 * For each document in data, we'll:
+		 *
+		 * 1 - Get the current document's ID
+		 * 2 - Compare it with the incoming doc's ID
+		 * 3 - If they're equal, we'll assign the variable i to documentToBeReplacedIndex
+		 */
+		for (var i = 0; i < data.length; i++) {
+			var currentDocumentId = findDocumentId(data[i]);
+
+			if (currentDocumentId === doc.id) {
+				documentToBeReplacedIndex = i;
+			}
+		}
+
+		// Now, we'll just replace a document with the incoming one
+		// if documentToBeReplacedIndex is not -1.
+		if (documentToBeReplacedIndex != -1) {
+			// replace document
+			data[documentToBeReplacedIndex] = arrayToBeInserted;
+		} else {
+			// Push the built array into data
+			data.push(arrayToBeInserted);
+		}
 
 		return data;
 	}
