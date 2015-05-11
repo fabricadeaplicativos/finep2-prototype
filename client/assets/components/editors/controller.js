@@ -2,9 +2,9 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 
 .controller('EditorsCtrl', function ($scope, $window, $mdDialog, $http, IO, $q, DatabaseService, DataService) {
 
-	// **********************************************
-	// S C O P E   P R O P E R T I E S  ( S T A R T )
-	// **********************************************
+	// ***************************************************
+	// S C O P E   P R O P E R T I E S  ( S T A R T - U P)
+	// ***************************************************
 
 	// Indicates which tab will be shown (0 from left to right)
 	$scope.editorTabIndex = 0;
@@ -192,7 +192,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 
 		promise.then(function(result) {
 			// Reloads the canvas iframe
-			window.frames[0].location.reload();
+			$window.frames[0].location.reload();
 
 			// If result does not have all the properties the document is intended
 			// to have, we'll add a "***" string to these missing properties.
@@ -299,6 +299,25 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 
 	$scope.shouldBeShown = function(docIndex) {
 		return docIndex === $scope.documentIndexToBeEdited;
+	}
+
+	/*
+	 * Removes the document located at the given index of $scope.collection.data
+	 */
+	$scope.removeDocument = function(documentIndex) {
+		var removeDocPromise = DatabaseService.removeDocumentFromCollection(documentIndex, $scope.collection.collectionId, $scope.collection.data);
+
+		removeDocPromise
+			.then(function() {
+				// First we reload the iframe
+				$window.frames[0].location.reload();
+
+				// Then, we remove the document from $scope.collection.data
+				// so the database tab can have the changes as well.
+				$scope.collection.data.splice(documentIndex, 1);
+			}, function(err) {
+				alert(JSON.stringify(err));
+			});
 	}
 
 	$scope.removeProperty = function(propertyToBeRemoved) {

@@ -110,6 +110,9 @@
 						-->
 						<td ng-hide="shouldBeShown(documentIndex)">
 							<button type="button" class="btn btn-primary" ng-click="editContent(documentIndex)">editar</button>
+							<button type="button" class="btn btn-danger" ng-click="removeDocument(documentIndex)">
+								<i class="fa fa-trash-o"></i>
+							</button>
 						</td>
 
 						<td ng-show="shouldBeShown(documentIndex)">

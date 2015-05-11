@@ -316,6 +316,39 @@ angular.module('Editor.editors.services', [])
 			return deferred.promise;
 		}
 
+		databaseService.removeDocumentFromCollection = function(documentIndex, collectionId, data) {
+			var deferred = $q.defer();
+
+			var documentId = undefined;
+
+			// This for loop gets the ID of the document to be removed
+			for (var i = 0; i < data[documentIndex].length; i++) {
+				var obj = data[documentIndex][i];
+
+				if (obj.property_name === "id") {
+					documentId = obj.property_value;
+				}
+			}
+
+			var req = {
+				method: 'DELETE',
+				url: 'http://localhost:3104/' + collectionId + '/' + documentId,
+				headers: {
+					'Content-Type': 'application/json',
+					'dpd-ssh-key': '98asuhjnd'
+				}
+			};
+
+			$http(req)
+				.then(function(result) {
+					deferred.resolve();
+				}, function(err) {
+					deferred.reject(err);
+				});
+
+			return deferred.promise;
+		}
+
 		return databaseService;
 	}
 ])
