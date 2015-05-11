@@ -305,19 +305,23 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 	 * Removes the document located at the given index of $scope.collection.data
 	 */
 	$scope.removeDocument = function(documentIndex) {
-		var removeDocPromise = DatabaseService.removeDocumentFromCollection(documentIndex, $scope.collection.collectionId, $scope.collection.data);
+		var showConfirmDialogPromise = $scope.showDeleteDocumentConfirmDialog();
 
-		removeDocPromise
-			.then(function() {
-				// First we reload the iframe
-				$window.frames[0].location.reload();
+		showConfirmDialogPromise.then(function() {
+			var removeDocPromise = DatabaseService.removeDocumentFromCollection(documentIndex, $scope.collection.collectionId, $scope.collection.data);
 
-				// Then, we remove the document from $scope.collection.data
-				// so the database tab can have the changes as well.
-				$scope.collection.data.splice(documentIndex, 1);
-			}, function(err) {
-				alert(JSON.stringify(err));
-			});
+			removeDocPromise
+				.then(function() {
+					// First we reload the iframe
+					$window.frames[0].location.reload();
+
+					// Then, we remove the document from $scope.collection.data
+					// so the database tab can have the changes as well.
+					$scope.collection.data.splice(documentIndex, 1);
+				}, function(err) {
+					alert(JSON.stringify(err));
+				});
+		});
 	}
 
 	$scope.removeProperty = function(propertyToBeRemoved) {
@@ -541,6 +545,27 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 	    .then(function(answer) {
 			alert('You chose: "' + JSON.stringify(answer));
 	    });
+	}
+
+	$scope.showDeleteDocumentConfirmDialog = function() {
+		var deferred = $q.defer();
+
+		var confirm = $mdDialog.confirm()
+				      .parent(angular.element(document.body))
+				      .title('Gostaria de deletar este item da galeria?')
+				      .content('Essa operação não poderá ser desfeita.')
+				      .ariaLabel('Lucky day')
+				      .ok('Sim')
+				      .cancel('Não');
+
+		$mdDialog.show(confirm)
+			.then(function() {
+				deferred.resolve();
+			}, function() {
+				deferred.reject();
+			});
+
+		return deferred.promise;
 	}
 
 	// *******************************************
