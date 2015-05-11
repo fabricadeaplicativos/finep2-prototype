@@ -349,6 +349,30 @@ angular.module('Editor.editors.services', [])
 
 	dataService.pushDocument = function(doc, properties) {
 		/*
+		 * When a user removes a property from a collection, Deployd only removes this
+		 * property from the config.json file. It does not remove the property from the
+		 * database. This means that when you hit the endpoint of a collection, Deployd returns
+		 * all the documents and each document still has the data for the property that should've
+		 * been removed. So what we need to do firstly is to match the properties in the properties
+		 * parameters with the doc parameters, which means that if the "doc" has 4 properties and "properties" 
+		 * has only one, "doc" should have just 1 property as well.
+		 */
+		var existingProperties = [];
+
+		properties.forEach(function(element) {
+			existingProperties.push(element.default_name);
+		});
+
+		for (var prop in doc) {
+			// The only property we cannot delete is the "id", because although it's
+			// not displayed to the user, we use it everywhere.
+			if ((existingProperties.indexOf(prop) < 0) &&
+				(prop !== "id")) {
+				delete doc[prop];
+			}
+		}
+
+		/*
 		 * Firstly, we'll need to sort the incoming doc's properties
 		 * in alphabetical order. To do that, we'll iterate through
 		 * the doc's properties and push them into the sortedProperties

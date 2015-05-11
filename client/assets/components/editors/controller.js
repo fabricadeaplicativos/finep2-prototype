@@ -347,8 +347,8 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 
 				console.log(JSON.stringify($scope.collection.properties));
 			}, function(err) {
-				alert('REMOVE COLUMN ERROR');
-				alert(JSON.stringify(err));
+				console.error('REMOVE COLUMN ERROR');
+				console.error(JSON.stringify(err));
 			});
 	}
 
