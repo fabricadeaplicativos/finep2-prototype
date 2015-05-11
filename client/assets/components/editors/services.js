@@ -257,15 +257,9 @@ angular.module('Editor.editors.services', [])
 
 							deferred.resolve(collection);
 						}, function(err) {
-							alert('ERROR GET CONFIG JSON FILE');
-							alert(JSON.stringify(err));
-
 							deferred.reject(err);
 						});
 				}, function(err) {
-					alert('GET RESULT ERROR 123');
-					alert(JSON.stringify(err));
-
 					deferred.reject(err);
 				});
 
@@ -349,9 +343,9 @@ angular.module('Editor.editors.services', [])
 		 * add the properties to the data array following this schema:
 		 *
 		 	data = [
-				[{"property_nameA": "<name>", "property_valueB": "<value>"}, ...],
-				[{"property_nameA": "<name>", "property_valueB": "<value>"}, ...],
-				[{"property_nameA": "<name>", "property_valueB": "<value>"}, ...],
+				[{"property_nameA": "<value>", "property_valueB": "<value>"}, ...],
+				[{"property_nameA": "<value>", "property_valueB": "<value>"}, ...],
+				[{"property_nameA": "<value>", "property_valueB": "<value>"}, ...],
 			]
 		 * 
 		 * Each element of data is a document (a row in the table). Each

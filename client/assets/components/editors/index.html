@@ -22,7 +22,7 @@
 							<!-- When collectionNameInput is true, we'll enable the input field
 								 so the user can change the name of the collection -->
 							<div class="form-inline" ng-switch-when="true">
-								<input ng-model="userValues.collectionId" type="text" class="form-control" id="" ng-value="collection.collectionId">
+								<input ng-model="userValues.collectionId" type="text" class="form-control database-input" id="" ng-value="collection.collectionId">
 								<span class="input-group-btn">
 								<button ng-click="saveNewCollectionId()" class="btn btn-primary" type="button">salvar</button>
 							</div>
@@ -30,7 +30,7 @@
 							<!-- When collectionNameInput is false, we'll disable the input field
 								 so the user cannot change the name of the collection -->
 							<div class="form-inline" ng-switch-when="false">
-								<input type="text" disabled class="form-control" id="" ng-value="collection.collectionId">
+								<input type="text" disabled class="form-control database-input" id="" ng-value="collection.collectionId">
 								<span class="input-group-btn">
 								<button ng-click="editCollectionId()" class="btn btn-primary" type="button">editar</button>
 							</div>
@@ -55,11 +55,11 @@
 								</li>
 							</ul>
 
-							<input type="text" disabled placeholder="{{property.type}}" class="form-control">
+							<input type="text" disabled placeholder="{{property.type}}" class="form-control database-input">
 						</th>
 
 						<th id="lhNewColumnEdit" ng-show="showSalvar">
-							<input type="text" class="form-control" id="" placeholder="nome da coluna" ng-model="columnToAdd.label">
+							<input type="text" class="form-control database-input" id="" placeholder="nome da coluna" ng-model="columnToAdd.label">
 							<select class="form-control" ng-model="columnToAdd.type" ng-options="t.value as t.label for t in types">
 							</select>
 						</th>
@@ -73,28 +73,56 @@
 				<tbody>
 
 					<!-- C O N T E N T   L I S T I N G -->
-					<tr ng-repeat="document in collection.data">
+					<tr ng-repeat="(documentIndex, document) in collection.data">
 						<td ng-repeat="property in document" ng-if="property.property_name != 'id'">
 
-							<!-- We do not want to list the entire property's value because sometimes
-							it can be too long (50 characters or more). So, in order to keep the
-							value's width short, we need to limit it to up to 30 characters.
-							The line below  -->
-							{{property.property_value | limitTo:30}}
-							<span ng-if="property.property_value.length > 30">...</span>
+							<!-- 
+								We do not want to list the entire property's value because sometimes
+								it can be too long (50 characters or more). So, in order to keep the
+								value's width short, we need to limit it to up to 30 characters.
+								The line below.
+								Also, When the user clicks on "edit", we should display input fields instead of
+								spans. To do that, we use a function called shouldBeShown. This function gets the index
+								of the current document (in $scope.collection.data) and returns true if the input fields
+								are to be shown for that document. We know that because when the user clicks on the 
+								"edit" button, we save the document's index in $scope.documentIndexToBeEdited, and inside
+								the shouldBeShown function, we compare the index of the current document to be rendered 
+								by angular with the value we stored in $scope.documentIndexToBeEdited. 
+							-->						
+							<div ng-hide="shouldBeShown(documentIndex)">
+								{{property.property_value | limitTo:30}}
+								<span ng-if="property.property_value.length > 30">...</span>
+							</div>
+							<input ng-model="userValues.documentToBeEdited[property.property_name]" type="text" class="form-control database-input" ng-show="shouldBeShown(documentIndex)">
 						</td>
-						<td><button type="button" class="btn btn-primary">editar</button></td>
+						<!--
+							When the user clicks on "edit", this button should be hidden and the "save" and "cancel" buttons
+							should show up. 
+							Note that the edit button's td has a ng-hide in it. When there's no row to be edited,
+							shouldBeShown will always return false. And when ng-hide is false, it means the td element
+							WILL NOT HIDE. As for the save and cancel buttons, the contrary will happen: as long as shouldBeShown
+							returns false, they will stay hidden. Only when the user clicks on "edit", shouldBeShown will start
+							to return true for some row, and that's when save and cancel buttons show up.
+						-->
+						<td ng-hide="shouldBeShown(documentIndex)">
+							<button type="button" class="btn btn-primary" ng-click="editContent(documentIndex)">editar</button>
+						</td>
+
+						<td ng-show="shouldBeShown(documentIndex)">
+							<button type="button" class="btn btn-primary" ng-click="saveEditedDocument()">salvar</button>
+							<button type="button" class="btn btn-primary" ng-click="editContent(documentIndex)">cancelar</button>
+						</td>
 					</tr>
 
 					<!-- C O N T E N T   I N S E R T I O N -->
 					<tr>
 						<td ng-repeat="property in collection.properties | orderBy: 'order'">
-							<input ng-model="userValues.documentToBeInserted[property.default_name]" type="text" class="form-control" placeholder="{{property.default_name}}">
+							<input ng-model="userValues.documentToBeInserted[property.default_name]" type="text" class="form-control database-input" placeholder="{{property.default_name}}">
 						</td>
 
 						<td>
 							<div class="btn-group" role="group" aria-label="">
-								<button ng-click="saveData()" type="button" class="btn btn-primary">salvar</button>
+								<button ng-click="saveNewDocument()" type="button" class="btn btn-primary">salvar</button>
 							</div>
 						</td>
 					</tr>

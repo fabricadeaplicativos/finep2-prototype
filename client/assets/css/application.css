@@ -8112,6 +8112,9 @@ input[type="button"].btn-block {
   width: 100%;
   border: none;
 }
+#editors-container .database-input {
+  width: 190px;
+}
 .col-edition {
   width: 100%;
 }

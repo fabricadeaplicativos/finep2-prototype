@@ -26,19 +26,58 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 	];
 
 	// Holds all the values that are input by the user (collection ID,
-	// the document that is to be inserted etc).
+	// the document that is to be inserted and edited etc).
 	$scope.userValues = {
 		collectionId: "",
-		documentToBeInserted: {}
+		documentToBeInserted: {},
+		documentToBeEdited: {},
 	};
 
-	// Holds all the relevant information about the collection that
-	// is being displayed (its ID, properties, data, etc).
+	/*
+	 * Holds all the relevant information about the collection that
+	 * is being displayed (its ID, properties, data, etc).
+	 * Here's an example of what $scope.collection would look like:
+	 *
+	 	{
+			collectionId: "gallery_65178299172",
+			properties: [
+				{
+					"default_name": "title",
+					"type": "string",
+					"label": "Title"
+				},
+				{
+					"default_name": "description",
+					"type": "string",
+					"label": "Description"
+				},
+				{...}
+			],
+			data: [
+				[
+					{"propert_name": "title", "property_value": "This is the title of item 1"},
+					{"propert_name": "description", "property_value": "This is the description of item 1"},
+					{...}
+				],
+				[
+					{"propert_name": "title", "property_value": "This is the title of item 2"},
+					{"propert_name": "description", "property_value": "This is the description of item 2"},
+					{...}
+				],
+			]
+	 	}
+	 */
 	$scope.collection = {
 		collectionId: "",
 		properties: [],
 		data: []
 	};
+
+	/*
+	 * Holds a reference to the row that should be edited (by placing inputs instead of spans).
+	 * This "reference" is just the index at which the row is located in $scope.collection.data
+	 */
+	$scope.documentIndexToBeEdited = -1;
 
 	// *******************************
 	// S T A R T - U P   A C T I O N S
@@ -84,12 +123,12 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 				});
 
 			}, function(err) {
-				alert('Error while trying to get documents');
-				alert(JSON.stringify(err));
+				console.error('Error while trying to get documents');
+				console.error(JSON.stringify(err));
 			});
 	}, function(err) {
-		alert('Error while trying to get collections');
-		alert(JSON.stringify(err));
+		console.error('Error while trying to get collections');
+		console.error(JSON.stringify(err));
 	});
 
 	// **********************************************************
@@ -113,10 +152,47 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 		$scope.collectionIdInput = true;
 	}
 
-	$scope.saveData = function() {
-		var promise = DatabaseService.insertNewDocument($scope.collection.collectionId, $scope.userValues.documentToBeInserted);
+	$scope.saveNewDocument = function() {
+		$scope.saveDocument($scope.userValues.documentToBeInserted);
+
+		// Clears the new-document input fields
+		$scope.userValues.documentToBeInserted = {};
+	}
+
+	$scope.saveEditedDocument = function() {
+		$scope.saveDocument($scope.userValues.documentToBeEdited);
+
+		// Clears the edit-document input fields
+		$scope.userValues.documentToBeEdited = {};
+
+		// As soon as the document is saved, we'll remove the input
+		// fields so the user cannot edit the document.
+		$scope.preventDocumentFromBeingEdited();
+	}
+
+	/**
+	 * Sets the index of the document to be edited to -1.
+	 * By doing that, we're removing the input fields preventing
+	 * a row from being edited.
+	 */
+	$scope.preventDocumentFromBeingEdited = function() {
+		$scope.documentIndexToBeEdited = -1;
+	}
+
+	/**
+	 * Saves the given document to the database.
+	 * The reason why this function returns a promise is that there might be
+	 * methods that want to know whether or not the document could be save, so
+	 * they can act accordingly.
+	 */
+	$scope.saveDocument = function(doc) {
+		var deferred = $q.defer();
+
+		var promise = DatabaseService.insertNewDocument($scope.collection.collectionId, doc);
 
 		promise.then(function(result) {
+			alert(JSON.stringify(result));
+
 			// Reloads the canvas iframe
 			window.frames[0].location.reload();
 
@@ -128,24 +204,23 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 				}
 			}
 
-			// Let's delete the id because the user does not have to know
-			// that it's there. Nor must he be able to change it.
-			// delete result["id"];
-
 			/*
 			 * DataService.pushDocument sorts the given doc in alphabetical
 			 * order and returns it.
 			 * We'll save it into $scope.collection.data so our HTML can have
 			 * access to it.
 			 */
-			$scope.collection.data = DataService.pushDocument(result);
-			
-			// Let's clean up the input fields
-			$scope.userValues.documentToBeInserted = {};
+			$scope.collection.data = DataService.pushDocument(result, $scope.collection.properties);
+
+			deferred.resolve();
 		}, function(err) {
-			alert('Error while trying to save the inserted document');
-			alert(JSON.stringify(err));
+			console.error('Error while trying to save the inserted document');
+			console.error(JSON.stringify(err));
+
+			deferred.reject();
 		});
+
+		return deferred.promise;
 	}
 
 	// Calls a function that hits an endpoint to change
@@ -157,12 +232,9 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 			// Save the new collection name in $scope.collection.collectionId
 			$scope.collection.collectionId = result.id;
 			$scope.collectionIdInput = false;
-
-			alert('SAVE NEW COLLECTION ID RESULT');
-			alert(JSON.stringify(result));
 		}, function(err) {
-			alert('SAVE NEW COLLECTION ID ERROR');
-			alert(JSON.stringify(err));
+			console.error('SAVE NEW COLLECTION ID ERROR');
+			console.error(JSON.stringify(err));
 		})
 	}
 
@@ -200,12 +272,35 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 				 */
 				$scope.collection.properties.push(addColumn);
 			} else {
-				alert('The new column could not be added');
+				console.error('The new column could not be added');
 			}
 		}, function(err) {
-			alert('There was an error while trying to add a new column');
-			alert(err);
+			console.error('There was an error while trying to add a new column');
+			console.error(err);
 		});
+	}
+
+	$scope.editContent = function(docIndex) {
+		$scope.documentIndexToBeEdited = docIndex;
+
+		/*
+		 * Now that we know which document in $scope.collection.data should be edited,
+		 * we have to fill $scope.userValues.documentToBeEdited with the underlying
+		 * document's content. Why? Because the input tag that is going to be shown up
+		 * has an ng-model attribute whose value is userValues.documentToBeEdited[property.property_name].
+		 * So, since when the user is not editing anything documentToBeEdited is an empty object,
+		 * if it's not filled with the underlying document's content, the input fields will be empty, with no data.
+		 * And what we really want is that the document's content show up in the input fields.
+		 */
+		var doc = $scope.collection.data[docIndex];
+
+		doc.forEach(function(property) {
+			$scope.userValues.documentToBeEdited[property.property_name] = property.property_value;
+		});
+	}
+
+	$scope.shouldBeShown = function(docIndex) {
+		return docIndex === $scope.documentIndexToBeEdited;
 	}
 
 	// *****************************
