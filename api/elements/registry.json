@@ -48,6 +48,15 @@
 		"category": "element"
 	},
 	{
+		"name": "search-input",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/elements/actions/search-input/template.html",
+		"demoUrl": "http://localhost:3000/api/elements/actions/search-input/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/elements/actions/search-input/placeholder.html",
+		"category": "element"
+	}
+	,
+	{
 		"name": "button-full",
 		"tag": "",
 		"templateUrl": "http://localhost:3000/api/elements/buttons/button-full/template.html",
@@ -62,14 +71,6 @@
 		"demoUrl": "http://localhost:3000/api/elements/buttons/button/demo.html",
 		"placeholderUrl": "http://localhost:3000/api/elements/buttons/button/placeholder.html",
 		"category": "element"
-	},
-	{
-		"name": "card-blank",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/elements/galleries/card-blank/template.html",
-		"demoUrl": "http://localhost:3000/api/elements/galleries/card-blank/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/elements/galleries/card-blank/placeholder.html",
-		"category": "component"
 	},
 	{
 		"name": "h1",
@@ -112,11 +113,11 @@
 		"category": "element"
 	},
 	{
-		"name": "image",
+		"name": "img1",
 		"tag": "",
-		"templateUrl": "http://localhost:3000/api/elements/images/img/template.html",
-		"demoUrl": "http://localhost:3000/api/elements/images/img/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/elements/images/img/placeholder.html",
+		"templateUrl": "http://localhost:3000/api/elements/images/img1/template.html",
+		"demoUrl": "http://localhost:3000/api/elements/images/img1/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/elements/images/img1/placeholder.html",
 		"category": "element"
 	}
 ]
