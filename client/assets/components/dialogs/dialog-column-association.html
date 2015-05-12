@@ -1,0 +1,64 @@
+<md-dialog>
+    <md-dialog-content role="document" class="sticky-container" style="padding: 24px;">
+        <h2 class="md-title">Como você quer associar o conteúdo?</h2>
+        
+        <md-radio-group ng-model="selectedItems.option" ng-change="radioButtonSelected()">
+
+            <!--
+                *****************************
+                 EXISTING COLUMN ASSOCIATION
+                *****************************
+            -->
+            <md-radio-button value="existingColumnAssociation" class="md-primary">
+                Associar conteúdo a uma coluna existente da tabela:
+            </md-radio-button>
+            
+            <!-- C O L L E C T I O N   S E L E C T I O N -->
+            <md-select ng-hide="hideExistingColumnOption" placeholder="selecione a tabela" ng-model="selectedItems.collection" class="selectTag">
+                <md-option ng-repeat="collection in collections" ng-value="collection">
+                    {{collection}}
+                </md-option>
+            </md-select>
+
+            <!-- P R O P E R T Y   S E L E C T I O N -->
+            <md-select ng-hide="hideExistingColumnOption" placeholder="selecione a coluna" ng-model="selectedItems.property" class="selectTag">
+                <md-option ng-repeat="(property_name, property) in properties[selectedItems.collection]" ng-value="property_name">
+                    {{property_name}}
+                </md-option>
+            </md-select>
+    
+            <!--
+                ************************
+                 NEW COLUMN ASSOCIATION
+                ************************
+            -->
+            <md-radio-button value="newColumnAssociation" class="md-primary">Associar a uma nova coluna da tabela:</md-radio-button>
+            <md-select ng-hide="hideNewColumnOption" placeholder="Escolha" ng-model="selectedItems.collection" class="selectTag">
+                <md-option ng-repeat="collection in collections" ng-value="collection">
+                    {{collection}}
+                </md-option>
+            </md-select>
+    
+            <!--
+                ****************
+                 NO ASSOCIATION
+                ****************
+            -->
+            <md-radio-button value="manualEdition" class="md-primary">Inserir conteúdo sem associar a uma tabela:</md-radio-button>
+            <md-input-container ng-hide="hideManualEditionOption" ng-model="answer.selectValue" class="selectTag">
+              <label>|* conteúdo *|</label>
+              <input ng-model="theMax">
+            </md-input-container>
+            
+
+        </md-radio-group>
+
+    </md-dialog-content>
+
+    <div class="md-actions" layout="row">
+        <span flex></span>
+        <md-button ng-click="closeModal()" class="md-primary">
+            Ok
+        </md-button>
+    </div>
+</md-dialog>

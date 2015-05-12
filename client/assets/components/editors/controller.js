@@ -1,4 +1,4 @@
-angular.module('Editor.editors.controller', ['Editor.editors.services'])
+angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.dialogs.controllers'])
 
 .controller('EditorsCtrl', function ($scope, $window, $mdDialog, $http, IO, $q, DatabaseService, DataService) {
 
@@ -99,7 +99,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 		/*
 		 * Then, we'll need to fetch the documents for the last collection created.
 		 */
-		var getDocumentsPromise = DatabaseService.getDocuments($scope.collection.collectionId);
+		var getDocumentsPromise = DatabaseService.getDocumentsOfCollection($scope.collection.collectionId);
 
 		getDocumentsPromise
 			.then(function(result) {
@@ -397,7 +397,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 			$scope.showTableCreate();
 			// addComponent(data.blockData, data.surfaceData);
 		} else {
-			$scope.showTableColumn();
+			$scope.showColumnAssociationDialog();
 		}
 
 	}, false);
@@ -536,10 +536,10 @@ angular.module('Editor.editors.controller', ['Editor.editors.services'])
 	    });
 	}
 
-	$scope.showTableColumn = function(ev){
+	$scope.showColumnAssociationDialog = function(ev){
 		$mdDialog.show({
-	      controller: DialogController,
-	      templateUrl: 'assets/components/dialogs/dialog-table-column.html',
+	      controller: 'ColumnAssociationController',
+	      templateUrl: 'assets/components/dialogs/dialog-column-association.html',
 	      targetEvent: ev,
 	    })
 	    .then(function(answer) {
