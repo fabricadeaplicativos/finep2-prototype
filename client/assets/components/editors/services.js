@@ -266,7 +266,7 @@ angular.module('Editor.editors.services', [])
 			return deferred.promise;
 		}
 
-		databaseService.getDocuments = function(collectionId) {
+		databaseService.getDocumentsOfCollection = function(collectionId) {
 			var deferred = $q.defer();
 
 			$http.get('http://localhost:3104/' + collectionId)
@@ -342,6 +342,32 @@ angular.module('Editor.editors.services', [])
 			$http(req)
 				.then(function(result) {
 					deferred.resolve();
+				}, function(err) {
+					deferred.reject(err);
+				});
+
+			return deferred.promise;
+		}
+
+		/*
+		 * Gets all the collections that were created.
+		 * The response looks like the following:
+		 *
+		 	[
+				{
+					"type": "Collection",
+					"id": "<collection-name>",
+					"properties": { <properties> }
+				},
+				{ ... }
+		 	]
+		 */
+		databaseService.getCollections = function() {
+			var deferred = $q.defer();
+
+			$http.get('http://localhost:3103/resources/config')
+				.then(function(result) {
+					deferred.resolve(result.data.data);
 				}, function(err) {
 					deferred.reject(err);
 				});
