@@ -8,7 +8,7 @@
 		"properties": [
 			{
 				"label": "Image",
-				"default_name": "string",
+				"default_name": "image",
 				"type": "string"
 			},
 			{
@@ -34,7 +34,7 @@
 		"properties": [
 			{
 				"label": "Image",
-				"default_name": "string",
+				"default_name": "image",
 				"type": "string"
 			},
 			{
@@ -60,7 +60,7 @@
 		"properties": [
 			{
 				"label": "Image",
-				"default_name": "string",
+				"default_name": "image",
 				"type": "string"
 			},
 			{
@@ -86,7 +86,7 @@
 		"properties": [
 			{
 				"label": "Image",
-				"default_name": "string",
+				"default_name": "image",
 				"type": "string"
 			},
 			{
@@ -112,7 +112,7 @@
 		"properties": [
 			{
 				"label": "Image",
-				"default_name": "string",
+				"default_name": "image",
 				"type": "string"
 			},
 			{
