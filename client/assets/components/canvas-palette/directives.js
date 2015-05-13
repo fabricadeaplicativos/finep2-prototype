@@ -112,16 +112,28 @@ angular.module('fab-canvas-palette.directives', [])
 
         element.append(newEl);
 
-
-        // data to be sent to the parent window
-        var data = {
-          message: 'addBlock',
-          blockData: blockData,
-          surfaceData: {
-            xPath: '/html/body/ion-pane/ion-content',
-            fname: 'www/index.html',
-          }
-        };
+        var data = {};
+        if (blockData.category === 'component') {
+          // data to be sent to the parent window
+          data = {
+            message: 'addBlock',
+            blockData: blockData,
+            surfaceData: {
+              xPath: '/html/body/ion-pane/ion-content',
+              fname: 'www/index.html',
+            }
+          };
+        } else {
+          // data to be sent to the parent window
+          data = {
+            message: 'addBlock',
+            blockData: blockData,
+            surfaceData: {
+              xPath: '/html/body/ion-pane/ion-content/div/a',
+              fname: 'www/index.html',
+            }
+          };
+        }
 
         window.parent.postMessage(JSON.stringify(data), '*');
 

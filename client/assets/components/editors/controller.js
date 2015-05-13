@@ -543,7 +543,37 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 	      targetEvent: ev,
 	    })
 	    .then(function(answer) {
-			alert('You chose: "' + JSON.stringify(answer));
+	    	/*
+	    	 * If the user chose an existing column, we'll need to firstly append
+	    	 * the HTML to the canvas frame.
+	    	 */
+	    	if (typeof answer.property !== 'undefined') {
+	    		var existingColumnName = answer.property;
+	    		var blockData = $scope.componentData.blockData;
+
+	    		if ((blockData.name === 'h1') ||
+	    			(blockData.name === 'h2') ||
+	    			(blockData.name === 'h3') ||
+	    			(blockData.name === 'h4') ||
+	    			(blockData.name === 'p')) {
+
+	    			var finalHtml = '<' + blockData.name + '>{{item.' + existingColumnName + '}}</' + blockData.name + '>';
+
+					IO.connection().emit('addElement', {
+						xPath: $scope.componentData.surfaceData.xPath,
+						fname: $scope.componentData.surfaceData.fname,
+						element: finalHtml,
+					})	    			
+	    		} else if (blockData.name === 'image') {
+	    			var finalHtml = '<img src="{{item.' + existingColumnName + '}}">';
+
+					IO.connection().emit('addElement', {
+						xPath: $scope.componentData.surfaceData.xPath,
+						fname: $scope.componentData.surfaceData.fname,
+						element: finalHtml,
+					})
+	    		}
+	    	}
 	    });
 	}
 
