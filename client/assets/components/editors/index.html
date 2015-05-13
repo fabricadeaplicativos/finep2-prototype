@@ -46,7 +46,7 @@
 						<!-- P R O P E R T I E S   L I S T I N G -->
 						<th class="col-edition" ng-repeat="property in collection.properties | orderBy: 'order'">
 							<ul class="prop">
-								<li class="prop-nome">{{property.label}}</li>
+								<li class="prop-nome">{{property.default_name}}</li>
 								<li class="drop"><i class="fa fa-plus-circle"></i>
 									<ul>
 										<li ng-click="removeProperty(property)" class="options">Excluir coluna</li>
