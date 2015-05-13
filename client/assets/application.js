@@ -76,7 +76,7 @@ app.controller('AppCtrl', function($scope, $mdSidenav, $mdDialog){
     var socketServerPort = $window.socketServerPort || 3102;
 
     // create socket
-    window.socket = io.connect('http://localhost:' + socketServerPort);
+    window.socket = io.connect('http://localhost:' + socketServerPort + '/canvas');
 
     var ioService = {};
 
