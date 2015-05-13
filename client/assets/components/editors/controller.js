@@ -482,7 +482,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 					 * so our socket server can notice we have new HTML to put
 					 * into our canvas.
 					 */
-					IO.emit('addElement', {
+					IO.connection().emit('addElement', {
 						xPath: $scope.componentData.surfaceData.xPath,
 						fname: $scope.componentData.surfaceData.fname,
 						element: pureHtml
@@ -618,7 +618,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 						source: collectionEndpoint
 					});
 
-					IO.emit('addElement', {
+					IO.connection().emit('addElement', {
 						xPath: surfaceData.xPath,
 						fname: surfaceData.fname,
 						element: finalHtml,

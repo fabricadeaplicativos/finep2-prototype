@@ -71,15 +71,19 @@ app.controller('AppCtrl', function($scope, $mdSidenav, $mdDialog){
   };
 })
 
+.factory('IO', function($window) {
+    // get port of the socketServer
+    var socketServerPort = $window.socketServerPort || 3102;
 
-// 
-.service('IO', function($window) {
-  // get port of the socketServer
-  var socketServerPort = $window.socketServerPort || 3102;
+    // create socket
+    window.socket = io.connect('http://localhost:' + socketServerPort);
 
-  // create socket
-  var socket = io.connect('http://localhost:' + socketServerPort + '/canvas');
+    var ioService = {};
 
-  // return socket
-  return socket;
+    ioService.connection = function() {
+        return window.socket;
+    }
+
+    // return socket
+    return ioService;
 });

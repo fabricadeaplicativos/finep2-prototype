@@ -29,6 +29,7 @@ gulp.task('serve', function() {
       baseDir: './'
     },
     startPath: '/client',
+    open: false
   });
 
 
