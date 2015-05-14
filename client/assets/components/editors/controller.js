@@ -294,6 +294,10 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 		});
 	}
 
+	$scope.cancelColumnCreation = function() {
+		$scope.showSalvar = false;
+	}
+
 	$scope.editContent = function(docIndex) {
 		$scope.documentIndexToBeEdited = docIndex;
 
