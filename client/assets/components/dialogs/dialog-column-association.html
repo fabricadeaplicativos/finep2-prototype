@@ -33,11 +33,24 @@
                 ************************
             -->
             <md-radio-button value="newColumnAssociation" class="md-primary">Associar a uma nova coluna da tabela:</md-radio-button>
-            <md-select ng-hide="hideNewColumnOption" placeholder="Escolha" ng-model="selectedItems.collection" class="selectTag">
+            <md-select ng-change="userDidChoseTable()" ng-hide="hideNewColumnOption" placeholder="Escolha" ng-model="selectedItems.collection" class="selectTag">
                 <md-option ng-repeat="collection in collections" ng-value="collection">
                     {{collection}}
                 </md-option>
             </md-select>
+
+            <div ng-show="showColumnNameTypeInput" class="new-column-association-container">
+                <md-input-container md-no-float>
+                    <input ng-model="selectedItems.property" placeholder="Nome da coluna">
+                </md-input-container>
+
+                <md-select placeholder="Escolha o tipo" ng-model="selectedItems.type" class="selectTag">
+                    <md-option ng-repeat="type in types" ng-value="type.value">
+                        {{type.label}}
+                    </md-option>
+                </md-select>
+            </div>
+
     
             <!--
                 ****************

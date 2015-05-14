@@ -6795,6 +6795,19 @@ https://github.com/google/material-design-icons
 table input {
   margin-bottom: 10px;
 }
+.new-column-association-container {
+  margin: 0 40px;
+  display: flex;
+}
+.new-column-association-container md-input-container {
+  width: 50%;
+}
+.new-column-association-container md-input-container input {
+  width: 80%;
+}
+.new-column-association-container md-input-container md-select {
+  margin-left: 10px;
+}
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;

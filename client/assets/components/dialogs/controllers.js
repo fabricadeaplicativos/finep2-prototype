@@ -42,15 +42,34 @@ angular.module('Dialog.dialogs.controllers', ['Editor.editors.services'])
 		// If true, hides the "insert content without associating to any column" options  
 		$scope.hideManualEditionOption = true;
 
+		// If true, shows an input field so the user can choose the new column's name
+		// and a drop-down so she can select its type.
+		$scope.showColumnNameTypeInput = false;
+
 		// Hold the collection and the property chosen by the user.
 		// If the user selects an existing column, she'll have to choose a collection
 		// and a property. But if she wants just to create a column, $scope.selectedItems.property
 		// will be undefined
+		// $scope.selectedItems = {
+		// 	option: "existingColumnAssociation",
+		// 	collection: undefined,
+		// 	property: undefined
+		// };
 		$scope.selectedItems = {
-			option: "existingColumnAssociation",
-			collection: undefined,
-			property: undefined
+			option: "existingColumnAssociation"
 		};
+
+		/*
+		 * Available types for new columns
+		 */
+		$scope.types = [
+			{ label: 'texto'		  , value: 'string' 	 },
+			{ label: 'imagem'		  , value: 'image' 		 },
+			{ label: 'número'		  , value: 'number' 	 },
+			{ label: 'boolean'		  , value: 'boolean' 	 },
+			{ label: 'data'		      , value: 'date'		 },
+			{ label: 'localização'	  , value: 'localization'}
+		];
 
 		// *******************************
 		// S T A R T - U P   A C T I O N S
@@ -131,6 +150,16 @@ angular.module('Dialog.dialogs.controllers', ['Editor.editors.services'])
 				$scope.hideExistingColumnOption = true;
 				$scope.hideNewColumnOption = true;
 				$scope.hideManualEditionOption = false;
+			}
+		}
+
+		// Executes when user chooses a table after selecting 
+		// "associate element to a new column" option
+		$scope.userDidChoseTable = function() {
+			if (typeof $scope.selectedItems.collection !== 'undefined') {
+				$scope.showColumnNameTypeInput = true;
+			} else {
+				$scope.showColumnNameTypeInput = false;
 			}
 		}
 	}
