@@ -277,14 +277,15 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 				 * To solve that issue, we'll add an empty record for this new column/property
 				 * so the user can be able to insert new values.
 				 */
-				$scope.collection.data.forEach(function(doc) {
-					var emptyRecord = {
-						property_name: addColumn.default_name,
-						property_value: ""
-					};
+				addEmptyEntryForNewProperty(addColumn.default_name);	
+				// $scope.collection.data.forEach(function(doc) {
+				// 	var emptyRecord = {
+				// 		property_name: addColumn.default_name,
+				// 		property_value: ""
+				// 	};
 
-					doc.push(emptyRecord);
-				});
+				// 	doc.push(emptyRecord);
+				// });
 			} else {
 				console.error('The new column could not be added');
 			}
@@ -562,13 +563,56 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 	      templateUrl: 'assets/components/dialogs/dialog-column-association.html',
 	      targetEvent: ev,
 	    })
-	    .then(function(answer) {
+	    .then(function(dialogResult) {
+
+	    	/*
+	    	 * If the user chose to associate the added element to a new column,
+	    	 * we'll need to do the following:
+	    	 *
+	    	 * 1 - Send an http post request to our dpd proxy server so we can
+	    	 *	   update this collection's config.json file and append this new
+	    	 *	   property.
+	    	 * 2 - Add this new property in $scope.collection.properties
+	    	 * 3 - Add an empty entry for the property in each of the documents in
+	    	 *	   $scope.collection.data.
+	    	 */
+	    	if (dialogResult.option === "newColumnAssociation") {
+	    		var property = {
+	    			default_name: dialogResult.property,
+	    			type: dialogResult.type,
+	    			label: dialogResult.property
+	    		};
+
+	    		var addNewColumnPromise = DatabaseService.addNewColumn(dialogResult.collection, property);
+
+				addNewColumnPromise.then(function(result) {
+					if (typeof result.status !== 'undefined') {
+						/*
+						 * We'll only add the new column to $scope.collection in case
+						 * we manage to insert it into its collection's config.json.
+						 */
+						$scope.collection.properties.push(property);
+
+						
+			    		// See explanation of this function right before its declaration
+			    		// to understand what it does. 
+			    		addEmptyEntryForNewProperty(dialogResult.property);	
+					} else {
+						console.error('The new column could not be create');
+						console.error(result);
+					}
+				}, function(err) {
+					console.error('There was an error while trying to create the new column');
+					console.error(err);
+				});
+	    	}
+
 	    	/*
 	    	 * If the user chose an existing column, we'll need to firstly append
 	    	 * the HTML to the canvas frame.
 	    	 */
-	    	if (typeof answer.property !== 'undefined') {
-	    		var existingColumnName = answer.property;
+	    	if (typeof dialogResult.property !== 'undefined') {
+	    		var existingColumnName = dialogResult.property;
 	    		var blockData = $scope.componentData.blockData;
 
 	    		if ((blockData.name === 'h1') ||
@@ -675,6 +719,23 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 					})
 
 				})
+		});
+	}
+
+	/*
+	 * When a new column/property is created, the documents
+	 * in $scope.collection.data don't have an entry for this
+	 * new property/column. So what this function does is to
+	 * add an empty entry for this new property/column in each document.
+	 */
+	function addEmptyEntryForNewProperty(property) {
+		$scope.collection.data.forEach(function(doc) {
+			var emptyEntry = {
+				property_name: property,
+				property_value: ""
+			};
+
+			doc.push(emptyEntry);
 		});
 	}
 
