@@ -1,6 +1,7 @@
 #palette iframe {
-  border: 1px solid #eee;
-  height: 568px;
+  background-color: #eee;
+  border: none;
+  height: 800px;
   width: 100%;
-  max-width: 320px;
+  max-width: 300px;
 }
