@@ -136,7 +136,8 @@
 		"demoUrl": "http://localhost:3000/api/components/galleries/card-blank/demo.html",
 		"placeholderUrl": "http://localhost:3000/api/components/galleries/card-blank/placeholder.html",
 		"category": "component",
-		"default_collection_name": "card_blank"
+		"default_collection_name": "card_blank",
+		"properties": []
 	},
 	{
 		"name": "form1",
