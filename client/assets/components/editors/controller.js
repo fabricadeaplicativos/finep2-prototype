@@ -250,7 +250,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 		var addColumn = {
 			type: $scope.columnToAdd.type,
 			default_name: $scope.columnToAdd.label,
-			label: $scope.columnToAdd.type
+			label: $scope.columnToAdd.label
 		};
 			
 		// Empty value
@@ -269,6 +269,22 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 				 * we manage to insert it into its collection's config.json.
 				 */
 				$scope.collection.properties.push(addColumn);
+
+				/*
+				 * Since this is a new property, the documents won't have any data
+				 * for that property. Hence, it won't be possible to add data to those
+				 * documents, since the HTML lists the content by $scope.collection.data.
+				 * To solve that issue, we'll add an empty record for this new column/property
+				 * so the user can be able to insert new values.
+				 */
+				$scope.collection.data.forEach(function(doc) {
+					var emptyRecord = {
+						property_name: addColumn.default_name,
+						property_value: ""
+					};
+
+					doc.push(emptyRecord);
+				});
 			} else {
 				console.error('The new column could not be added');
 			}
@@ -571,7 +587,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 						xPath: $scope.componentData.surfaceData.xPath,
 						fname: $scope.componentData.surfaceData.fname,
 						element: finalHtml,
-					})
+					});
 	    		}
 	    	}
 	    });
