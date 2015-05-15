@@ -137,6 +137,10 @@ angular.module('Dialog.dialogs.controllers', ['Editor.editors.services'])
 			$mdDialog.hide($scope.selectedItems);
 		};
 
+		$scope.cancelColumnAssociationOp = function() {
+			$mdDialog.hide();
+		}
+
 		$scope.radioButtonSelected = function() {
 			if ($scope.selectedItems.option === "existingColumnAssociation") {
 				$scope.hideExistingColumnOption = false;

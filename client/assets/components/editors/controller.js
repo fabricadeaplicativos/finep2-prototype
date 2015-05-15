@@ -565,78 +565,80 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 	    })
 	    .then(function(dialogResult) {
 
-	    	/*
-	    	 * If the user chose to associate the added element to a new column,
-	    	 * we'll need to do the following:
-	    	 *
-	    	 * 1 - Send an http post request to our dpd proxy server so we can
-	    	 *	   update this collection's config.json file and append this new
-	    	 *	   property.
-	    	 * 2 - Add this new property in $scope.collection.properties
-	    	 * 3 - Add an empty entry for the property in each of the documents in
-	    	 *	   $scope.collection.data.
-	    	 */
-	    	if (dialogResult.option === "newColumnAssociation") {
-	    		var property = {
-	    			default_name: dialogResult.property,
-	    			type: dialogResult.type,
-	    			label: dialogResult.property
-	    		};
+	    	if (typeof dialogResult !== 'undefined') {
+	    		/*
+		    	 * If the user chose to associate the added element to a new column,
+		    	 * we'll need to do the following:
+		    	 *
+		    	 * 1 - Send an http post request to our dpd proxy server so we can
+		    	 *	   update this collection's config.json file and append this new
+		    	 *	   property.
+		    	 * 2 - Add this new property in $scope.collection.properties
+		    	 * 3 - Add an empty entry for the property in each of the documents in
+		    	 *	   $scope.collection.data.
+		    	 */
+		    	if (dialogResult.option === "newColumnAssociation") {
+		    		var property = {
+		    			default_name: dialogResult.property,
+		    			type: dialogResult.type,
+		    			label: dialogResult.property
+		    		};
 
-	    		var addNewColumnPromise = DatabaseService.addNewColumn(dialogResult.collection, property);
+		    		var addNewColumnPromise = DatabaseService.addNewColumn(dialogResult.collection, property);
 
-				addNewColumnPromise.then(function(result) {
-					if (typeof result.status !== 'undefined') {
-						/*
-						 * We'll only add the new column to $scope.collection in case
-						 * we manage to insert it into its collection's config.json.
-						 */
-						$scope.collection.properties.push(property);
+					addNewColumnPromise.then(function(result) {
+						if (typeof result.status !== 'undefined') {
+							/*
+							 * We'll only add the new column to $scope.collection in case
+							 * we manage to insert it into its collection's config.json.
+							 */
+							$scope.collection.properties.push(property);
 
-						
-			    		// See explanation of this function right before its declaration
-			    		// to understand what it does. 
-			    		addEmptyEntryForNewProperty(dialogResult.property);	
-					} else {
-						console.error('The new column could not be create');
-						console.error(result);
-					}
-				}, function(err) {
-					console.error('There was an error while trying to create the new column');
-					console.error(err);
-				});
-	    	}
-
-	    	/*
-	    	 * If the user chose an existing column, we'll need to firstly append
-	    	 * the HTML to the canvas frame.
-	    	 */
-	    	if (typeof dialogResult.property !== 'undefined') {
-	    		var existingColumnName = dialogResult.property;
-	    		var blockData = $scope.componentData.blockData;
-
-	    		if ((blockData.name === 'h1') ||
-	    			(blockData.name === 'h2') ||
-	    			(blockData.name === 'h3') ||
-	    			(blockData.name === 'h4') ||
-	    			(blockData.name === 'p')) {
-
-	    			var finalHtml = '<' + blockData.name + '>{{item.' + existingColumnName + '}}</' + blockData.name + '>';
-
-					IO.connection().emit('addElement', {
-						xPath: $scope.componentData.surfaceData.xPath,
-						fname: $scope.componentData.surfaceData.fname,
-						element: finalHtml,
-					})	    			
-	    		} else if (blockData.name === 'image') {
-	    			var finalHtml = '<img src="{{item.' + existingColumnName + '}}">';
-
-					IO.connection().emit('addElement', {
-						xPath: $scope.componentData.surfaceData.xPath,
-						fname: $scope.componentData.surfaceData.fname,
-						element: finalHtml,
+							
+				    		// See explanation of this function right before its declaration
+				    		// to understand what it does. 
+				    		addEmptyEntryForNewProperty(dialogResult.property);	
+						} else {
+							console.error('The new column could not be create');
+							console.error(result);
+						}
+					}, function(err) {
+						console.error('There was an error while trying to create the new column');
+						console.error(err);
 					});
-	    		}
+		    	}
+
+		    	/*
+		    	 * If the user chose an existing column, we'll need to firstly append
+		    	 * the HTML to the canvas frame.
+		    	 */
+		    	if (typeof dialogResult.property !== 'undefined') {
+		    		var existingColumnName = dialogResult.property;
+		    		var blockData = $scope.componentData.blockData;
+
+		    		if ((blockData.name === 'h1') ||
+		    			(blockData.name === 'h2') ||
+		    			(blockData.name === 'h3') ||
+		    			(blockData.name === 'h4') ||
+		    			(blockData.name === 'p')) {
+
+		    			var finalHtml = '<' + blockData.name + '>{{item.' + existingColumnName + '}}</' + blockData.name + '>';
+
+						IO.connection().emit('addElement', {
+							xPath: $scope.componentData.surfaceData.xPath,
+							fname: $scope.componentData.surfaceData.fname,
+							element: finalHtml,
+						})	    			
+		    		} else if (blockData.name === 'image') {
+		    			var finalHtml = '<img src="{{item.' + existingColumnName + '}}">';
+
+						IO.connection().emit('addElement', {
+							xPath: $scope.componentData.surfaceData.xPath,
+							fname: $scope.componentData.surfaceData.fname,
+							element: finalHtml,
+						});
+		    		}
+		    	}
 	    	}
 	    });
 	}
