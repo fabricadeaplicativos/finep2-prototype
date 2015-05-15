@@ -10,17 +10,20 @@
 			{
 				"label": "Image",
 				"default_name": "image",
-				"type": "string"
+				"type": "string",
+				"order": 0
 			},
 			{
 				"label": "Title",
 				"default_name": "title",
-				"type": "string"
+				"type": "string",
+				"order": 1
 			},
 			{
 				"label": "Description",
 				"default_name": "description",
-				"type": "string"
+				"type": "string",
+				"order": 2
 			}
 		],
 		"category": "component"
@@ -35,17 +38,20 @@
 			{
 				"label": "Image",
 				"default_name": "image",
-				"type": "string"
+				"type": "string",
+				"order": 0
 			},
 			{
 				"label": "Title",
 				"default_name": "title",
-				"type": "string"
+				"type": "string",
+				"order": 1
 			},
 			{
 				"label": "Description",
 				"default_name": "description",
-				"type": "string"
+				"type": "string",
+				"order": 2
 			}
 		],
 		"category": "component",
@@ -61,17 +67,20 @@
 			{
 				"label": "Image",
 				"default_name": "image",
-				"type": "string"
+				"type": "string",
+				"order": 0
 			},
 			{
 				"label": "Title",
 				"default_name": "title",
-				"type": "string"
+				"type": "string",
+				"order": 1
 			},
 			{
 				"label": "Description",
 				"default_name": "description",
-				"type": "string"
+				"type": "string",
+				"order": 2
 			}
 		],
 		"category": "component",
@@ -87,17 +96,20 @@
 			{
 				"label": "Image",
 				"default_name": "image",
-				"type": "image"
+				"type": "string",
+				"order": 0
 			},
 			{
 				"label": "Title",
 				"default_name": "title",
-				"type": "string"
+				"type": "string",
+				"order": 1
 			},
 			{
 				"label": "Description",
 				"default_name": "description",
-				"type": "string"
+				"type": "string",
+				"order": 2
 			}
 		],
 		"category": "component",
@@ -113,17 +125,20 @@
 			{
 				"label": "Image",
 				"default_name": "image",
-				"type": "image"
+				"type": "string",
+				"order": 0
 			},
 			{
 				"label": "Title",
 				"default_name": "title",
-				"type": "string"
+				"type": "string",
+				"order": 1
 			},
 			{
 				"label": "Description",
 				"default_name": "description",
-				"type": "string"
+				"type": "string",
+				"order": 2
 			}
 		],
 		"category": "component",
@@ -150,27 +165,32 @@
 			{
 				"label": "Pergunta 1",
 				"default_name": "question_1",
-				"type": "string"
+				"type": "string",
+				"order": 0
 			},
 			{
 				"label": "Pergunta 2",
 				"default_name": "question_2",
-				"type": "string"
+				"type": "string",
+				"order": 1
 			},
 			{
 				"label": "Pergunta 3",
 				"default_name": "question_3",
-				"type": "string"
+				"type": "string",
+				"order": 2
 			},
 			{
 				"label": "Data",
 				"default_name": "date",
-				"type": "string"
+				"type": "string",
+				"order": 3
 			},
 			{
 				"label": "Telefone",
 				"default_name": "cell_number",
-				"type": "string"
+				"type": "string",
+				"order": 4
 			}
 		],
 		"default_collection_name": "form1"

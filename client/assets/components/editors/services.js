@@ -50,6 +50,10 @@ angular.module('Editor.editors.services', [])
 					required: false,
 					id: property.default_name
 				};
+
+				if (typeof property.order !== 'undefined') {
+					collectionProperties[property.default_name].order = property.order;
+				}
 			});		
 
 			/*
@@ -142,9 +146,9 @@ angular.module('Editor.editors.services', [])
 			}
 
 			sortedProperties.sort(function(a, b) {
-				if (a.default_name > b.default_name) {
+				if (a.order > b.order) {
 					return 1;
-				} else if (a.default_name < b.default_name) {
+				} else if (a.order < b.order) {
 					return -1;
 				}
 

@@ -520,6 +520,25 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 						fname: $scope.componentData.surfaceData.fname,
 						element: pureHtml
 					});
+
+					/*
+					 * We'll add two entries in this new table so the user can realize what's
+					 * going on.
+					 */
+					var doc1 = {
+						image: 'http://images.centauro.com.br/900x900/84060802/jaqueta-de-moletom-oxer-basico-masculina-img.jpg',
+						title: 'Jaqueta de Moletom Oxer Básico',
+						description: 'Perfeita para que você tenha mais confortodurante os seus momentos mais casuais, a Jaqueta de Moletom Oxer Básico é produzida com materiais de ótima qualidade e garante mais durabilidade e transmite um toque mais macio para a pele. Aproveite!'
+					};
+
+					var doc2 = {
+						image: 'http://images.centauro.com.br/900x900/8250730O/blusao-adidas-response-hoddie-masculino-img.jpg',
+						title: 'Blusão adidas Response Hoddie',
+						description: 'Além de proporcionar muito conforto e liberdade nos movimentos, ele possui a tecnologia Climalite que mantém o corpo seco e fresco. Aproveite já!'
+					};
+
+					$scope.saveDocument(doc1);
+					$scope.saveDocument(doc2);
 				}, function(err) {
 					alert('Error while trying to get the component\'s HTML template');
 				});
