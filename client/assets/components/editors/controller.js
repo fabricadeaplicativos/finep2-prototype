@@ -581,7 +581,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 		    		var property = {
 		    			default_name: dialogResult.property,
 		    			type: dialogResult.type,
-		    			label: dialogResult.property
+		    			label: dialogResult.label
 		    		};
 
 		    		var addNewColumnPromise = DatabaseService.addNewColumn(dialogResult.collection, property);
