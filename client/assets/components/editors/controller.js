@@ -122,6 +122,14 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 					$scope.collection.data = DataService.pushDocument(doc, $scope.collection.properties);
 				});
 
+				/*
+				 * There might be some documents that do not have entries for some
+				 * properties. If that's the case, angular will not allocate space in
+				 * the table so the user can entry new values. Instead, we need to do
+				 * some processing before by inserting empty entries for those properties.
+				 */
+				addEmptyEntryForNewProperties();
+
 			}, function(err) {
 				console.error('Error while trying to get documents');
 				console.error(JSON.stringify(err));
@@ -238,7 +246,6 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 
 	$scope.createNewColumn = function(){
 		$scope.showSalvar = true;
-		// $scope.showCriar = false;
 	}
 
 	$scope.saveNewColumn = function(){
@@ -246,10 +253,23 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 		// Is not editing a database
 		if($scope.collection == undefined || $scope.collection.properties == undefined)
 			return;
+
+		/*
+		 * The user will probably choose property names that have upper case letters, 
+		 * symbols like @, & and #, spaces, etc. We need to remove all of that so we
+		 * don't have problems when using this names in the final code and in the database.
+		 */
+		var processedPropertyName = $scope.columnToAdd.label;
+
+		// Removes all symbols
+		processedPropertyName = processedPropertyName.replace(/[\!\@\#\$\%\^\&\*\(\)\_]/g, '');
+
+		// Replaces all multiple spaces for _
+		processedPropertyName = processedPropertyName.replace(/\s{2,}/g, '_');
 			
 		var addColumn = {
 			type: $scope.columnToAdd.type,
-			default_name: $scope.columnToAdd.label,
+			default_name: processedPropertyName,
 			label: $scope.columnToAdd.label
 		};
 			
@@ -277,15 +297,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 				 * To solve that issue, we'll add an empty record for this new column/property
 				 * so the user can be able to insert new values.
 				 */
-				addEmptyEntryForNewProperty(addColumn.default_name);	
-				// $scope.collection.data.forEach(function(doc) {
-				// 	var emptyRecord = {
-				// 		property_name: addColumn.default_name,
-				// 		property_value: ""
-				// 	};
-
-				// 	doc.push(emptyRecord);
-				// });
+				addEmptyEntryForNewProperties();	
 			} else {
 				console.error('The new column could not be added');
 			}
@@ -597,7 +609,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 							
 				    		// See explanation of this function right before its declaration
 				    		// to understand what it does. 
-				    		addEmptyEntryForNewProperty(dialogResult.property);	
+				    		addEmptyEntryForNewProperties();	
 						} else {
 							console.error('The new column could not be create');
 							console.error(result);
@@ -730,14 +742,41 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 	 * new property/column. So what this function does is to
 	 * add an empty entry for this new property/column in each document.
 	 */
-	function addEmptyEntryForNewProperty(property) {
+	function addEmptyEntryForNewProperties() {
 		$scope.collection.data.forEach(function(doc) {
-			var emptyEntry = {
-				property_name: property,
-				property_value: ""
-			};
 
-			doc.push(emptyEntry);
+			for (var i = 0; i < $scope.collection.properties.length; i++) {
+				var default_name = $scope.collection.properties[i].default_name;
+
+				var propertyFound = _.find(doc, function(p) {
+					/*
+					 * p looks like:
+					 *
+					 	{
+							"property_name": "title",
+							"property_value": "um titulo qualquer"
+					 	}
+					 *
+					 * What we need to do is: given a property name (which is stored
+					 * inside property_name), we need to find this property inside doc
+					 */
+					 return p.property_name === default_name;
+				});
+
+				if (typeof propertyFound === 'undefined') {
+					/*
+					 * Since the underlying doc does not have an entry
+					 * for the current property, we'll add an empty entry so
+					 * the table allocates a space to a possible new entry.
+					 */
+					var emptyEntry = {
+						property_name: default_name,
+						property_value: ""
+					};
+
+					doc.push(emptyEntry);
+				}
+			}
 		});
 	}
 
