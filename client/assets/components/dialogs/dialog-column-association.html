@@ -33,7 +33,7 @@
                 ************************
             -->
             <md-radio-button value="newColumnAssociation" class="md-primary">Associar a uma nova coluna da tabela:</md-radio-button>
-            <md-select ng-change="userDidChoseTable()" ng-hide="hideNewColumnOption" placeholder="Escolha" ng-model="selectedItems.collection" class="selectTag">
+            <md-select ng-change="userDidChooseCollection()" ng-hide="hideNewColumnOption" placeholder="Escolha" ng-model="selectedItems.collection" class="selectTag">
                 <md-option ng-repeat="collection in collections" ng-value="collection">
                     {{collection}}
                 </md-option>
@@ -69,7 +69,9 @@
     </md-dialog-content>
 
     <div class="md-actions" layout="row">
-        <span flex></span>
+        <md-button ng-click="cancelColumnAssociationOp()" class="md-primary">
+            cancelar
+        </md-button>
         <md-button ng-click="closeModal()" class="md-primary">
             Ok
         </md-button>

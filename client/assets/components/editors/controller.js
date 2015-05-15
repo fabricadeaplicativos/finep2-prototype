@@ -122,6 +122,14 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 					$scope.collection.data = DataService.pushDocument(doc, $scope.collection.properties);
 				});
 
+				/*
+				 * There might be some documents that do not have entries for some
+				 * properties. If that's the case, angular will not allocate space in
+				 * the table so the user can entry new values. Instead, we need to do
+				 * some processing before by inserting empty entries for those properties.
+				 */
+				addEmptyEntryForNewProperties();
+
 			}, function(err) {
 				console.error('Error while trying to get documents');
 				console.error(JSON.stringify(err));
@@ -238,7 +246,6 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 
 	$scope.createNewColumn = function(){
 		$scope.showSalvar = true;
-		// $scope.showCriar = false;
 	}
 
 	$scope.saveNewColumn = function(){
@@ -246,10 +253,23 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 		// Is not editing a database
 		if($scope.collection == undefined || $scope.collection.properties == undefined)
 			return;
+
+		/*
+		 * The user will probably choose property names that have upper case letters, 
+		 * symbols like @, & and #, spaces, etc. We need to remove all of that so we
+		 * don't have problems when using this names in the final code and in the database.
+		 */
+		var processedPropertyName = $scope.columnToAdd.label;
+
+		// Removes all symbols
+		processedPropertyName = processedPropertyName.replace(/[\!\@\#\$\%\^\&\*\(\)\_]/g, '');
+
+		// Replaces all multiple spaces for _
+		processedPropertyName = processedPropertyName.replace(/\s{2,}/g, '_');
 			
 		var addColumn = {
 			type: $scope.columnToAdd.type,
-			default_name: $scope.columnToAdd.label,
+			default_name: processedPropertyName,
 			label: $scope.columnToAdd.label
 		};
 			
@@ -277,15 +297,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 				 * To solve that issue, we'll add an empty record for this new column/property
 				 * so the user can be able to insert new values.
 				 */
-				addEmptyEntryForNewProperty(addColumn.default_name);	
-				// $scope.collection.data.forEach(function(doc) {
-				// 	var emptyRecord = {
-				// 		property_name: addColumn.default_name,
-				// 		property_value: ""
-				// 	};
-
-				// 	doc.push(emptyRecord);
-				// });
+				addEmptyEntryForNewProperties();	
 			} else {
 				console.error('The new column could not be added');
 			}
@@ -508,6 +520,25 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 						fname: $scope.componentData.surfaceData.fname,
 						element: pureHtml
 					});
+
+					/*
+					 * We'll add two entries in this new table so the user can realize what's
+					 * going on.
+					 */
+					var doc1 = {
+						image: 'http://images.centauro.com.br/900x900/84060802/jaqueta-de-moletom-oxer-basico-masculina-img.jpg',
+						title: 'Jaqueta de Moletom Oxer Básico',
+						description: 'Perfeita para que você tenha mais confortodurante os seus momentos mais casuais, a Jaqueta de Moletom Oxer Básico é produzida com materiais de ótima qualidade e garante mais durabilidade e transmite um toque mais macio para a pele. Aproveite!'
+					};
+
+					var doc2 = {
+						image: 'http://images.centauro.com.br/900x900/8250730O/blusao-adidas-response-hoddie-masculino-img.jpg',
+						title: 'Blusão adidas Response Hoddie',
+						description: 'Além de proporcionar muito conforto e liberdade nos movimentos, ele possui a tecnologia Climalite que mantém o corpo seco e fresco. Aproveite já!'
+					};
+
+					$scope.saveDocument(doc1);
+					$scope.saveDocument(doc2);
 				}, function(err) {
 					alert('Error while trying to get the component\'s HTML template');
 				});
@@ -565,78 +596,80 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 	    })
 	    .then(function(dialogResult) {
 
-	    	/*
-	    	 * If the user chose to associate the added element to a new column,
-	    	 * we'll need to do the following:
-	    	 *
-	    	 * 1 - Send an http post request to our dpd proxy server so we can
-	    	 *	   update this collection's config.json file and append this new
-	    	 *	   property.
-	    	 * 2 - Add this new property in $scope.collection.properties
-	    	 * 3 - Add an empty entry for the property in each of the documents in
-	    	 *	   $scope.collection.data.
-	    	 */
-	    	if (dialogResult.option === "newColumnAssociation") {
-	    		var property = {
-	    			default_name: dialogResult.property,
-	    			type: dialogResult.type,
-	    			label: dialogResult.property
-	    		};
+	    	if (typeof dialogResult !== 'undefined') {
+	    		/*
+		    	 * If the user chose to associate the added element to a new column,
+		    	 * we'll need to do the following:
+		    	 *
+		    	 * 1 - Send an http post request to our dpd proxy server so we can
+		    	 *	   update this collection's config.json file and append this new
+		    	 *	   property.
+		    	 * 2 - Add this new property in $scope.collection.properties
+		    	 * 3 - Add an empty entry for the property in each of the documents in
+		    	 *	   $scope.collection.data.
+		    	 */
+		    	if (dialogResult.option === "newColumnAssociation") {
+		    		var property = {
+		    			default_name: dialogResult.property,
+		    			type: dialogResult.type,
+		    			label: dialogResult.label
+		    		};
 
-	    		var addNewColumnPromise = DatabaseService.addNewColumn(dialogResult.collection, property);
+		    		var addNewColumnPromise = DatabaseService.addNewColumn(dialogResult.collection, property);
 
-				addNewColumnPromise.then(function(result) {
-					if (typeof result.status !== 'undefined') {
-						/*
-						 * We'll only add the new column to $scope.collection in case
-						 * we manage to insert it into its collection's config.json.
-						 */
-						$scope.collection.properties.push(property);
+					addNewColumnPromise.then(function(result) {
+						if (typeof result.status !== 'undefined') {
+							/*
+							 * We'll only add the new column to $scope.collection in case
+							 * we manage to insert it into its collection's config.json.
+							 */
+							$scope.collection.properties.push(property);
 
-						
-			    		// See explanation of this function right before its declaration
-			    		// to understand what it does. 
-			    		addEmptyEntryForNewProperty(dialogResult.property);	
-					} else {
-						console.error('The new column could not be create');
-						console.error(result);
-					}
-				}, function(err) {
-					console.error('There was an error while trying to create the new column');
-					console.error(err);
-				});
-	    	}
-
-	    	/*
-	    	 * If the user chose an existing column, we'll need to firstly append
-	    	 * the HTML to the canvas frame.
-	    	 */
-	    	if (typeof dialogResult.property !== 'undefined') {
-	    		var existingColumnName = dialogResult.property;
-	    		var blockData = $scope.componentData.blockData;
-
-	    		if ((blockData.name === 'h1') ||
-	    			(blockData.name === 'h2') ||
-	    			(blockData.name === 'h3') ||
-	    			(blockData.name === 'h4') ||
-	    			(blockData.name === 'p')) {
-
-	    			var finalHtml = '<' + blockData.name + '>{{item.' + existingColumnName + '}}</' + blockData.name + '>';
-
-					IO.connection().emit('addElement', {
-						xPath: $scope.componentData.surfaceData.xPath,
-						fname: $scope.componentData.surfaceData.fname,
-						element: finalHtml,
-					})	    			
-	    		} else if (blockData.name === 'image') {
-	    			var finalHtml = '<img src="{{item.' + existingColumnName + '}}">';
-
-					IO.connection().emit('addElement', {
-						xPath: $scope.componentData.surfaceData.xPath,
-						fname: $scope.componentData.surfaceData.fname,
-						element: finalHtml,
+							
+				    		// See explanation of this function right before its declaration
+				    		// to understand what it does. 
+				    		addEmptyEntryForNewProperties();	
+						} else {
+							console.error('The new column could not be create');
+							console.error(result);
+						}
+					}, function(err) {
+						console.error('There was an error while trying to create the new column');
+						console.error(err);
 					});
-	    		}
+		    	}
+
+		    	/*
+		    	 * If the user chose an existing column, we'll need to firstly append
+		    	 * the HTML to the canvas frame.
+		    	 */
+		    	if (typeof dialogResult.property !== 'undefined') {
+		    		var existingColumnName = dialogResult.property;
+		    		var blockData = $scope.componentData.blockData;
+
+		    		if ((blockData.name === 'h1') ||
+		    			(blockData.name === 'h2') ||
+		    			(blockData.name === 'h3') ||
+		    			(blockData.name === 'h4') ||
+		    			(blockData.name === 'p')) {
+
+		    			var finalHtml = '<' + blockData.name + '>{{item.' + existingColumnName + '}}</' + blockData.name + '>';
+
+						IO.connection().emit('addElement', {
+							xPath: $scope.componentData.surfaceData.xPath,
+							fname: $scope.componentData.surfaceData.fname,
+							element: finalHtml,
+						})	    			
+		    		} else if (blockData.name === 'image') {
+		    			var finalHtml = '<img src="{{item.' + existingColumnName + '}}">';
+
+						IO.connection().emit('addElement', {
+							xPath: $scope.componentData.surfaceData.xPath,
+							fname: $scope.componentData.surfaceData.fname,
+							element: finalHtml,
+						});
+		    		}
+		    	}
 	    	}
 	    });
 	}
@@ -728,14 +761,41 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 	 * new property/column. So what this function does is to
 	 * add an empty entry for this new property/column in each document.
 	 */
-	function addEmptyEntryForNewProperty(property) {
+	function addEmptyEntryForNewProperties() {
 		$scope.collection.data.forEach(function(doc) {
-			var emptyEntry = {
-				property_name: property,
-				property_value: ""
-			};
 
-			doc.push(emptyEntry);
+			for (var i = 0; i < $scope.collection.properties.length; i++) {
+				var default_name = $scope.collection.properties[i].default_name;
+
+				var propertyFound = _.find(doc, function(p) {
+					/*
+					 * p looks like:
+					 *
+					 	{
+							"property_name": "title",
+							"property_value": "um titulo qualquer"
+					 	}
+					 *
+					 * What we need to do is: given a property name (which is stored
+					 * inside property_name), we need to find this property inside doc
+					 */
+					 return p.property_name === default_name;
+				});
+
+				if (typeof propertyFound === 'undefined') {
+					/*
+					 * Since the underlying doc does not have an entry
+					 * for the current property, we'll add an empty entry so
+					 * the table allocates a space to a possible new entry.
+					 */
+					var emptyEntry = {
+						property_name: default_name,
+						property_value: ""
+					};
+
+					doc.push(emptyEntry);
+				}
+			}
 		});
 	}
 

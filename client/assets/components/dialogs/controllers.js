@@ -9,6 +9,9 @@ angular.module('Dialog.dialogs.controllers', ['Editor.editors.services'])
 		// S T A R T - U P   P R O P E R T I E S
 		// *************************************
 
+		var NEW_COLUMN_ASSOCIATION = "newColumnAssociation";
+		var EXISTING_COLUMN_ASSOCIATION = "existingColumnAssociation";		
+
 		/*
 		 * Example:
 		 	["<collection-name1>", "<collection-name2>", "<collection-name3>", ...]
@@ -134,18 +137,46 @@ angular.module('Dialog.dialogs.controllers', ['Editor.editors.services'])
 		// *****************
 
 		$scope.closeModal = function() {
+			/*
+			 * Before we return the selected items, we need to do
+			 * some processing. If the user chooses to create a new column,
+			 * it's possible that she picks a composed name with spaces.
+			 * if we create a property with space, it'll break everything.
+			 * What we need to do is to make the name chosen by the user
+			 * as the property label, and remove the space so it can become
+			 * the "default_name".
+			 */
+			if ($scope.selectedItems.option === NEW_COLUMN_ASSOCIATION) {
+				$scope.selectedItems.label = $scope.selectedItems.property;
+				$scope.selectedItems.property = $scope.selectedItems.property.replace(/ /g, '_');
+			}
+
 			$mdDialog.hide($scope.selectedItems);
 		};
 
+		$scope.cancelColumnAssociationOp = function() {
+			$mdDialog.hide();
+		}
+
 		$scope.radioButtonSelected = function() {
-			if ($scope.selectedItems.option === "existingColumnAssociation") {
+			if ($scope.selectedItems.option === EXISTING_COLUMN_ASSOCIATION) {
 				$scope.hideExistingColumnOption = false;
 				$scope.hideNewColumnOption = true;
 				$scope.hideManualEditionOption = true;			
-			} else if ($scope.selectedItems.option === "newColumnAssociation") {
+			} else if ($scope.selectedItems.option === NEW_COLUMN_ASSOCIATION) {
 				$scope.hideExistingColumnOption = true;
 				$scope.hideNewColumnOption = false;
 				$scope.hideManualEditionOption = true;
+
+				/*
+				 * When the dialog pops up, the first option is already selected.
+				 * if the user picks a table and a column and clicks the "new column association"
+				 * option, the name of the table will already be chosen 
+				 * (because they share $scope.selectedItems.collection and $scope.selectedItems.property).
+				 * So we need to clean them up first so she can chooses a table.
+				 */
+				$scope.selectedItems.collection = undefined;
+				$scope.selectedItems.property = undefined;
 			} else {
 				$scope.hideExistingColumnOption = true;
 				$scope.hideNewColumnOption = true;
@@ -155,7 +186,7 @@ angular.module('Dialog.dialogs.controllers', ['Editor.editors.services'])
 
 		// Executes when user chooses a table after selecting 
 		// "associate element to a new column" option
-		$scope.userDidChoseTable = function() {
+		$scope.userDidChooseCollection = function() {
 			if (typeof $scope.selectedItems.collection !== 'undefined') {
 				$scope.showColumnNameTypeInput = true;
 			} else {
