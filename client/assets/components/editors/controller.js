@@ -551,7 +551,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 	    });
 	}
 
-	$scope.showTableUse = function(ev){
+	$scope.showTableUse = function(ev) {
 		$mdDialog.show({
 	      controller: function DialogController($scope, $mdDialog) {
 					  $scope.closeModal = function(answer) {
@@ -559,6 +559,28 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 					  };
 					},
 	      templateUrl: 'assets/components/dialogs/dialog-table-use.html',
+	      targetEvent: ev,
+	    })
+	    .then(function(answer) {
+	    	// alert('You said the information was "' + answer + '".')
+	      $scope.alert = 'You said the information was "' + answer + '".';
+	    }, function() {
+	      $scope.alert = 'You cancelled the dialog.';
+	    });
+	}
+
+	// *******************************
+	// *******************************
+	// tentativa de fazer o modal do botão + elemento abrir
+
+	$scope.showNewElementModal = function(ev) {
+		$mdDialog.show({
+	      controller: function DialogController($scope, $mdDialog) {
+					  $scope.closeModal = function(answer) {
+					    $mdDialog.hide(answer);
+					  };
+					},
+	      templateUrl: 'assets/components/dialogs/dialog-new-element.html',
 	      targetEvent: ev,
 	    })
 	    .then(function(answer) {

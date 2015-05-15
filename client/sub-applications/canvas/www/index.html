@@ -89,16 +89,13 @@
         </ion-header-bar>
         <ion-content surface="" class="padding" overflow="scroll">
 
-            <div class="list" ng-repeat="item in items" fab-source="http://localhost:3104/gallery_1431621508255">
+            <div class="list" ng-repeat="item in items" fab-source="http://localhost:3104/gallery_1431722771786">
 
                 <a class="item item-thumbnail-left" href="#" surface="">
                     <img src="{{ item.image }}">
                     <h2>{{ item.title }}</h2>
                     <p>{{ item.description }}</p>
-                    <h4>{{item.age}}</h4>
-                    <h4>{{item.year}}</h4>
-                    <h4>{{item.vocalist}}</h4>
-                    <h3>{{item.guitarrist}}</h3></a>
+                </a>
 
             </div>
         </ion-content>

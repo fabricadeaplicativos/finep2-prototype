@@ -66,6 +66,7 @@
 						<th>
 							<!--  <md-button class="md-raised">+ adicionar</md-button> -->
 							<button type="button" ng-show="!showSalvar" class="btn btn-primary" ng-click="createNewColumn()">+ coluna</button>
+							<button type="button" ng-show="!showSalvar" class="btn btn-primary" ng-click="showNewElementModal()">+ elemento</button>
 							<button type="button" ng-show="showSalvar" class="btn btn-primary" ng-click="saveNewColumn()" >salvar</button>
 							<button type="button" ng-show="showSalvar" class="btn btn-primary" ng-click="cancelColumnCreation()" >cancelar</button>
 						</th>
@@ -158,9 +159,9 @@
 
 		<md-tab label="ações">
 			<md-content class="md-padding">
-				<button ng-click="showTableCreate()">ComponenteNovo</button>
-				<button ng-click="showTableUse()">ComponenteExistente</button>
-				<button ng-click="showTableColumn()">ElementoNovo</button>
+				<button ng-click="showTableCreate()">Conjunto Novo</button>
+				<button ng-click="showColumnAssociationDialog()">Associar Componente</button>
+				<button ng-click="showNewElementModal()">Novo Elemento no conjunto</button>
 			</md-content>
 		</md-tab>
 	</md-tabs>

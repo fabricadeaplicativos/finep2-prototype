@@ -10,7 +10,7 @@
                 *****************************
             -->
             <md-radio-button value="existingColumnAssociation" class="md-primary">
-                Associar conteúdo a uma coluna existente da tabela:
+                Conteúdo existente:
             </md-radio-button>
             
             <!-- C O L L E C T I O N   S E L E C T I O N -->
@@ -32,8 +32,8 @@
                  NEW COLUMN ASSOCIATION
                 ************************
             -->
-            <md-radio-button value="newColumnAssociation" class="md-primary">Associar a uma nova coluna da tabela:</md-radio-button>
-            <md-select ng-change="userDidChooseCollection()" ng-hide="hideNewColumnOption" placeholder="Escolha" ng-model="selectedItems.collection" class="selectTag">
+            <md-radio-button value="newColumnAssociation" class="md-primary">Novo conteúdo na tabela:</md-radio-button>
+            <md-select ng-change="userDidChooseCollection()" ng-hide="hideNewColumnOption" placeholder="Escolha a tabela" ng-model="selectedItems.collection" class="selectTag">
                 <md-option ng-repeat="collection in collections" ng-value="collection">
                     {{collection}}
                 </md-option>
@@ -57,7 +57,7 @@
                  NO ASSOCIATION
                 ****************
             -->
-            <md-radio-button value="manualEdition" class="md-primary">Inserir conteúdo sem associar a uma tabela:</md-radio-button>
+            <md-radio-button value="manualEdition" class="md-primary">Novo conteúdo fora da tabela:</md-radio-button>
             <md-input-container ng-hide="hideManualEditionOption" ng-model="answer.selectValue" class="selectTag">
               <label>|* conteúdo *|</label>
               <input ng-model="theMax">
