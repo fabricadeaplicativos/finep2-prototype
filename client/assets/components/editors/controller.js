@@ -575,11 +575,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 
 	$scope.showNewElementModal = function(ev) {
 		$mdDialog.show({
-	      controller: function DialogController($scope, $mdDialog) {
-					  $scope.closeModal = function(answer) {
-					    $mdDialog.hide(answer);
-					  };
-					},
+	      controller: 'NewElementController',
 	      templateUrl: 'assets/components/dialogs/dialog-new-element.html',
 	      targetEvent: ev,
 	    })

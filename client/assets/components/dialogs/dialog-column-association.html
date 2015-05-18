@@ -1,6 +1,6 @@
 <md-dialog>
     <md-dialog-content role="document" class="sticky-container" style="padding: 24px;">
-        <h2 class="md-title">De onde você quer pegar o conteúdo para o seu elemento?</h2>
+        <h2 class="md-title">De onde você quer pegar o conteúdo?</h2>
         
         <md-radio-group ng-model="selectedItems.option" ng-change="radioButtonSelected()">
 
@@ -10,18 +10,18 @@
                 *****************************
             -->
             <md-radio-button value="existingColumnAssociation" class="md-primary">
-                Conteúdo existente:
+                Conteúdo existente numa tabela:
             </md-radio-button>
             
             <!-- C O L L E C T I O N   S E L E C T I O N -->
-            <md-select ng-hide="hideExistingColumnOption" placeholder="selecione a tabela" ng-model="selectedItems.collection" class="selectTag">
+            <md-select ng-hide="hideExistingColumnOption" placeholder="Nome da tabela" ng-model="selectedItems.collection" class="selectTag">
                 <md-option ng-repeat="collection in collections" ng-value="collection">
                     {{collection}}
                 </md-option>
             </md-select>
 
             <!-- P R O P E R T Y   S E L E C T I O N -->
-            <md-select ng-hide="hideExistingColumnOption" placeholder="selecione a coluna" ng-model="selectedItems.property" class="selectTag">
+            <md-select ng-hide="hideExistingColumnOption" placeholder="Nome da coluna" ng-model="selectedItems.property" class="selectTag">
                 <md-option ng-repeat="(property_name, property) in properties[selectedItems.collection]" ng-value="property_name">
                     {{property_name}}
                 </md-option>
@@ -32,8 +32,8 @@
                  NEW COLUMN ASSOCIATION
                 ************************
             -->
-            <md-radio-button value="newColumnAssociation" class="md-primary">Novo conteúdo na tabela:</md-radio-button>
-            <md-select ng-change="userDidChooseCollection()" ng-hide="hideNewColumnOption" placeholder="Escolha a tabela" ng-model="selectedItems.collection" class="selectTag">
+            <md-radio-button value="newColumnAssociation" class="md-primary">Nova coluna numa tabela:</md-radio-button>
+            <md-select ng-change="userDidChooseCollection()" ng-hide="hideNewColumnOption" placeholder="Nome da tabela" ng-model="selectedItems.collection" class="selectTag">
                 <md-option ng-repeat="collection in collections" ng-value="collection">
                     {{collection}}
                 </md-option>
@@ -44,7 +44,7 @@
                     <input ng-model="selectedItems.property" placeholder="Nome da coluna">
                 </md-input-container>
 
-                <md-select placeholder="Escolha o tipo" ng-model="selectedItems.type" class="selectTag">
+                <md-select placeholder="Tipo de conteúdo" ng-model="selectedItems.type" class="selectTag">
                     <md-option ng-repeat="type in types" ng-value="type.value">
                         {{type.label}}
                     </md-option>
@@ -57,10 +57,9 @@
                  NO ASSOCIATION
                 ****************
             -->
-            <md-radio-button value="manualEdition" class="md-primary">Novo conteúdo fora da tabela:</md-radio-button>
-            <md-input-container ng-hide="hideManualEditionOption" ng-model="answer.selectValue" class="selectTag">
-              <label>|* conteúdo *|</label>
-              <input ng-model="theMax">
+            <md-radio-button value="manualEdition" class="md-primary">Conteúdo fora de tabela:</md-radio-button>
+            <md-input-container md-no-float ng-hide="hideManualEditionOption" ng-model="answer.selectValue" class="selectTag">
+              <input placeholder="Conteúdo fixo">
             </md-input-container>
             
 

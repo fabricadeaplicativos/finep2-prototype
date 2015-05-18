@@ -5,3 +5,4 @@ npm-debug.logclient/assets/css/
 api/.DS_Store
 api/components/.DS_Store
 npm-debug.log
+resources/

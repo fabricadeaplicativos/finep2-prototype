@@ -195,3 +195,13 @@ angular.module('Dialog.dialogs.controllers', ['Editor.editors.services'])
 		}
 	}
 ])
+
+.controller("NewElementController", [
+	"$scope", 
+	function ($scope){
+		$scope.closeModal = function(answer) {
+					    $mdDialog.hide(answer);
+					  };
+	}
+])
+
