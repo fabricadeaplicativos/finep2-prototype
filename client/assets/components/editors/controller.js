@@ -1,6 +1,6 @@
 angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.dialogs.controllers'])
 
-.controller('EditorsCtrl', function ($scope, $window, $mdDialog, $http, IO, $q, DatabaseService, DataService) {
+.controller('EditorsCtrl', function ($scope, $window, $mdDialog, $http, IO, $q, DatabaseService, DataService, ValidationService) {
 
 	// ***************************************************
 	// S C O P E   P R O P E R T I E S  ( S T A R T - U P)
@@ -232,9 +232,32 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 	// Calls a function that hits an endpoint to change
 	// the collection's ID
 	$scope.saveNewCollectionId = function() {
+		// Let's first validate the new collection name chosen by the user
+		$scope.userValues.collectionId = ValidationService.validateName($scope.userValues.collectionId);
+
 		var promise = DatabaseService.changeCollectionId($scope.collection.collectionId, $scope.userValues.collectionId);
 
 		promise.then(function(result) {
+			/*
+			 * If we just change the collection's name, we'll end up pointing
+			 * to the wrong endpoint. Suppose when the user drags a component
+			 * the "gallery_123456789" collection is created. In the fab-source
+			 * attribute, the URL would be something like "http://localhost:3103/gallery_123456789".
+			 * If we just change the collection's name, this URL will continue to be the same
+			 * and the canvas will not display the items anymore (because gallery_123456789 will
+			 * not existing once the name is changed.) So what we need to do is to emit an event
+			 * to change the collection name in this url.
+			 */
+			IO.connection().emit('changeSourceName', {
+				// Durante a primeira fase de testes, vamos deixar hard-coded o nome
+				// do arquivo do canvas. Mas a partir do momento que o canvas começar
+				// a renderizar mais arquivos HTML que não seja o www/index.html,
+				// teremos que partir para uma abordagem dinâmica.
+				fname: 'www/index.html',
+				oldSourceName: $scope.collection.collectionId,
+				newSourceName: result.id
+			});
+
 			// Save the new collection name in $scope.collection.collectionId
 			$scope.collection.collectionId = result.id;
 			$scope.collectionIdInput = false;
@@ -253,29 +276,18 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 		// Is not editing a database
 		if($scope.collection == undefined || $scope.collection.properties == undefined)
 			return;
-
-		/*
-		 * The user will probably choose property names that have upper case letters, 
-		 * symbols like @, & and #, spaces, etc. We need to remove all of that so we
-		 * don't have problems when using this names in the final code and in the database.
-		 */
-		var processedPropertyName = $scope.columnToAdd.label;
-
-		// Removes all symbols
-		processedPropertyName = processedPropertyName.replace(/[\!\@\#\$\%\^\&\*\(\)\_]/g, '');
-
-		// Replaces all multiple spaces for _
-		processedPropertyName = processedPropertyName.replace(/\s{2,}/g, '_');
 			
 		var addColumn = {
 			type: $scope.columnToAdd.type,
-			default_name: processedPropertyName,
+			default_name: ValidationService.validateName($scope.columnToAdd.label),
 			label: $scope.columnToAdd.label
 		};
 			
 		// Empty value
-		if(addColumn.type == undefined || addColumn.type == '' || addColumn.default_name == undefined || addColumn.default_name == '')
+		if(addColumn.type == undefined || addColumn.type == '' || addColumn.default_name == undefined || addColumn.default_name == '') {
+			alert('Por favor, preencha o nome da coluna e o tipo.');
 			return;
+		}
 		
 		$scope.showSalvar = false;
 		$scope.columnToAdd = {type: ''};

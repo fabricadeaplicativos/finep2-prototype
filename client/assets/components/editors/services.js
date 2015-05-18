@@ -576,3 +576,29 @@ angular.module('Editor.editors.services', [])
 
 	return dataService;
 })
+
+.factory('ValidationService', [
+	function() {
+		var validationService = {};
+
+		/*
+		 * When the user chooses a name for a column or a collection
+		 * we cannot allow spaces or special characters. So this
+		 * function treats names that have illegal characters and return
+		 * a valid name.
+		 */
+		validationService.validateName = function(name) {
+			var validName = name;
+
+			// Removes all symbols
+			validName = validName.replace(/[\!\@\#\$\%\^\&\*\(\)\_]/g, '');
+
+			// Replaces all multiple spaces for _
+			validName = validName.replace(/\s{1,}/g, '_');
+
+			return validName;
+		}
+
+		return validationService;
+	}
+])
