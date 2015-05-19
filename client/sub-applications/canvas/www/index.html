@@ -25,33 +25,6 @@
     <!-- your app's js -->
     <script src="js/app.js" data-x-path="null" data-fname="www/index.html" data-start-index="694" data-end-index="726"></script>
 
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <script src="/client/assets/components/canvas-palette/directives.js"></script>
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-
 
     <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
     <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
@@ -88,17 +61,14 @@
             <h1 class="title">Aplicação</h1>
         </ion-header-bar>
         <ion-content surface="" class="padding" overflow="scroll">
-
-            <div class="list" ng-repeat="item in items" fab-source="http://localhost:3104/gallery_1431621508255">
+            <div class="list" ng-repeat="item in items" fab-source="http://localhost:3104/gallery_1432039582347">
 
                 <a class="item item-thumbnail-left" href="#" surface="">
-                    <img src="{{ item.image }}">
+                    <img ng-src="{{ item.image }}">
                     <h2>{{ item.title }}</h2>
                     <p>{{ item.description }}</p>
-                    <h4>{{item.age}}</h4>
-                    <h4>{{item.year}}</h4>
-                    <h4>{{item.vocalist}}</h4>
-                    <h3>{{item.guitarrist}}</h3></a>
+                    <h4>{{item.tamanho}}</h4>
+                    <h1>{{item.image}}</h1></a>
 
             </div>
         </ion-content>

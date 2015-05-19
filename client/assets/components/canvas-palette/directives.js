@@ -9,7 +9,7 @@ angular.module('fab-canvas-palette.directives', [])
 
   return {
     restrict: 'AE',
-    templateUrl: host + '/client/assets/components/canvas-palette/templates/component-palette.html',
+    template: '<div ng-repeat="component in components"><div block="{{ component.demoUrl }}" block-data="{{ component }}"></div></div>',
     link: function (scope, element, attrs) {
 
       // declare var to hold components
@@ -34,7 +34,8 @@ angular.module('fab-canvas-palette.directives', [])
 
   return {
     restrict: 'AE',
-    templateUrl: HOST + '/client/assets/components/canvas-palette/templates/element-palette.html',
+    template: '<div ng-repeat="element in elements"><div block="{{ element.demoUrl }}" block-data="{{ element }}"></div></div>',
+    // templateUrl: '/client/assets/components/canvas-palette/templates/element-palette.html',
     link: function (scope, element, attrs) {
 
       // declare var to hold elements
@@ -87,9 +88,6 @@ angular.module('fab-canvas-palette.directives', [])
     link: function(scope, element, attrs) {
 
 
-      console.log('surface discovered')
-      console.log(element)
-
       element.bind('dragover', function (e) {
         console.log('dragover')
         e.preventDefault();
@@ -112,15 +110,20 @@ angular.module('fab-canvas-palette.directives', [])
 
         element.append(newEl);
 
+        // read the xpath and the fname
+        var xPath = element.attr('data-x-path');
+        var fname = element.attr('data-fname');
+
         var data = {};
         if (blockData.category === 'component') {
+
           // data to be sent to the parent window
           data = {
             message: 'addBlock',
             blockData: blockData,
             surfaceData: {
-              xPath: '/html/body/ion-pane/ion-content',
-              fname: 'www/index.html',
+              xPath: xPath,
+              fname: fname,
             }
           };
         } else {
@@ -129,8 +132,8 @@ angular.module('fab-canvas-palette.directives', [])
             message: 'addBlock',
             blockData: blockData,
             surfaceData: {
-              xPath: '/html/body/ion-pane/ion-content/div/a',
-              fname: 'www/index.html',
+              xPath: xPath,
+              fname: fname,
             }
           };
         }

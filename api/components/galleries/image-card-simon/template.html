@@ -1,0 +1,9 @@
+<div class="list" ng-repeat="item in items" fab-source="<%= source %>">
+
+    <a class="item item-thumbnail-left" href="#">
+      <img src="{{ item.<%= db.properties.image %> }}">
+      <h2>{{ item.<%= db.properties.title %> }}</h2>
+      <p>{{ item.<%= db.properties.description %> }}</p>
+    </a>
+
+</div>

@@ -26,7 +26,11 @@ gulp.task('serve', function() {
   browserSync({
     port: 3000,
     server: {
-      baseDir: './'
+      baseDir: './',
+      middleware: function (req, res, next) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        next();
+      }
     },
     startPath: '/client',
     open: false

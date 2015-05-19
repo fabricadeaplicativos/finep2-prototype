@@ -1,0 +1,1 @@
+Configurations are inspired from inquirer manner of defining questions
