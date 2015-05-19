@@ -9,6 +9,10 @@ app.controller('AppCtrl', function($scope, $mdSidenav, $mdDialog){
 	$scope.toggleSidenav = function(menuId) {
 		$mdSidenav(menuId).toggle();
 	};
+
+  $scope.trustSrc = function(src) {
+    return $sce.trustAsResourceUrl(src);
+  };
  	
  	$scope.alert = '';
   $scope.showAlert = function(ev) {

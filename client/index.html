@@ -53,7 +53,8 @@
 
 	<div layout="row" flex>
 		<div layout="column" flex="20" id="palette">
-			<md-content layout="column" flex class="md-padding" ng-include="'assets/components/palette/index.html'">
+			<!-- <md-content layout="column" flex class="md-padding" ng-include="'assets/components/palette/index.html'"> -->
+			<iframe ng-src="{{trustSrc('http://localhost:3000/client/assets/components/pallete/index.html')}}"></iframe>
 				<!-- <iframe src="sub-applications/palette/www/index.html"></iframe> -->
 			</md-content>
 		</div>
