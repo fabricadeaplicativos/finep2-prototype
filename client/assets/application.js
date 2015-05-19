@@ -4,7 +4,7 @@ var app = angular.module('Editor', [
 	'ui.grid'
 ]);
 
-app.controller('AppCtrl', function($scope, $mdSidenav, $mdDialog){
+app.controller('AppCtrl', function($scope, $mdSidenav, $mdDialog, $sce){
 
 	$scope.toggleSidenav = function(menuId) {
 		$mdSidenav(menuId).toggle();
