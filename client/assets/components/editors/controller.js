@@ -600,6 +600,27 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 	    });
 	}
 
+	$scope.showNewElementDialog = function(ev) {
+		$mdDialog.show({
+	      controller: 'NewElementController',
+	      templateUrl: 'assets/components/dialogs/dialog-new-element.html',
+	      targetEvent: ev,
+	    })
+	    .then(function(selectedItems) {
+	    	$scope.columnToAdd = {
+	    		label: selectedItems.label,
+	    		type: selectedItems.type
+	    	};
+
+	    	// Add new column
+	    	$scope.saveNewColumn();
+
+	    	insertElementIntoCanvas(ValidationService.validateName(selectedItems.label), selectedItems.elementId);
+	    }, function() {
+	      $scope.alert = 'You cancelled the dialog.';
+	    });
+	}
+
 	$scope.showColumnAssociationDialog = function(ev){
 		$mdDialog.show({
 	      controller: 'ColumnAssociationController',
@@ -808,6 +829,31 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 					doc.push(emptyEntry);
 				}
 			}
+		});
+	}
+
+	function insertElementIntoCanvas(property_name, elementId) {
+		/*
+		 * For now, we'll leave it hard-coded, but in a near future the idea
+		 * is to get the element's template somehow.
+		 */
+		var finalHtml = '';
+
+		if ((elementId === 'h1') ||
+			(elementId === 'h2') ||
+			(elementId === 'h3') ||
+			(elementId === 'h4') ||
+			(elementId === 'p')) {
+
+			finalHtml = '<' + elementId + '>{{item.' + property_name + '}}</' + elementId + '>';	    			
+		} else if (elementId === 'image') {
+			finalHtml = '<img src="{{item.' + property_name + '}}">';
+		}
+
+		IO.connection().emit('addElement', {
+			xPath: '/html/body/ion-pane/ion-content/div/a',
+          	fname: 'www/index.html',
+			element: finalHtml,
 		});
 	}
 

@@ -2,41 +2,41 @@
     <md-dialog-content role="document" class="sticky-container" style="padding: 24px;">
         <h2 class="md-title">Inserir novo elemento na composição</h2>
 
+        <!-- E L E M E N T -->
+        <div layout="column" layout-align="left left left left" flex>
+            <md-select placeholder="Selecione o elemento" ng-model="selectedItems.elementId">
 
-        <div ng-controller="AppCtrl" layout="column" layout-align="left left left left" flex>
-            <md-select placeholder="Selecione o elemento" ng-model="someVal">
-                <md-option value="1"><h1>Título 1 (h1)</h1></md-option>
-                <md-option value="2"><h2>Título 2 (h2)</h2></md-option>
-                <md-option value="3"><h3>Título 3 (h3)</h3></md-option>
-                <md-option value="4"><h4>Título 4 (h4)</h4></md-option>
-                <md-option value="5"><p>Texto (p)</p></md-option>
-                <md-option value="6">
+                <md-option ng-repeat="element in elements" ng-value="element.value">
+                    <ng-include src="element.url"></ng-include>
+                </md-option>
+                <!-- <md-option value="6">
                     <img src="http://localhost:3000/static/images/basic-img.png" width="20px"> Imagem
+                </md-option> -->
+            </md-select>
+        </div>
+        
+        <!-- T Y P E -->
+        <div layout="column" layout-align="left left left left" flex>
+            <md-select placeholder="Tipo de conteúdo" ng-model="selectedItems.type">
+                <md-option ng-repeat="type in types" ng-value="type.value">
+                    {{type.label}}
                 </md-option>
             </md-select>
         </div>
-
-        <div ng-controller="AppCtrl" layout="column" layout-align="left left left left" flex>
-            <md-select placeholder="Tipo de conteúdo" ng-model="someVal">
-                <md-option value="1">Texto</md-option>
-                <md-option value="2">Número</md-option>
-                <md-option value="3">Boolean</md-option>
-            </md-select>
-        </div>
-
-        <md-input-container ng-model="answer.selectValue">
+    
+        <!-- C O L U M N   N A M E -->
+        <md-input-container>
             <label>Nome da coluna</label>
-            <input ng-model="theMax">
+            <input ng-model="selectedItems.label">
         </md-input-container>
 
     </md-dialog-content>
 
     <div class="md-actions" layout="row">
-        <span flex></span>
-        <md-button ng-click="" class="md-primary">
+        <md-button ng-click="cancelNewElementCreation()" class="md-primary">
             cancelar
         </md-button>
-        <md-button ng-click="closeModal()" class="md-primary">
+        <md-button ng-click="closeDialog()" class="md-primary">
             Inserir
         </md-button>
     </div>    

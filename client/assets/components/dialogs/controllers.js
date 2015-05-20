@@ -195,3 +195,47 @@ angular.module('Dialog.dialogs.controllers', ['Editor.editors.services'])
 		}
 	}
 ])
+
+.controller("NewElementController", [
+	"$scope",
+	"$mdDialog", 
+	function ($scope, $mdDialog) {
+
+		// *************************************
+		// S T A R T - U P   P R O P E R T I E S
+		// *************************************
+
+		var HOST = "http://localhost:3000/";
+
+		$scope.elements = [
+			{url: HOST + "api/elements/titles/h1/placeholder.html", value: "h1"},
+			{url: HOST + "api/elements/titles/h2/placeholder.html", value: "h2"},
+			{url: HOST + "api/elements/titles/h3/placeholder.html", value: "h3"},
+			{url: HOST + "api/elements/titles/h4/placeholder.html", value: "h4"},
+			{url: HOST + "api/elements/texts/p/placeholder.html",   value: "p"},
+		];
+
+		$scope.types = [
+			{ label: 'texto'		, value: 'string' 		},
+			{ label: 'imagem'		, value: 'image' 		},
+			{ label: 'número'		, value: 'number' 		},
+			{ label: 'boolean'		, value: 'boolean' 		},
+			{ label: 'data'		    , value: 'date'			},
+			{ label: 'localização'	, value: 'localization'	}
+		];
+
+		$scope.selectedItems = {};		
+
+		// *****************
+		// F U N C T I O N S
+		// *****************
+
+		$scope.closeDialog = function() {
+			$mdDialog.hide($scope.selectedItems);
+		};
+
+		$scope.cancelNewElementCreation = function() {
+			$mdDialog.hide();
+		}
+	}
+])
