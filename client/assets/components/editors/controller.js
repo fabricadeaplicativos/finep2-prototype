@@ -447,6 +447,13 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 
 	}, false);
 
+	$scope.$on('newPageEvent', function(event, pageId) {
+		IO.connection().emit('createNewPage', {
+			name: ValidationService.validateName(pageId),
+			label: pageId
+		});
+	});
+
 	// *******************************
 	// D I A L O G   F U N C T I O N S
 	// ******************************* 

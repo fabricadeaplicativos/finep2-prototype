@@ -58,6 +58,14 @@
 			</md-content>
 		</div>
 		<div layout="column" flex="20" id="canvas">
+			<div style="display: inline-flex; margin-left: 18px">
+				<div ng-repeat="n in range(1, numberOfPages)">
+					<button>{{n}}</button>
+				</div>
+
+				<button ng-click="createNewPage()">+</button>
+			</div>
+			
 			<md-content layout="column" flex class="md-padding">
 
 				<!-- <iframe src="sub-applications/canvas/www/index.html"></iframe> -->
