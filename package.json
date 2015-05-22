@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "bower install && mkdir resources",
     "start": "node .",
-    "debug": "node --debug ."
+    "debug": "node --debug .",
+    "clean": "node clean/clean.js"
   },
   "author": "",
   "license": "ISC",
