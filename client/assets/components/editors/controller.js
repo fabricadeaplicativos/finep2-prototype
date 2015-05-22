@@ -538,15 +538,15 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 					 * going on.
 					 */
 					var doc1 = {
-						image: 'http://images.centauro.com.br/900x900/84060802/jaqueta-de-moletom-oxer-basico-masculina-img.jpg',
-						title: 'Jaqueta de Moletom Oxer Básico',
-						description: 'Perfeita para que você tenha mais confortodurante os seus momentos mais casuais, a Jaqueta de Moletom Oxer Básico é produzida com materiais de ótima qualidade e garante mais durabilidade e transmite um toque mais macio para a pele. Aproveite!'
+						image: 'https://s3-sa-east-1.amazonaws.com/finep/images/basic-img.png',
+						title: 'Título',
+						description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 					};
 
 					var doc2 = {
-						image: 'http://images.centauro.com.br/900x900/8250730O/blusao-adidas-response-hoddie-masculino-img.jpg',
-						title: 'Blusão adidas Response Hoddie',
-						description: 'Além de proporcionar muito conforto e liberdade nos movimentos, ele possui a tecnologia Climalite que mantém o corpo seco e fresco. Aproveite já!'
+						image: 'https://s3-sa-east-1.amazonaws.com/finep/images/basic-img.png',
+						title: 'Título',
+						description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 					};
 
 					$scope.saveDocument(doc1);
