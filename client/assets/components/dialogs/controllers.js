@@ -67,11 +67,7 @@ angular.module('Dialog.dialogs.controllers', ['Editor.editors.services'])
 		 */
 		$scope.types = [
 			{ label: 'texto'		  , value: 'string' 	 },
-			{ label: 'imagem'		  , value: 'image' 		 },
-			{ label: 'número'		  , value: 'number' 	 },
-			{ label: 'boolean'		  , value: 'boolean' 	 },
-			{ label: 'data'		      , value: 'date'		 },
-			{ label: 'localização'	  , value: 'localization'}
+			{ label: 'número'		  , value: 'number' 	 }
 		];
 
 		// *******************************
@@ -217,11 +213,7 @@ angular.module('Dialog.dialogs.controllers', ['Editor.editors.services'])
 
 		$scope.types = [
 			{ label: 'texto'		, value: 'string' 		},
-			{ label: 'imagem'		, value: 'image' 		},
-			{ label: 'número'		, value: 'number' 		},
-			{ label: 'boolean'		, value: 'boolean' 		},
-			{ label: 'data'		    , value: 'date'			},
-			{ label: 'localização'	, value: 'localization'	}
+			{ label: 'número'		, value: 'number' 		}
 		];
 
 		$scope.selectedItems = {};		

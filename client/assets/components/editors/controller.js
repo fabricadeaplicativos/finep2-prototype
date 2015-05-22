@@ -18,11 +18,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 	$scope.types = [
 		{ label: 'tipo'		    , value: ''				},
 		{ label: 'texto'		, value: 'string' 		},
-		{ label: 'imagem'		, value: 'image' 		},
-		{ label: 'número'		, value: 'number' 		},
-		{ label: 'boolean'		, value: 'boolean' 		},
-		{ label: 'data'		    , value: 'date'			},
-		{ label: 'localização'	, value: 'localization'	}
+		{ label: 'número'		, value: 'number' 		}
 	];
 
 	// Holds all the values that are input by the user (collection ID,
