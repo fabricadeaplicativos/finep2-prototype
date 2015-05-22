@@ -17,3 +17,10 @@ angular.module('starter', ['ionic', 'fab-canvas-palette.directives', 'fab-direct
     }
   });
 })
+
+.config(function($stateProvider) {
+    $stateProvider.state('/', {
+        url: '/',
+        abstract: true
+    });
+})

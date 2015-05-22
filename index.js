@@ -10,7 +10,7 @@ var gulpProcess = childProcess.spawn('gulp');
 
 // start the code editor
 fabricaEditor({
-	projectsDir: 'client/sub-applications/canvas',
+	projectsDir: path.join(__dirname, 'client/sub-applications/canvas'),
 	injectScripts: [
 		'http://localhost:3000/client/assets/components/canvas-palette/directives.js'
 	],
