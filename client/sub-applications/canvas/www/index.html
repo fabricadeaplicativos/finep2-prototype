@@ -88,13 +88,13 @@
             <h1 class="title">Aplicação</h1>
         </ion-header-bar>
         <ion-content surface="" class="padding" overflow="scroll">
-            <div class="list" ng-repeat="item in items" fab-source="http://localhost:3104/gallery_1432131177281">
+            <div class="list">
 
-                <a class="item item-thumbnail-left" href="#" surface="">
+                <a class="item item-avatar" href="#" ng-repeat="item in items" fab-source="http://localhost:3104/gallery3_1432302227654" surface="">
                     <img src="{{ item.image }}">
                     <h2>{{ item.title }}</h2>
                     <p>{{ item.description }}</p>
-                    <h3>{{item.preco}}</h3></a>
+                </a>
 
             </div>
         </ion-content>

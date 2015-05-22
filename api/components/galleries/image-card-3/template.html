@@ -1,6 +1,6 @@
-<div class="list" ng-repeat="item in items" fab-source="<%= source %>">
+<div class="list">
 
-    <a class="item item-avatar" href="#" surface>
+    <a class="item item-avatar" href="#" ng-repeat="item in items" fab-source="<%= source %>" surface>
       <img src="{{ item.image }}">
       <h2>{{ item.title }}</h2>
       <p>{{ item.description }}</p>
