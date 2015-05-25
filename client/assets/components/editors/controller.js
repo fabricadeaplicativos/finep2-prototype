@@ -409,7 +409,10 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 				// Same goes to $scope.collection.properties
 				$scope.collection.properties = properties;
 
-				console.log(JSON.stringify($scope.collection.properties));
+				IO.connection().emit('removeContentForColumnName', {
+					columnName: propertyToBeRemoved.default_name,
+					fname: 'www/index.html'
+				});
 			}, function(err) {
 				console.error('REMOVE COLUMN ERROR');
 				console.error(JSON.stringify(err));
