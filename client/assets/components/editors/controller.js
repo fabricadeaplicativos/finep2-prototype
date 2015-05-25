@@ -249,7 +249,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 				// do arquivo do canvas. Mas a partir do momento que o canvas começar
 				// a renderizar mais arquivos HTML que não seja o www/index.html,
 				// teremos que partir para uma abordagem dinâmica.
-				fname: 'www/index.html',
+				fname: 'www/templates/banco-de-dados.html',
 				oldSourceName: $scope.collection.collectionId,
 				newSourceName: result.id
 			});
@@ -411,7 +411,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 
 				IO.connection().emit('removeContentForColumnName', {
 					columnName: propertyToBeRemoved.default_name,
-					fname: 'www/index.html'
+					fname: 'www/templates/banco-de-dados.html'
 				});
 			}, function(err) {
 				console.error('REMOVE COLUMN ERROR');
@@ -493,7 +493,8 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 				 * NOTE: if there's no document in the database for that collection, the canvas
 				 * will be blank. As soon as the user adds documents, it should refresh itself.
 				 */
-				var collectionEndpoint = 'http://localhost:3104/' + $scope.collection.collectionId;
+				var host = ($window.CANVAS_CONFIG) ? $window.CANVAS_CONFIG.socketHost : 'http://localhost';
+				var collectionEndpoint = host + ':3104/' + $scope.collection.collectionId;
 
 				var templatePromise = $http.get($scope.componentData.blockData.templateUrl);
 
@@ -850,8 +851,8 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 		}
 
 		IO.connection().emit('addElement', {
-			xPath: '/html/body/ion-pane/ion-content/div/a',
-          	fname: 'www/index.html',
+			xPath: '/ion-view/ion-content/div/a',
+          	fname: 'www/templates/banco-de-dados.html',
 			element: finalHtml,
 		});
 	}

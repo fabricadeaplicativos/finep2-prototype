@@ -12,7 +12,8 @@ var aux = require('./lib/auxiliary');
 var gulpProcess = childProcess.spawn('gulp');
 
 // the ip address
-var machineIPAddress = aux.getMachineIPAddress();
+// var machineIPAddress = aux.getMachineIPAddress();
+var machineIPAddress = "localhost";
 
 // start the code editor
 fabricaEditor({
