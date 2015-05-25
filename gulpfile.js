@@ -5,6 +5,10 @@ var less = require('gulp-less');
 var path = require('path');
 
 
+// get auxiliary libs
+var aux = require('./lib/auxiliary');
+
+
 // compile less task
 gulp.task('less', function () {
   gulp.src('./client/less/**/*.less')
@@ -26,7 +30,21 @@ gulp.task('serve', function() {
   browserSync({
     port: 3000,
     server: {
-      baseDir: './'
+      baseDir: './',
+      middleware: function (req, res, next) {
+
+        if (req.url === '/config.js') {
+
+          var CANVAS_CONFIG = {
+            socketHost: 'http://' + aux.getMachineIPAddress(),
+          };
+
+          res.end('window.CANVAS_CONFIG = ' + JSON.stringify(CANVAS_CONFIG));
+
+        } else {
+          next();
+        }
+      }
     },
     startPath: '/client',
     open: false

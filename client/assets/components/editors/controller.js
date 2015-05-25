@@ -196,7 +196,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 
 		promise.then(function(result) {
 			// Reloads the canvas iframe
-			$window.frames[0].location.reload();
+			IO.connection().emit('reload');
 
 			// If result does not have all the properties the document is intended
 			// to have, we'll add a "***" string to these missing properties.
