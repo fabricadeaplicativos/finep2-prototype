@@ -88,7 +88,6 @@ angular.module('fab-canvas-palette.directives', [])
 
 
       console.log('surface discovered')
-      console.log(element)
 
       element.bind('dragover', function (e) {
         console.log('dragover')
@@ -119,8 +118,8 @@ angular.module('fab-canvas-palette.directives', [])
             message: 'addBlock',
             blockData: blockData,
             surfaceData: {
-              xPath: '/html/body/ion-pane/ion-content',
-              fname: 'www/index.html',
+              xPath: attrs.xPath,
+              fname: attrs.fname,
             }
           };
         } else {
@@ -129,8 +128,8 @@ angular.module('fab-canvas-palette.directives', [])
             message: 'addBlock',
             blockData: blockData,
             surfaceData: {
-              xPath: '/html/body/ion-pane/ion-content/div/a',
-              fname: 'www/index.html',
+              xPath: attrs.xPath,
+              fname: attrs.fname,
             }
           };
         }

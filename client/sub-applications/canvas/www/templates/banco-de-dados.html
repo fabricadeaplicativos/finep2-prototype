@@ -1,0 +1,14 @@
+<ion-view view-title="Banco de dados">
+    <ion-content surface="">
+        <h1>Banco de dados</h1>
+        <div class="list">
+
+            <a class="item item-thumbnail-left" href="#" ng-repeat="item in items" fab-source="http://localhost:3104/gallery_1432570328585" surface="">
+                <img src="{{ item.image }}">
+                <h2>{{ item.title }}</h2>
+                <p>{{ item.description }}</p>
+            </a>
+
+        </div>
+    </ion-content>
+</ion-view>

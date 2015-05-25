@@ -1,0 +1,28 @@
+{
+  "name": "fab-directives",
+  "authors": [
+    "Simon <simonxd@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.15"
+  },
+  "homepage": "https://github.com/fabricadeaplicativos/fab-directives",
+  "_release": "5893f0e864",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "5893f0e864898afbd398cc37260a184725584ce4"
+  },
+  "_source": "https://github.com/fabricadeaplicativos/fab-directives.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/fabricadeaplicativos/fab-directives.git",
+  "_direct": true
+}
