@@ -28,10 +28,10 @@ deleteFolderRecursive(__dirname + '/../resources/');
 fs.mkdirSync(__dirname + '/../resources/');
 
 var domFs = new DomFs(__dirname + '/../client/sub-applications/canvas/www/');
-var file = domFs.getFile('index.html');
+var file = domFs.getFile('templates/banco-de-dados.html');
 
 // parentElement will be the element at the data.xPath
-var parentElementPromise = file.getElementAtXPath('/html/body/ion-pane/ion-content');
+var parentElementPromise = file.getElementAtXPath('/ion-view/ion-content');
 
 parentElementPromise
 	.then(function(parent) {
