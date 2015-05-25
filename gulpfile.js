@@ -4,6 +4,8 @@ var reload = browserSync.reload;
 var less = require('gulp-less');
 var path = require('path');
 
+var url = require('url');
+var proxy = require('proxy-middleware');
 
 // compile less task
 gulp.task('less', function () {
@@ -23,14 +25,36 @@ gulp.task('less', function () {
 
 // serve and watch files for automatic reload
 gulp.task('serve', function() {
+
+  /**
+   * Middleware for allowing cross origin requests
+   * @param  {[type]}   req  [description]
+   * @param  {[type]}   res  [description]
+   * @param  {Function} next [description]
+   * @return {[type]}        [description]
+   */
+  function allowCORS(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    next();
+  }
+
+  // proxy for sub-applications
+  var subApplicationsProxyOptions = url.parse('http://localhost:3100');
+  subApplicationsProxyOptions.route = '/sub-applications';
+
+  // proxy for canvas socket
+  var canvasSocketProxyOptions = url.parse('http://localhost:3102/canvas');
+  canvasSocketProxyOptions.route = '/canvas'
+
   browserSync({
     port: 3000,
     server: {
       baseDir: './',
-      middleware: function (req, res, next) {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        next();
-      }
+      middleware: [
+        allowCORS,
+        proxy(subApplicationsProxyOptions),
+        proxy(canvasSocketProxyOptions),
+      ]
     },
     startPath: '/client',
     open: false

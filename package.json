@@ -15,7 +15,10 @@
   "dependencies": {
     "browser-sync": "1.7.1",
     "fabrica-editor": "git://github.com/fabricadeaplicativos/fabrica-editor",
-    "gulp": "3.8.11"
+    "gulp": "3.8.11",
+    "proxy-middleware": "^0.11.1",
+    "request": "^2.55.0",
+    "send-marked-html": "git://github.com/fabricadeaplicativos/send-marked-html.git"
   },
   "devDependencies": {
     "gulp-less": "^1.3.6",

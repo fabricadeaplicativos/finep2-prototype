@@ -26,6 +26,12 @@
     <script src="js/app.js" data-x-path="null" data-fname="www/index.html" data-start-index="694" data-end-index="726"></script>
 
 
+    <script type="text/javascript">
+        window.CANVAS_CONFIG = {
+            reload: true
+        };
+    </script>
+
     <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
     <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
     <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
@@ -61,14 +67,13 @@
             <h1 class="title">Aplicação</h1>
         </ion-header-bar>
         <ion-content surface="" class="padding" overflow="scroll">
-            <div class="list" ng-repeat="item in items" fab-source="http://localhost:3104/gallery_1432039582347">
+            <div class="list" ng-repeat="item in items" fab-source="http://localhost:3104/gallery_1432123771640">
 
                 <a class="item item-thumbnail-left" href="#" surface="">
                     <img ng-src="{{ item.image }}">
                     <h2>{{ item.title }}</h2>
                     <p>{{ item.description }}</p>
-                    <h4>{{item.tamanho}}</h4>
-                    <h1>{{item.image}}</h1></a>
+                </a>
 
             </div>
         </ion-content>

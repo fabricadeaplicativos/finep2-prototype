@@ -53,16 +53,35 @@
 
 	<div layout="row" flex>
 		<div layout="column" flex="20" id="palette">
-			<md-content layout="column" flex class="md-padding" ng-include="'assets/components/palette/index.html'">
-			<!-- <iframe ng-src="{{trustSrc('http://localhost:3000/client/assets/components/pallete/index.html')}}"></iframe> -->
-				<!-- <iframe src="sub-applications/palette/www/index.html"></iframe> -->
+			<md-content layout="column" flex class="md-padding">
+
+				<div>
+					<md-tabs 
+						md-dynamic-height 
+						md-border-bottom 
+						md-selected="0"
+					>
+						<md-tab label="composição">
+							<md-content class="md-padding">
+								<iframe src="/sub-applications/palette/www/components.html"></iframe>
+							</md-content>
+						</md-tab>
+						<md-tab label="elementos">
+							<md-content class="md-padding">
+								<iframe src="/sub-applications/palette/www/elements.html"></iframe>
+							</md-content>
+						</md-tab>
+					</md-tabs>
+
+				</div>
+
 			</md-content>
 		</div>
 		<div layout="column" flex="20" id="canvas">
 			<md-content layout="column" flex class="md-padding">
 
 				<!-- <iframe src="sub-applications/canvas/www/index.html"></iframe> -->
-				<iframe src="http://localhost:3100/canvas/www/index.html"></iframe>
+				<iframe src="/sub-applications/canvas/www/index.html"></iframe>
 			</md-content>
 		</div>
 		<div layout="column" flex="60" id="editors-container">
