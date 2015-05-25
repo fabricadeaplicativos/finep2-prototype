@@ -537,13 +537,13 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 					 * going on.
 					 */
 					var doc1 = {
-						image: 'https://s3-sa-east-1.amazonaws.com/finep/images/basic-img.png',
+						image: 'https://s3.amazonaws.com/finep/images/basic-img.png',
 						title: 'Título',
 						description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 					};
 
 					var doc2 = {
-						image: 'https://s3-sa-east-1.amazonaws.com/finep/images/basic-img.png',
+						image: 'https://s3.amazonaws.com/finep/images/basic-img.png',
 						title: 'Título',
 						description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 					};
