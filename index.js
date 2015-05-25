@@ -25,3 +25,6 @@ fabricaEditor({
 	],
 	resourcesDirectory: path.join(__dirname, 'resources')
 });
+
+// some info
+console.log('your ip address is ' + machineIPAddress);
