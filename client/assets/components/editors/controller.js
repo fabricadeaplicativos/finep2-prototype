@@ -2,6 +2,23 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 
 .controller('EditorsCtrl', function ($scope, $window, $mdDialog, $http, IO, $q, DatabaseService, DataService, ValidationService) {
 
+
+	// QRCode
+	$scope.generateQRCode = function () {
+		var qrcode = new QRCode("qrcode", {
+		    text: $window.CANVAS_CONFIG.socketHost + ':3100/www#/app/banco-de-dados',
+		    width: 128,
+		    height: 128,
+		    colorDark : "#000000",
+		    colorLight : "#ffffff",
+		    correctLevel : QRCode.CorrectLevel.H
+		});
+	};
+	// generate it on startup.
+	// $scope.generateQRCode();
+
+
+
 	// ***************************************************
 	// S C O P E   P R O P E R T I E S  ( S T A R T - U P)
 	// ***************************************************
