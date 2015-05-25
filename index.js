@@ -15,7 +15,7 @@ fabricaEditor({
 	socketHost: 'http://192.168.0.66',
 
 	injectScripts: [
-		'http://localhost:3000/client/assets/components/canvas-palette/directives.js'
+		'http://192.168.0.66:3000/client/assets/components/canvas-palette/directives.js'
 	],
 	resourcesDirectory: path.join(__dirname, 'resources')
 });

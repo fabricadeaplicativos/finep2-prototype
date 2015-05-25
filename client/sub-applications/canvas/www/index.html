@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
@@ -14,43 +13,17 @@
     -->
 
     <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js" data-x-path="null" data-fname="www/index.html" data-start-index="496" data-end-index="547"></script>
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
 
-    <!-- cordova script (this will be a 404 during development) 
+    <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
-    -->
-
-    <script src="http://localhost:3102/assets/bower_components/socket.io-client/socket.io.js"></script>
 
     <!-- your app's js -->
-    <script src="js/app.js" data-x-path="null" data-fname="www/index.html" data-start-index="694" data-end-index="726"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
 
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <script src="/client/assets/components/canvas-palette/directives.js"></script>
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
-    <!-- CANVAS-PALETTE -->
+
+    <!-- // <script type="text/javascript" src="'http://192.168.0.66:3000/client/assets/components/canvas-palette/directives.js'"></script> -->
 
 
     <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
@@ -79,26 +52,9 @@
     <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
     <!-- FAB-DIRECTIVES-DATA-DIRECTIVE -->
 
-</head>
+  </head>
 
-<body ng-app="starter">
-
-    <ion-pane>
-        <ion-header-bar class="bar-stable">
-            <h1 class="title">Aplicação</h1>
-        </ion-header-bar>
-        <ion-content surface="" class="padding" overflow="scroll">
-            <div class="list">
-
-                <a class="item item-thumbnail-left" href="#" ng-repeat="item in items" fab-source="http://localhost:3104/gallery_1432303114305" surface="">
-                    <img src="{{ item.image }}">
-                    <h2>{{ item.title }}</h2>
-                    <p>{{ item.description }}</p>
-                </a>
-
-            </div>
-        </ion-content>
-    </ion-pane>
-</body>
-
+  <body ng-app="starter">
+    <ion-nav-view></ion-nav-view>
+  </body>
 </html>
