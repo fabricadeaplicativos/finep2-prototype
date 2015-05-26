@@ -9,7 +9,7 @@ app.controller('AppCtrl', function($scope, $mdSidenav, $mdDialog, $window) {
     $scope.generateQRCode = function () {
         $mdDialog.show({
             controller: function($scope) {
-                var host = $window.CANVAS_CONFIG.socketHost + ':3100/www#/app/banco-de-dados';
+                var host = $window.CANVAS_CONFIG.socketHost + ':3100/www/#/app/banco-de-dados';
 
                 $scope.qrcode = {
                     url: "https://api.qrserver.com/v1/create-qr-code/?size=350x350&data=" + host
