@@ -1,0 +1,13 @@
+<md-dialog>
+    <md-dialog-content role="document" class="sticky-container" style="padding: 24px;">
+        <div style="font-size: 19px"><b>Escaneie esse QR Code para acessar seu app!</b></div>
+        <img ng-src="{{qrcode.url}}" alt="" style="margin-top: 30px; width: 100%">
+    </md-dialog-content>
+
+    <div class="md-actions" layout="row">
+        <md-button ng-click="dismissDialog()" class="md-primary">
+            Ok
+        </md-button>
+    </div>    
+    
+</md-dialog>

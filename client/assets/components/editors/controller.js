@@ -4,16 +4,16 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 
 
 	// QRCode
-	$scope.generateQRCode = function () {
-		var qrcode = new QRCode("qrcode", {
-		    text: $window.CANVAS_CONFIG.socketHost + ':3100/www#/app/banco-de-dados',
-		    width: 128,
-		    height: 128,
-		    colorDark : "#000000",
-		    colorLight : "#ffffff",
-		    correctLevel : QRCode.CorrectLevel.H
-		});
-	};
+	// $scope.generateQRCode = function () {
+	// 	var qrcode = new QRCode("qrcode", {
+	// 	    text: $window.CANVAS_CONFIG.socketHost + ':3100/www#/app/banco-de-dados',
+	// 	    width: 128,
+	// 	    height: 128,
+	// 	    colorDark : "#000000",
+	// 	    colorLight : "#ffffff",
+	// 	    correctLevel : QRCode.CorrectLevel.H
+	// 	});
+	// };
 	// generate it on startup.
 	// $scope.generateQRCode();
 	// 
