@@ -494,7 +494,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 				 * NOTE: if there's no document in the database for that collection, the canvas
 				 * will be blank. As soon as the user adds documents, it should refresh itself.
 				 */
-				var collectionEndpoint = 'http://localhost:3104/' + $scope.collection.collectionId;
+				var collectionEndpoint = 'http://ec2-52-7-200-59.compute-1.amazonaws.com:3104/' + $scope.collection.collectionId;
 
 				var templatePromise = $http.get($scope.componentData.blockData.templateUrl);
 

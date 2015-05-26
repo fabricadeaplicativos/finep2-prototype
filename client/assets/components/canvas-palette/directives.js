@@ -3,7 +3,7 @@ angular.module('fab-canvas-palette.directives', [])
 .directive('fabComponentPalette', function ($http) {
 
 
-  var host = 'http://localhost:3000';
+  var host = 'http://ec2-52-7-200-59.compute-1.amazonaws.com:3000';
 
   var componentsDbUrl = host + '/api/components/registry.json';
 
@@ -29,7 +29,7 @@ angular.module('fab-canvas-palette.directives', [])
   
 .directive('fabElementPalette', function ($http) {
 
-  var HOST = 'http://localhost:3000';
+  var HOST = 'http://ec2-52-7-200-59.compute-1.amazonaws.com:3000';
   var ELEMENTS_DB_URL = HOST + '/api/elements/registry.json';
 
   return {

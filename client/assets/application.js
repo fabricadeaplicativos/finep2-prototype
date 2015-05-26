@@ -80,7 +80,7 @@ app.controller('AppCtrl', function($scope, $mdSidenav, $mdDialog, $sce){
     var socketServerPort = $window.socketServerPort || 3102;
 
     // create socket
-    window.socket = io.connect('http://localhost:' + socketServerPort + '/canvas');
+    window.socket = io.connect('http://ec2-52-7-200-59.compute-1.amazonaws.com:' + socketServerPort + '/canvas');
 
     var ioService = {};
 

@@ -4,6 +4,8 @@ angular.module('Editor.editors.services', [])
 	'$http',
 	'$q',
 	function($http, $q) {
+        var host = 'http://ec2-52-7-200-59.compute-1.amazonaws.com';
+        
 		var databaseService = {};
 
 		/**
@@ -73,7 +75,7 @@ angular.module('Editor.editors.services', [])
 			 * the collection. And as soon as we get the result, we resolve
 			 * the promise we're returning at the bottom with the result.
 			 */
-			var httpPromise = $http.post('http://localhost:3103/resources', {
+			var httpPromise = $http.post(host + ':3103/resources', {
 				type: 'Collection',
 				id: componentData.blockData.default_collection_name,
 				properties: collectionProperties
@@ -94,7 +96,7 @@ angular.module('Editor.editors.services', [])
 		databaseService.changeCollectionId = function(oldCollectionId, newCollectionId) {
 			var deferred = $q.defer();
 
-			var httpPromise = $http.get('http://localhost:3103/' + oldCollectionId + '/config');
+			var httpPromise = $http.get(host + ':3103/' + oldCollectionId + '/config');
 
 			httpPromise.then(function(result) {
 				var putData = result.data.data;
@@ -102,7 +104,7 @@ angular.module('Editor.editors.services', [])
 
 				var req = {
 					method: 'PUT',
-					url: 'http://localhost:3104/__resources/' + oldCollectionId,
+					url: host + ':3104/__resources/' + oldCollectionId,
 					headers: {
 						'Content-Type': 'application/json',
 						'dpd-ssh-key': '98asuhjnd'
@@ -126,7 +128,7 @@ angular.module('Editor.editors.services', [])
 		databaseService.insertNewDocument = function(collectionId, documentToBeInserted) {
 			var deferred = $q.defer();
 
-			$http.post('http://localhost:3104/' + collectionId, documentToBeInserted)
+			$http.post(host + ':3104/' + collectionId, documentToBeInserted)
 				.then(function(result) {
 					deferred.resolve(result.data);
 				}, function(err) {
@@ -173,7 +175,7 @@ angular.module('Editor.editors.services', [])
 			var putData = {};
 			putData[column.default_name] = newProperty;
 
-			var httpPromise = $http.put('http://localhost:3103/resources/' + collectionId, putData);
+			var httpPromise = $http.put(host + ':3103/resources/' + collectionId, putData);
 
 			httpPromise.then(function(result) {
 				deferred.resolve(result.data);
@@ -193,7 +195,7 @@ angular.module('Editor.editors.services', [])
 
 			var getData = {
 				method: 'GET',
-				url: 'http://localhost:3103/resources',
+				url: host + ':3103/resources',
 				headers: {
 					'Content-Type': 'application/json'
 				}
@@ -215,7 +217,7 @@ angular.module('Editor.editors.services', [])
 					 * Now that we have the last collection created, we'll get its
 					 * configuration in order to resolve the pending promise.
 					 */
-					$http.get('http://localhost:3103/' + collectionId + '/config')
+					$http.get(host + ':3103/' + collectionId + '/config')
 						.then(function(result) {
 							var config = result.data.data;
 							var collection = {
@@ -277,7 +279,7 @@ angular.module('Editor.editors.services', [])
 		databaseService.getDocumentsOfCollection = function(collectionId) {
 			var deferred = $q.defer();
 
-			$http.get('http://localhost:3104/' + collectionId)
+			$http.get(host + ':3104/' + collectionId)
 				.then(function(result) {
 					deferred.resolve(result.data);
 				}, function(err) {
@@ -290,7 +292,7 @@ angular.module('Editor.editors.services', [])
 		databaseService.removePropertyFromCollection = function(collectionId, property_name) {
 			var deferred = $q.defer();
 
-			var httpPromise = $http.get('http://localhost:3103/' + collectionId + '/config');
+			var httpPromise = $http.get(host + ':3103/' + collectionId + '/config');
 
 			httpPromise.then(function(result) {
 				var config = result.data.data;
@@ -303,7 +305,7 @@ angular.module('Editor.editors.services', [])
 
 				var req = {
 					method: 'PUT',
-					url: 'http://localhost:3104/__resources/' + collectionId,
+					url: host + ':3104/__resources/' + collectionId,
 					headers: {
 						'Content-Type': 'application/json',
 						'dpd-ssh-key': '98asuhjnd'
@@ -340,7 +342,7 @@ angular.module('Editor.editors.services', [])
 
 			var req = {
 				method: 'DELETE',
-				url: 'http://localhost:3104/' + collectionId + '/' + documentId,
+				url: host + ':3104/' + collectionId + '/' + documentId,
 				headers: {
 					'Content-Type': 'application/json',
 					'dpd-ssh-key': '98asuhjnd'
@@ -373,7 +375,7 @@ angular.module('Editor.editors.services', [])
 		databaseService.getCollections = function() {
 			var deferred = $q.defer();
 
-			$http.get('http://localhost:3103/resources/config')
+			$http.get(host + ':3103/resources/config')
 				.then(function(result) {
 					deferred.resolve(result.data.data);
 				}, function(err) {
