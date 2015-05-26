@@ -3,7 +3,8 @@ var DomFs = require('../node_modules/fabrica-editor/node_modules/dom-fs');
 // new DomFs(__dirname + '../');
 
 // Remove all the contents of the resources folder
-var fs = require('fs');
+var fs = require('fs'),
+	path = require('path');
 
 var deleteFolderRecursive = function(path) {
 	if(fs.existsSync(path)) {
@@ -43,3 +44,14 @@ parentElementPromise
 		// let's write the file so the canvas can have the changes
 		file.write();
 	});
+
+
+
+// rewrite 'estatico.html';
+var source = fs.readFileSync(path.join(__dirname, 'estatico-fonte.html'), {
+	encoding: 'utf8'
+});
+fs.writeFileSync(path.join(__dirname, '..', 'client/sub-applications/canvas/www/templates/estatico.html'), source, {
+	encoding: 'utf8',
+	mode: 777
+});

@@ -1,53 +1,5 @@
 [
 	{
-		"name": "like",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/elements/actions/like/template.html",
-		"demoUrl": "http://localhost:3000/api/elements/actions/like/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/elements/actions/like/placeholder.html",
-		"category": "element"
-	},
-	{
-		"name": "like-raw",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/elements/actions/like-raw/template.html",
-		"demoUrl": "http://localhost:3000/api/elements/actions/like-raw/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/elements/actions/like-raw/placeholder.html",
-		"category": "element"
-	},
-	{
-		"name": "share",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/elements/actions/share/template.html",
-		"demoUrl": "http://localhost:3000/api/elements/actions/share/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/elements/actions/share/placeholder.html",
-		"category": "element"
-	},
-	{
-		"name": "share-raw",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/elements/actions/share-raw/template.html",
-		"demoUrl": "http://localhost:3000/api/elements/actions/share-raw/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/elements/actions/share-raw/placeholder.html",
-		"category": "element"
-	},
-	{
-		"name": "comment",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/elements/actions/comment/template.html",
-		"demoUrl": "http://localhost:3000/api/elements/actions/comment/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/elements/actions/comment/placeholder.html",
-		"category": "element"
-	},
-	{
-		"name": "comment-raw",
-		"tag": "",
-		"templateUrl": "http://localhost:3000/api/elements/actions/comment-raw/template.html",
-		"demoUrl": "http://localhost:3000/api/elements/actions/comment-raw/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/elements/actions/comment-raw/placeholder.html",
-		"category": "element"
-	},
-	{
 		"name": "button-full",
 		"tag": "",
 		"templateUrl": "http://localhost:3000/api/elements/buttons/button-full/template.html",
@@ -117,6 +69,54 @@
 		"templateUrl": "http://localhost:3000/api/elements/images/img/template.html",
 		"demoUrl": "http://localhost:3000/api/elements/images/img/demo.html",
 		"placeholderUrl": "http://localhost:3000/api/elements/images/img/placeholder.html",
+		"category": "element"
+	},
+	{
+		"name": "like",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/elements/actions/like/template.html",
+		"demoUrl": "http://localhost:3000/api/elements/actions/like/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/elements/actions/like/placeholder.html",
+		"category": "element"
+	},
+	{
+		"name": "like-raw",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/elements/actions/like-raw/template.html",
+		"demoUrl": "http://localhost:3000/api/elements/actions/like-raw/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/elements/actions/like-raw/placeholder.html",
+		"category": "element"
+	},
+	{
+		"name": "share",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/elements/actions/share/template.html",
+		"demoUrl": "http://localhost:3000/api/elements/actions/share/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/elements/actions/share/placeholder.html",
+		"category": "element"
+	},
+	{
+		"name": "share-raw",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/elements/actions/share-raw/template.html",
+		"demoUrl": "http://localhost:3000/api/elements/actions/share-raw/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/elements/actions/share-raw/placeholder.html",
+		"category": "element"
+	},
+	{
+		"name": "comment",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/elements/actions/comment/template.html",
+		"demoUrl": "http://localhost:3000/api/elements/actions/comment/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/elements/actions/comment/placeholder.html",
+		"category": "element"
+	},
+	{
+		"name": "comment-raw",
+		"tag": "",
+		"templateUrl": "http://localhost:3000/api/elements/actions/comment-raw/template.html",
+		"demoUrl": "http://localhost:3000/api/elements/actions/comment-raw/demo.html",
+		"placeholderUrl": "http://localhost:3000/api/elements/actions/comment-raw/placeholder.html",
 		"category": "element"
 	}
 ]

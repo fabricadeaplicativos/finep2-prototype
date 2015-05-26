@@ -16,6 +16,17 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 	};
 	// generate it on startup.
 	// $scope.generateQRCode();
+	// 
+	
+
+	// // BRACKETS EDITOR 
+	// setTimeout(function () {
+	// 	document.getElementById('text-editor').innerHTML = [
+	// 		'<iframe src="http://localhost:3101/brackets/"',
+	// 			'style="width: 700px; height: 600px;">',
+	// 		'</iframe>'
+	// 	].join(' ')
+	// }, 10000);
 
 
 
@@ -458,7 +469,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 			$scope.showTableCreate();
 			// addComponent(data.blockData, data.surfaceData);
 		} else {
-			$scope.showColumnAssociationDialog();
+			$scope.showColumnAssociationDialog(data);
 		}
 
 	}, false);
@@ -638,15 +649,15 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 	    });
 	}
 
-	$scope.showColumnAssociationDialog = function(ev){
+	$scope.showColumnAssociationDialog = function(messageData){
 		$mdDialog.show({
 	      controller: 'ColumnAssociationController',
-	      templateUrl: 'assets/components/dialogs/dialog-column-association.html',
-	      targetEvent: ev,
+	      templateUrl: 'assets/components/dialogs/dialog-column-association.html'
 	    })
 	    .then(function(dialogResult) {
 
 	    	if (typeof dialogResult !== 'undefined') {
+
 	    		/*
 		    	 * If the user chose to associate the added element to a new column,
 		    	 * we'll need to do the following:
@@ -687,6 +698,41 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 						console.error('There was an error while trying to create the new column');
 						console.error(err);
 					});
+		    	}
+
+		    	// insert static content
+		    	if (dialogResult.option === 'manualEdition') {
+
+		    		// Object {option: "manualEdition", staticContent: "33333"}
+		    		// {"message":"addBlock","blockData":{"name":"h1","tag":"","templateUrl":"http://localhost:3000/api/elements/titles/h1/template.html","demoUrl":"http://localhost:3000/api/elements/titles/h1/demo.html","placeholderUrl":"http://localhost:3000/api/elements/titles/h1/placeholder.html","category":"element"},"surfaceData":{"xPath":"/ion-view/ion-content","fname":"www/templates/banco-de-dados.html"}}
+		    		
+		    		$http.get(messageData.blockData.templateUrl)
+		    			.then(function (res) {
+
+		    				var templateSrc = res.data;
+
+		    				// compile template
+		    				var templateFn = _.template(templateSrc);
+
+		    				// generate the final html
+		    				var finalHtml = templateFn({ value: dialogResult.staticContent });
+
+		    				console.log(finalHtml);
+
+		    				// add the html to the code
+		    				IO.connection().emit('addElement', {
+		    					xPath: messageData.surfaceData.xPath,
+		    					fname: messageData.surfaceData.fname,
+		    					element: finalHtml,
+		    				});
+		    			}, function (e) {
+		    				alert('failed to add element');
+
+		    				throw e;
+		    			});
+
+		    		// console.log(dialogResult);
+		    		// console.log(JSON.stringify(messageData));
 		    	}
 
 		    	/*
@@ -876,36 +922,37 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 
 });
 
-function DialogController($scope, $mdDialog) {	
-	$scope.hideOldColumn = false;
-	$scope.hideNewColumn = true;
-	$scope.hideManualEdition = true;
+// function DialogController($scope, $mdDialog) {	
+// 	$scope.hideOldColumn = false;
+// 	$scope.hideNewColumn = true;
+// 	$scope.hideManualEdition = true;
 
-	$scope.answer = {
-		selectValue: "",
-		selectedItem: "oldColumnAssociation"
-	};
+// 	$scope.answer = {
+// 		selectValue: "",
+// 		selectedItem: "oldColumnAssociation",
+// 		content: 'oi'
+// 	};
 
-	$scope.closeModal = function() {
-		$mdDialog.hide($scope.answer);
-	};
+// 	$scope.closeModal = function() {
+// 		$mdDialog.hide($scope.answer);
+// 	};
 
-	$scope.radioButtonSelected = function() {
-		if ($scope.answer.selectedItem === "oldColumnAssociation") {
-			$scope.hideOldColumn = false;
-			$scope.hideNewColumn = true;
-			$scope.hideManualEdition = true;			
-		} else if ($scope.answer.selectedItem === "newColumnAssociation") {
-			$scope.hideOldColumn = true;
-			$scope.hideNewColumn = false;
-			$scope.hideManualEdition = true;
-		} else {
-			$scope.hideOldColumn = true;
-			$scope.hideNewColumn = true;
-			$scope.hideManualEdition = false;
-		}
-	}
-}
+// 	$scope.radioButtonSelected = function() {
+// 		if ($scope.answer.selectedItem === "oldColumnAssociation") {
+// 			$scope.hideOldColumn = false;
+// 			$scope.hideNewColumn = true;
+// 			$scope.hideManualEdition = true;			
+// 		} else if ($scope.answer.selectedItem === "newColumnAssociation") {
+// 			$scope.hideOldColumn = true;
+// 			$scope.hideNewColumn = false;
+// 			$scope.hideManualEdition = true;
+// 		} else {
+// 			$scope.hideOldColumn = true;
+// 			$scope.hideNewColumn = true;
+// 			$scope.hideManualEdition = false;
+// 		}
+// 	}
+// }
 
 
 
