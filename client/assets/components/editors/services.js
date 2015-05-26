@@ -207,6 +207,10 @@ angular.module('Editor.editors.services', [])
 				.then(function(result) {
 					var collectionId = result.data.data[0];
 
+					if (typeof collectionId === 'undefined') {
+						return;
+					}
+
 					/*
 					 * Now that we have the last collection created, we'll get its
 					 * configuration in order to resolve the pending promise.

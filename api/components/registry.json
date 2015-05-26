@@ -2,9 +2,9 @@
 	{
 		"name": "Galeria mista 1",
 		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/galleries/image-card/template.html",
-		"demoUrl": "http://localhost:3000/api/components/galleries/image-card/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/galleries/image-card/placeholder.html",
+		"templateUrl": "https://s3.amazonaws.com/finep/api/components/galleries/image-card/template.html",
+		"demoUrl": "https://s3.amazonaws.com/finep/api/components/galleries/image-card/demo.html",
+		"placeholderUrl": "https://s3.amazonaws.com/finep/api/components/galleries/image-card/placeholder.html",
 		"default_collection_name": "gallery",
 		"properties": [
 			{
@@ -31,9 +31,9 @@
 	{
 		"name": "Galeria mista 2",
 		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/galleries/image-card-2/template.html",
-		"demoUrl": "http://localhost:3000/api/components/galleries/image-card-2/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/galleries/image-card-2/placeholder.html",
+		"templateUrl": "https://s3.amazonaws.com/finep/api/components/galleries/image-card-2/template.html",
+		"demoUrl": "https://s3.amazonaws.com/finep/api/components/galleries/image-card-2/demo.html",
+		"placeholderUrl": "https://s3.amazonaws.com/finep/api/components/galleries/image-card-2/placeholder.html",
 		"properties": [
 			{
 				"label": "Image",
@@ -60,9 +60,9 @@
 	{
 		"name": "Galeria mista 3",
 		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/galleries/image-card-3/template.html",
-		"demoUrl": "http://localhost:3000/api/components/galleries/image-card-3/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/galleries/image-card-3/placeholder.html",
+		"templateUrl": "https://s3.amazonaws.com/finep/api/components/galleries/image-card-3/template.html",
+		"demoUrl": "https://s3.amazonaws.com/finep/api/components/galleries/image-card-3/demo.html",
+		"placeholderUrl": "https://s3.amazonaws.com/finep/api/components/galleries/image-card-3/placeholder.html",
 		"properties": [
 			{
 				"label": "Image",
@@ -89,9 +89,9 @@
 	{
 		"name": "Galeria imagem 1",
 		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/galleries/image-1/template.html",
-		"demoUrl": "http://localhost:3000/api/components/galleries/image-1/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/galleries/image-1/placeholder.html",
+		"templateUrl": "https://s3.amazonaws.com/finep/api/components/galleries/image-1/template.html",
+		"demoUrl": "https://s3.amazonaws.com/finep/api/components/galleries/image-1/demo.html",
+		"placeholderUrl": "https://s3.amazonaws.com/finep/api/components/galleries/image-1/placeholder.html",
 		"properties": [
 			{
 				"label": "Image",
@@ -118,9 +118,9 @@
 	{
 		"name": "Galeria imagem 2",
 		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/galleries/image-2/template.html",
-		"demoUrl": "http://localhost:3000/api/components/galleries/image-2/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/galleries/image-2/placeholder.html",
+		"templateUrl": "https://s3.amazonaws.com/finep/api/components/galleries/image-2/template.html",
+		"demoUrl": "https://s3.amazonaws.com/finep/api/components/galleries/image-2/demo.html",
+		"placeholderUrl": "https://s3.amazonaws.com/finep/api/components/galleries/image-2/placeholder.html",
 		"properties": [
 			{
 				"label": "Image",
@@ -147,9 +147,9 @@
 	{
 		"name": "card-blank",
 		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/galleries/card-blank/template.html",
-		"demoUrl": "http://localhost:3000/api/components/galleries/card-blank/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/galleries/card-blank/placeholder.html",
+		"templateUrl": "https://s3.amazonaws.com/finep/api/components/galleries/card-blank/template.html",
+		"demoUrl": "https://s3.amazonaws.com/finep/api/components/galleries/card-blank/demo.html",
+		"placeholderUrl": "https://s3.amazonaws.com/finep/api/components/galleries/card-blank/placeholder.html",
 		"category": "component",
 		"default_collection_name": "card_blank",
 		"properties": []
@@ -157,9 +157,9 @@
 	{
 		"name": "form1",
 		"tag": "",
-		"templateUrl": "http://localhost:3000/api/components/forms/form1/template.html",
-		"demoUrl": "http://localhost:3000/api/components/forms/form1/demo.html",
-		"placeholderUrl": "http://localhost:3000/api/components/forms/form1/placeholder.html",
+		"templateUrl": "https://s3.amazonaws.com/finep/api/components/forms/form1/template.html",
+		"demoUrl": "https://s3.amazonaws.com/finep/api/components/forms/form1/demo.html",
+		"placeholderUrl": "https://s3.amazonaws.com/finep/api/components/forms/form1/placeholder.html",
 		"category": "component",
 		"properties": [
 			{

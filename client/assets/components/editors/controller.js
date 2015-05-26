@@ -107,6 +107,8 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 	// S T A R T - U P   A C T I O N S
 	// *******************************
 
+
+
 	/* 
 	 * On start-up, we'll need to fetch the data from our database
 	 * in order to populate $scope.collection. 
