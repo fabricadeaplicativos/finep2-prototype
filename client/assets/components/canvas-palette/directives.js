@@ -70,11 +70,7 @@ angular.module('fab-canvas-palette.directives', [])
 
       $http.get(attrs.block).then(function (res) {
         element.html(res.data);
-      })
-      // element[0].addEventListener("dragstart", scope.handleDragStart, false);
-      // element[0].addEventListener("dragend", scope.handleDragEnd, false);
-      // element[0].addEventListener("dragenter", scope.handleDragEnter, false);
-      // element[0].addEventListener("dragleave", scope.handleDragLeave, false);
+      });
     }
   }
 })
@@ -91,8 +87,21 @@ angular.module('fab-canvas-palette.directives', [])
 
       element.bind('dragover', function (e) {
         console.log('dragover')
+
+        element.addClass('dragover');
+
         e.preventDefault();
+        e.stopPropagation();
       });
+
+      element.bind('dragleave', function (e) {
+
+        console.log('dragleave');
+
+        element.removeClass('dragover');
+        e.preventDefault();
+        e.stopPropagation();
+      })
 
       element.bind('drop', function (e) {
 
@@ -136,6 +145,7 @@ angular.module('fab-canvas-palette.directives', [])
 
         window.parent.postMessage(JSON.stringify(data), '*');
 
+        element.removeClass('dragover');
         e.stopPropagation();
 
       });

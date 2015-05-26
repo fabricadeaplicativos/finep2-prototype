@@ -1,1 +1,6 @@
 /* Empty. Add your own CSS if you like */
+.dragover {
+	border: 1px dashed darkred !important;
+
+	box-sizing: border-box;
+}
