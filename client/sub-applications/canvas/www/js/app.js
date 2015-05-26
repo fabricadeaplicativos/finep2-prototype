@@ -67,5 +67,5 @@ angular.module('starter', ['ionic', 'starter.controllers', 'fab-canvas-palette.d
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+  $urlRouterProvider.otherwise('/app/banco-de-dados');
 });
