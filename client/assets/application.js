@@ -89,6 +89,20 @@ app.controller('AppCtrl', function($scope, $mdSidenav, $mdDialog, $window) {
   };
 })
 
+.config(function($sceDelegateProvider) {
+    /*
+     * If we need to load, say, an HTML from another origin
+     * different from localhost, we'll need to whitelist it so
+     * we don't have problems with CORS.
+     */
+    $sceDelegateProvider.resourceUrlWhitelist([
+        // Allow same origin resource loads.
+        'self',
+        // Allow loading resources from our Amazon S3 bucket.
+        'https://s3.amazonaws.com/finep/**'
+    ]);
+})
+
 .factory('IO', function($window) {
     // get port of the socketServer
     var socketServerPort = $window.socketServerPort || 3102;

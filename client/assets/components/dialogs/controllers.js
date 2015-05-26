@@ -66,8 +66,8 @@ angular.module('Dialog.dialogs.controllers', ['Editor.editors.services'])
 		 * Available types for new columns
 		 */
 		$scope.types = [
-			{ label: 'texto'		  , value: 'string' 	 },
-			{ label: 'número'		  , value: 'number' 	 }
+			{ label: 'texto'	, value: 'string' 	 },
+			{ label: 'número'	, value: 'number' 	 }
 		];
 
 		// *******************************
@@ -201,7 +201,7 @@ angular.module('Dialog.dialogs.controllers', ['Editor.editors.services'])
 		// S T A R T - U P   P R O P E R T I E S
 		// *************************************
 
-		var HOST = "http://localhost:3000/";
+		var HOST = "https://s3.amazonaws.com/finep/";
 
 		$scope.elements = [
 			{url: HOST + "api/elements/titles/h1/placeholder.html", value: "h1"},
