@@ -14,6 +14,7 @@ var gulpProcess = childProcess.spawn('gulp');
 // IP Address of the machine running the server
 var machineIPAddress;
 
+console.log("Environment: " + process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'production') {
 	machineIPAddress = 'ec2-52-7-200-59.compute-1.amazonaws.com';
 } else {
