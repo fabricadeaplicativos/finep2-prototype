@@ -16,14 +16,6 @@
 		"category": "element"
 	},
 	{
-		"name": "card-blank",
-		"tag": "",
-		"templateUrl": "https://s3.amazonaws.com/finep/api/elements/galleries/card-blank/template.html",
-		"demoUrl": "https://s3.amazonaws.com/finep/api/elements/galleries/card-blank/demo.html",
-		"placeholderUrl": "https://s3.amazonaws.com/finep/api/elements/galleries/card-blank/placeholder.html",
-		"category": "component"
-	},
-	{
 		"name": "h1",
 		"tag": "",
 		"templateUrl": "https://s3.amazonaws.com/finep/api/elements/titles/h1/template.html",
