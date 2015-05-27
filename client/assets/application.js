@@ -99,9 +99,7 @@ app.controller('AppCtrl', function($scope, $mdSidenav, $mdDialog, $window) {
      */
     $sceDelegateProvider.resourceUrlWhitelist([
         // Allow same origin resource loads.
-        'http://localhost**',
-        // Allow resource loading from within Fabrica's network
-        'http://192.168.**',
+        'self',
         // Allow loading resources from our Amazon S3 bucket.
         'https://s3.amazonaws.com/finep/**',
         // Allow loading resources from our Amazon EC2 instance
@@ -114,8 +112,9 @@ app.controller('AppCtrl', function($scope, $mdSidenav, $mdDialog, $window) {
     var socketServerPort = $window.socketServerPort || 3102;
 
     // create socket
-//    window.socket = io.connect($window.CANVAS_CONFIG.socketHost + ':' + socketServerPort + '/canvas');
-    window.socket = io.connect('http://ec2-52-7-200-59.compute-1.amazonaws.com:' + socketServerPort + '/canvas');
+    alert($window.CANVAS_CONFIG.socketHost + ':' + socketServerPort + '/canvas')
+    window.socket = io.connect($window.CANVAS_CONFIG.socketHost + ':' + socketServerPort + '/canvas');
+//    window.socket = io.connect('http://ec2-52-7-200-59.compute-1.amazonaws.com:' + socketServerPort + '/canvas');
 
     var ioService = {};
 
