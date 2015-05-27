@@ -99,7 +99,9 @@ app.controller('AppCtrl', function($scope, $mdSidenav, $mdDialog, $window) {
      */
     $sceDelegateProvider.resourceUrlWhitelist([
         // Allow same origin resource loads.
-        'self',
+        'http://localhost**',
+        // Allow resource loading from within Fabrica's network
+        'http://192.168.**',
         // Allow loading resources from our Amazon S3 bucket.
         'https://s3.amazonaws.com/finep/**',
         // Allow loading resources from our Amazon EC2 instance
