@@ -1,22 +1,6 @@
 angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.dialogs.controllers'])
 
 .controller('EditorsCtrl', function ($scope, $window, $mdDialog, $http, IO, $q, DatabaseService, DataService, ValidationService) {
-
-
-	// QRCode
-	// $scope.generateQRCode = function () {
-	// 	var qrcode = new QRCode("qrcode", {
-	// 	    text: $window.CANVAS_CONFIG.socketHost + ':3100/www#/app/banco-de-dados',
-	// 	    width: 128,
-	// 	    height: 128,
-	// 	    colorDark : "#000000",
-	// 	    colorLight : "#ffffff",
-	// 	    correctLevel : QRCode.CorrectLevel.H
-	// 	});
-	// };
-	// generate it on startup.
-	// $scope.generateQRCode();
-	// 
 	
 
 	// // BRACKETS EDITOR 
@@ -193,8 +177,8 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 		$scope.userValues.documentToBeInserted = {};
 	}
 
-	$scope.saveEditedDocument = function() {
-		$scope.saveDocument($scope.userValues.documentToBeEdited);
+	$scope.saveEditedDocument = function(documentIndex) {
+		$scope.saveDocument($scope.collection.data[documentIndex]);
 
 		// Clears the edit-document input fields
 		$scope.userValues.documentToBeEdited = {};
@@ -368,10 +352,6 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 		});
 	}
 
-	$scope.shouldBeShown = function(docIndex) {
-		return docIndex === $scope.documentIndexToBeEdited;
-	}
-
 	/*
 	 * Removes the document located at the given index of $scope.collection.data
 	 */
@@ -479,23 +459,6 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 	// *******************************
 	// D I A L O G   F U N C T I O N S
 	// ******************************* 
-
-	// $scope.showTableCreate = function(ev) {
-	// 	$mdDialog.show({
-	// 		controller: function($scope, $mdDialog) {
-	// 			$scope.hide = function() {
-	// 				$mdDialog.hide();
-	// 			}
-	// 		},
-	// 		templateUrl: 'assets/components/dialogs/dialog-table-create.html',
-	// 	}).then(function() {
-			
-
-	//       // $scope.alert = 'You said the information was "' + answer + '".';
-	//     }, function() {
-	//       $scope.alert = 'You cancelled the dialog.';
-	//     });
-	// }
 
 	$scope.showTableUse = function(ev){
 		$mdDialog.show({
@@ -769,20 +732,14 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 				 * We'll add two entries in this new table so the user can realize what's
 				 * going on.
 				 */
-				var doc1 = {
-					image: 'https://s3.amazonaws.com/finep/images/basic-img.png',
-					title: 'Título',
-					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-				};
+				var doc = [
+					{property_name: "image", property_value: 'https://s3.amazonaws.com/finep/images/basic-img.png'},
+					{property_name: "title", property_value: 'Título'},
+					{property_name: "description", property_value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'}
+				];
 
-				var doc2 = {
-					image: 'https://s3.amazonaws.com/finep/images/basic-img.png',
-					title: 'Título',
-					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-				};
-
-				$scope.saveDocument(doc1);
-				$scope.saveDocument(doc2);
+				$scope.saveDocument(doc);
+				$scope.saveDocument(doc);
 			}, function(err) {
 				alert('Error while trying to get the component\'s HTML template');
 			});

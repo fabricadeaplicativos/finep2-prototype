@@ -128,9 +128,34 @@ angular.module('Editor.editors.services', [])
 		}
 
 		databaseService.insertNewDocument = function(collectionId, documentToBeInserted) {
+			/*
+			 * documentToBeInserted should look like:
+			 * (1)
+			 	[
+					{"propert_name": "title", "property_value": "This is the title of item 1"},
+					{"propert_name": "description", "property_value": "This is the description of item 1"},
+					{...}
+				]
+			 *
+			 * But Deployd is expecting something like:
+			 * (2)
+			 	{
+					"title": "titulo",
+					"description": "descricao",
+					...
+			 	}
+			 *
+			 * So we firstly need to convert (1) into (2).
+			 */
+			var convertedDoc = {};
+
+			documentToBeInserted.forEach(function(elem) {
+				convertedDoc[elem.property_name] = elem.property_value;
+			});
+
 			var deferred = $q.defer();
 
-			$http.post(host + ':3104/' + collectionId, documentToBeInserted)
+			$http.post(host + ':3104/' + collectionId, convertedDoc)
 				.then(function(result) {
 					deferred.resolve(result.data);
 				}, function(err) {
