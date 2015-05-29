@@ -132,8 +132,8 @@ angular.module('Editor.editors.services', [])
 			 * documentToBeInserted should look like:
 			 * (1)
 			 	[
-					{"propert_name": "title", "property_value": "This is the title of item 1"},
-					{"propert_name": "description", "property_value": "This is the description of item 1"},
+					{"property_name": "title", "property_value": "This is the title of item 1"},
+					{"property_name": "description", "property_value": "This is the description of item 1"},
 					{...}
 				]
 			 *

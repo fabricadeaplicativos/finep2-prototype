@@ -171,7 +171,32 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 	}
 
 	$scope.saveNewDocument = function() {
-		$scope.saveDocument($scope.userValues.documentToBeInserted);
+		/*
+		 * $scope.userValues.documentToBeInserted should look like:
+		 * (1)
+		 	[
+				{"property_name": "title", "property_value": "This is the title of item 1"},
+				{"property_name": "description", "property_value": "This is the description of item 1"},
+				{...}
+			]
+		 *
+		 * But it is currently looking something like:
+		 * (2)
+		 	{
+				"title": "titulo",
+				"description": "descricao",
+				...
+		 	}
+		 *
+		 * So we firstly need to convert (2) into (1).
+		 */
+		var doc = [];
+
+		for (property in $scope.userValues.documentToBeInserted) {
+			doc.push({property_name: property, property_value: $scope.userValues.documentToBeInserted[property]});
+		}
+
+		$scope.saveDocument(doc);
 
 		// Clears the new-document input fields
 		$scope.userValues.documentToBeInserted = {};
