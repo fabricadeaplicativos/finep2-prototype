@@ -389,7 +389,7 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 			removeDocPromise
 				.then(function() {
 					// First we reload the iframe
-					$window.frames[0].location.reload();
+					IO.connection().emit('reload');
 
 					// Then, we remove the document from $scope.collection.data
 					// so the database tab can have the changes as well.
