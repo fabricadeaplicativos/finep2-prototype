@@ -468,8 +468,8 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 		$scope.$apply();
 
 		if (data.blockData.category === 'component') {
-			$scope.showTableCreate();
-			// addComponent(data.blockData, data.surfaceData);
+			// $scope.showTableCreate();
+			addComponent(data);
 		} else {
 			$scope.showColumnAssociationDialog(data);
 		}
@@ -480,137 +480,22 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 	// D I A L O G   F U N C T I O N S
 	// ******************************* 
 
-	$scope.showTableCreate = function(ev) {
-		$mdDialog.show({
-			controller: function($scope, $mdDialog) {
-				$scope.hide = function() {
-					$mdDialog.hide();
-				}
-			},
-			templateUrl: 'assets/components/dialogs/dialog-table-create.html',
-		}).then(function() {
-			/*
-			 * As soon as the create table modal hides (which means the user
-			 * clicked the Ok button), we'll create a new collection in the database.
-			 * In order to do that, we'll need $scope.componentData.
-			 */
-			var createCollectionPromise = DatabaseService.createCollectionForComponent($scope.componentData)
+	// $scope.showTableCreate = function(ev) {
+	// 	$mdDialog.show({
+	// 		controller: function($scope, $mdDialog) {
+	// 			$scope.hide = function() {
+	// 				$mdDialog.hide();
+	// 			}
+	// 		},
+	// 		templateUrl: 'assets/components/dialogs/dialog-table-create.html',
+	// 	}).then(function() {
+			
 
-			/*
-			 * When the API responds, result.data will look something like:
-			 *
-				 {
-					"apiVersion": "1.0",
-					"data": {
-						"collectionId": "gallery_6178931972863"
-					}
-				 }
-			 *
-			 * As soon as we have confirmation that our API was able
-			 * to create the collection, we'll use it to fill the $scope
-			 * with the information needed to fill out the table.
-			 * Note, though, that the result from our API does not
-			 * contain the properties of the collection (just the name
-			 * of the collection). So we'll need $scope.componentData.dataBlock.properties.
-			 */
-			createCollectionPromise.then(function(result) {
-				$scope.collection.collectionId = result.data.collectionId;
-				$scope.collection.properties = DatabaseService.sortProperties($scope.componentData.blockData.properties);
-
-				/*
-				 * Now that we have created a collection in the database, we can insert the
-				 * component's template onto the canvas so it can start fetching the documents
-				 * NOTE: if there's no document in the database for that collection, the canvas
-				 * will be blank. As soon as the user adds documents, it should refresh itself.
-				 */
-				var host = ($window.CANVAS_CONFIG) ? $window.CANVAS_CONFIG.socketHost : 'http://localhost';
-				var collectionEndpoint = host + ':3104/' + $scope.collection.collectionId;
-
-				var templatePromise = $http.get($scope.componentData.blockData.templateUrl);
-
-				templatePromise.then(function(result) {
-					var templateHtml = result.data;
-
-					/*
-					 * buildComponentTemplate is a function that transforms
-					 * the given template html in _.template() into a pure
-					 * html. That is, if there's a line in the templateHtml like:
-					 *
-					 	<div fab-source="<%= source %>">
-					 *
-					 * collectionEndpoint is "http://localhost:3104/gallery_7ayiuhskjd", and
-					 * we call buildComponentTemplate({
-									source: collectionEndpoint
-					 		   })
-					 * The resulting HTML will be as follows:
-					 *
-					 	 <div fab-source="http://localhost:3104/gallery_7ayiuhskjd">
-					 */
-					var buildComponentTemplate = _.template(templateHtml);
-
-					var pureHtml = buildComponentTemplate({
-						source: collectionEndpoint
-					});
-
-					/*
-					 * Now that we have the final HTML, we'll emit an event
-					 * so our socket server can notice we have new HTML to put
-					 * into our canvas.
-					 */
-					IO.connection().emit('addElement', {
-						xPath: $scope.componentData.surfaceData.xPath,
-						fname: $scope.componentData.surfaceData.fname,
-						element: pureHtml
-					});
-
-					/*
-					 * We'll add two entries in this new table so the user can realize what's
-					 * going on.
-					 */
-					var doc1 = {
-						image: 'https://s3.amazonaws.com/finep/images/basic-img.png',
-						title: 'Título',
-						description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-					};
-
-					var doc2 = {
-						image: 'https://s3.amazonaws.com/finep/images/basic-img.png',
-						title: 'Título',
-						description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-					};
-
-					$scope.saveDocument(doc1);
-					$scope.saveDocument(doc2);
-				}, function(err) {
-					alert('Error while trying to get the component\'s HTML template');
-				});
-
-				// $http.get(componentData.templateUrl)
-				// 	.then(function (res) {
-				// 		// get the template from the response
-				// 		var componentTemplateFn = _.template(res.data);
-
-				// 		// compile the element to be added
-				// 		var finalHtml = componentTemplateFn({
-				// 			source: collectionEndpoint
-				// 		});
-
-				// 		IO.emit('addElement', {
-				// 			xPath: surfaceData.xPath,
-				// 			fname: surfaceData.fname,
-				// 			element: finalHtml,
-				// 		})
-
-				// 	})
-			}, function(err) {
-
-			});
-
-	      // $scope.alert = 'You said the information was "' + answer + '".';
-	    }, function() {
-	      $scope.alert = 'You cancelled the dialog.';
-	    });
-	}
+	//       // $scope.alert = 'You said the information was "' + answer + '".';
+	//     }, function() {
+	//       $scope.alert = 'You cancelled the dialog.';
+	//     });
+	// }
 
 	$scope.showTableUse = function(ev){
 		$mdDialog.show({
@@ -806,50 +691,121 @@ angular.module('Editor.editors.controller', ['Editor.editors.services', 'Dialog.
 
 	// Responsible for a component
 	function addComponent(componentData, surfaceData) {
+		/*
+		 * As soon as the create table modal hides (which means the user
+		 * clicked the Ok button), we'll create a new collection in the database.
+		 * In order to do that, we'll need $scope.componentData.
+		 */
+		var createCollectionPromise = DatabaseService.createCollectionForComponent(componentData)
 
-		var collectionProperties = {};
+		/*
+		 * When the API responds, result.data will look something like:
+		 *
+			 {
+				"apiVersion": "1.0",
+				"data": {
+					"collectionId": "gallery_6178931972863"
+				}
+			 }
+		 *
+		 * As soon as we have confirmation that our API was able
+		 * to create the collection, we'll use it to fill the $scope
+		 * with the information needed to fill out the table.
+		 * Note, though, that the result from our API does not
+		 * contain the properties of the collection (just the name
+		 * of the collection). So we'll need $scope.componentData.dataBlock.properties.
+		 */
+		createCollectionPromise.then(function(result) {
+			$scope.collection.collectionId = result.data.collectionId;
+			$scope.collection.properties = DatabaseService.sortProperties(componentData.blockData.properties);
 
-		componentData.properties.forEach(function (prop) {
+			/*
+			 * Now that we have created a collection in the database, we can insert the
+			 * component's template onto the canvas so it can start fetching the documents
+			 * NOTE: if there's no document in the database for that collection, the canvas
+			 * will be blank. As soon as the user adds documents, it should refresh itself.
+			 */
+			var host = ($window.CANVAS_CONFIG) ? $window.CANVAS_CONFIG.socketHost : 'http://localhost';
+			var collectionEndpoint = host + ':3104/' + $scope.collection.collectionId;
 
-			collectionProperties[prop.default_name] = {
-				name: prop.default_name,
-				type: prop.type,
-				typeLabel: prop.type,
-				required: false,
-				id: prop.default_name
-			};
-		});
+			var templatePromise = $http.get(componentData.blockData.templateUrl);
 
-		$http.post('http://localhost:3103/resources', {
-			type: 'Collection',
-			id: componentData.default_collection_name,
-			properties: collectionProperties
-		}).then(function (res) {
+			templatePromise.then(function(result) {
+				var templateHtml = result.data;
 
-			// get the collectionId
-			var collectionId = res.data.data.collectionId;
+				/*
+				 * buildComponentTemplate is a function that transforms
+				 * the given template html in _.template() into a pure
+				 * html. That is, if there's a line in the templateHtml like:
+				 *
+				 	<div fab-source="<%= source %>">
+				 *
+				 * collectionEndpoint is "http://localhost:3104/gallery_7ayiuhskjd", and
+				 * we call buildComponentTemplate({
+								source: collectionEndpoint
+				 		   })
+				 * The resulting HTML will be as follows:
+				 *
+				 	 <div fab-source="http://localhost:3104/gallery_7ayiuhskjd">
+				 */
+				var buildComponentTemplate = _.template(templateHtml);
 
-			// build the API endpoint
-			var collectionEndpoint = 'http://localhost:3104/' + collectionId;
+				var pureHtml = buildComponentTemplate({
+					source: collectionEndpoint
+				});
 
-			// load the component template
-			$http.get(componentData.templateUrl)
-				.then(function (res) {
-					// get the template from the response
-					var componentTemplateFn = _.template(res.data);
+				/*
+				 * Now that we have the final HTML, we'll emit an event
+				 * so our socket server can notice we have new HTML to put
+				 * into our canvas.
+				 */
+				IO.connection().emit('addElement', {
+					xPath: componentData.surfaceData.xPath,
+					fname: componentData.surfaceData.fname,
+					element: pureHtml
+				});
 
-					// compile the element to be added
-					var finalHtml = componentTemplateFn({
-						source: collectionEndpoint
-					});
+				/*
+				 * We'll add two entries in this new table so the user can realize what's
+				 * going on.
+				 */
+				var doc1 = {
+					image: 'https://s3.amazonaws.com/finep/images/basic-img.png',
+					title: 'Título',
+					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+				};
 
-					IO.connection().emit('addElement', {
-						xPath: surfaceData.xPath,
-						fname: surfaceData.fname,
-						element: finalHtml,
-					})
+				var doc2 = {
+					image: 'https://s3.amazonaws.com/finep/images/basic-img.png',
+					title: 'Título',
+					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+				};
 
-				})
+				$scope.saveDocument(doc1);
+				$scope.saveDocument(doc2);
+			}, function(err) {
+				alert('Error while trying to get the component\'s HTML template');
+			});
+
+			// $http.get(componentData.templateUrl)
+			// 	.then(function (res) {
+			// 		// get the template from the response
+			// 		var componentTemplateFn = _.template(res.data);
+
+			// 		// compile the element to be added
+			// 		var finalHtml = componentTemplateFn({
+			// 			source: collectionEndpoint
+			// 		});
+
+			// 		IO.emit('addElement', {
+			// 			xPath: surfaceData.xPath,
+			// 			fname: surfaceData.fname,
+			// 			element: finalHtml,
+			// 		})
+
+			// 	})
+		}, function(err) {
+
 		});
 	}
 
