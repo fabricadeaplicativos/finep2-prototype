@@ -55,7 +55,7 @@
 								</li>
 							</ul>
 
-							<!-- <input type="text" disabled placeholder="{{property.type}}" class="form-control database-input"> -->
+<!--							<input type="text" disabled placeholder="{{property.type}}" class="form-control database-input">-->
 						</th>
 
 						<th id="lhNewColumnEdit" ng-show="showSalvar">
@@ -94,12 +94,8 @@
 								"edit" button, we save the document's index in $scope.documentIndexToBeEdited, and inside
 								the shouldBeShown function, we compare the index of the current document to be rendered 
 								by angular with the value we stored in $scope.documentIndexToBeEdited. 
-							-->						
-							<div ng-hide="shouldBeShown(documentIndex)">
-								{{property.property_value | limitTo:30}}
-								<span ng-if="property.property_value.length > 30">...</span>
-							</div>
-							<input ng-model="userValues.documentToBeEdited[property.property_name]" type="text" class="form-control database-input" ng-show="shouldBeShown(documentIndex)">
+							-->
+							<input ng-model="property.property_value" type="text" class="form-control database-input">
 						</td>
 						<!--
 							When the user clicks on "edit", this button should be hidden and the "save" and "cancel" buttons
@@ -110,16 +106,11 @@
 							returns false, they will stay hidden. Only when the user clicks on "edit", shouldBeShown will start
 							to return true for some row, and that's when save and cancel buttons show up.
 						-->
-						<td ng-hide="shouldBeShown(documentIndex)">
-							<button type="button" class="btn btn-primary" ng-click="editContent(documentIndex)">editar</button>
+						<td>
+							<button type="button" class="btn btn-primary" ng-click="saveEditedDocument(documentIndex)">salvar</button>
 							<button type="button" class="btn btn-danger" ng-click="removeDocument(documentIndex)">
 								<i class="fa fa-trash-o"></i>
 							</button>
-						</td>
-
-						<td ng-show="shouldBeShown(documentIndex)">
-							<button type="button" class="btn btn-primary" ng-click="saveEditedDocument()">salvar</button>
-							<button type="button" class="btn btn-primary" ng-click="preventDocumentFromBeingEdited()">cancelar</button>
 						</td>
 					</tr>
 
