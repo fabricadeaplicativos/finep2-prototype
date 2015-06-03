@@ -105,7 +105,7 @@ app.controller('AppCtrl', function($scope, $mdSidenav, $mdDialog, $window) {
         // Allow loading resources from our Amazon S3 bucket.
         'https://s3.amazonaws.com/finep/**',
         // Allow loading resources from our Amazon EC2 instance
-        'http://ec2-52-7-200-59.compute-1.amazonaws.com**'
+        'http://finep.fabapp.com**'
     ]);
 })
 
