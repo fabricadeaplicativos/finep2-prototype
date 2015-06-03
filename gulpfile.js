@@ -45,7 +45,7 @@ gulp.task('serve', function() {
   var machineIPAddress;
 
   if (process.env.NODE_ENV === 'production') {
-      machineIPAddress = 'ec2-52-7-200-59.compute-1.amazonaws.com';
+      machineIPAddress = 'finep.fabapp.com';
   } else {
        machineIPAddress = aux.getMachineIPAddress();
 //      machineIPAddress = "localhost";
